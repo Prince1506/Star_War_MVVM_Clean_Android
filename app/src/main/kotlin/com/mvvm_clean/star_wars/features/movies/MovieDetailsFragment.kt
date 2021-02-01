@@ -18,7 +18,7 @@ class MovieDetailsFragment : BaseFragment() {
     companion object {
         private const val PARAM_MOVIE = "param_movie"
 
-        fun forMovie(movie: MovieView?): MovieDetailsFragment {
+        fun forMovie(movie: ResultEntity?): MovieDetailsFragment {
             val movieDetailsFragment = MovieDetailsFragment()
             movie?.let {
                 val arguments = Bundle()
@@ -50,11 +50,11 @@ class MovieDetailsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (firstTimeCreated(savedInstanceState)) {
-            movieDetailsViewModel.loadMovieDetails((arguments?.get(PARAM_MOVIE) as MovieView).id)
+//            movieDetailsViewModel.loadMovieDetails((arguments?.get(PARAM_MOVIE) as ResultEntity).name)
         } else {
             movieDetailsAnimator.scaleUpView(moviePlay)
             movieDetailsAnimator.cancelTransition(moviePoster)
-            moviePoster.loadFromUrl((arguments!![PARAM_MOVIE] as MovieView).poster)
+//            moviePoster.loadFromUrl((arguments!![PARAM_MOVIE] as ResultEntity).poster)
         }
     }
 

@@ -1,10 +1,12 @@
 package com.mvvm_clean.star_wars.features.movies
 
-import com.mvvm_clean.star_wars.core.extension.empty
-
-data class Movie(val id: Int, val poster: String) {
+data class Movie(val count: Int ?= null,
+                 val next: String?= null,
+                 val previous: String?= null,
+                 val result: List<ResultEntity> ?= null
+){
 
     companion object {
-        val empty = Movie(0, String.empty())
+        val empty = Movie(0, null, null, emptyList())
     }
 }

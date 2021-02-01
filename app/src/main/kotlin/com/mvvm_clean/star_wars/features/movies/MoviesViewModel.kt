@@ -9,12 +9,12 @@ import javax.inject.Inject
 class MoviesViewModel
 @Inject constructor(private val getMovies: GetMovies) : BaseViewModel() {
 
-    private val _movies: MutableLiveData<List<MovieView>> = MutableLiveData()
-    val movies: LiveData<List<MovieView>> = _movies
+    private val _movies: MutableLiveData<MovieView> = MutableLiveData()
+    val movies: LiveData<MovieView> = _movies
 
     fun loadMovies() = getMovies(None()) { it.fold(::handleFailure, ::handleMovieList) }
 
-    private fun handleMovieList(movies: List<Movie>) {
-        _movies.value = movies.map { MovieView(it.id, it.poster) }
+    private fun handleMovieList(movies: Movie) {
+        _movies.value =  MovieView(movies.count, movies.next, movies.previous, movies.result)
     }
 }

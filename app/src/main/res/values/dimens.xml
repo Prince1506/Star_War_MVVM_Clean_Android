@@ -3,6 +3,15 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <!--Generic for text size-->
+    <dimen name="text_30">30sp</dimen>
+    <dimen name="text_20">20sp</dimen>
+    <dimen name="text_15">15sp</dimen>
+    <dimen name="text_10">10sp</dimen>
+    <dimen name="text_12">12sp</dimen>
+    <dimen name="text_18">18sp</dimen>
+    <dimen name="text_25">25sp</dimen>
+
     <!-- Card view. -->
     <dimen name="card_corner_radius">0dp</dimen>
     <dimen name="card_elevation">1dp</dimen>

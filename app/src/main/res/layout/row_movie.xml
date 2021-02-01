@@ -9,9 +9,10 @@
     card_view:cardCornerRadius="@dimen/card_corner_radius"
     card_view:cardElevation="@dimen/card_elevation">
 
-    <ImageView
+    <TextView
         android:id="@+id/moviePoster"
         style="@style/MoviePoster"
+        android:layout_width="match_parent"
         android:layout_height="180dp" />
 
     <!-- Used for the ripple effect on touch -->

@@ -1,5 +1,6 @@
 package com.mvvm_clean.star_wars.features.movies
 
+import com.mvvm_clean.star_wars.BuildConfig
 import com.mvvm_clean.star_wars.core.exception.Failure
 import com.mvvm_clean.star_wars.core.exception.Failure.NetworkConnection
 import com.mvvm_clean.star_wars.core.exception.Failure.ServerError
@@ -11,7 +12,7 @@ import retrofit2.Call
 import javax.inject.Inject
 
 interface MoviesRepository {
-    fun movies(): Either<Failure, List<Movie>>
+    fun movies(searchQuery:String): Either<Failure, Movie>
     fun movieDetails(movieId: Int): Either<Failure, MovieDetails>
 
     class Network
@@ -20,12 +21,12 @@ interface MoviesRepository {
         private val service: MoviesService
     ) : MoviesRepository {
 
-        override fun movies(): Either<Failure, List<Movie>> {
+        override fun movies(searchQuery:String): Either<Failure, Movie> {
             return when (networkHandler.isNetworkAvailable()) {
                 true -> request(
-                    service.movies(),
-                    { it.map { movieEntity -> movieEntity.toMovie() } },
-                    emptyList()
+                    service.movies(searchQuery),
+                    { it.toMovie()},
+                    MovieEntity(0, null, null, emptyList())
                 )
                 false -> Left(NetworkConnection)
             }
@@ -54,6 +55,10 @@ interface MoviesRepository {
                     false -> Left(ServerError)
                 }
             } catch (exception: Throwable) {
+
+                if (BuildConfig.DEBUG)
+                    exception.printStackTrace()
+
                 Left(ServerError)
             }
         }

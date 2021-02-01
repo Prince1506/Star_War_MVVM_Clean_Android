@@ -5,7 +5,7 @@ import com.mvvm_clean.star_wars.core.interactor.UseCase.None
 import javax.inject.Inject
 
 class GetMovies
-@Inject constructor(private val moviesRepository: MoviesRepository) : UseCase<List<Movie>, None>() {
+@Inject constructor(private val moviesRepository: MoviesRepository) : UseCase<Movie, None>() {
 
-    override suspend fun run(params: None) = moviesRepository.movies()
+    override suspend fun run(params: None) = moviesRepository.movies("a")
 }

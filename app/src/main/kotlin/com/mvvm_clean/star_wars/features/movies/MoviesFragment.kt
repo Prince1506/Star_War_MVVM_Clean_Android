@@ -45,7 +45,7 @@ class MoviesFragment : BaseFragment() {
 
 
     private fun initializeView() {
-        movieList.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+        movieList.layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
         movieList.adapter = moviesAdapter
         moviesAdapter.clickListener = { movie, navigationExtras ->
             navigator.showMovieDetails(activity!!, movie, navigationExtras)
@@ -59,8 +59,10 @@ class MoviesFragment : BaseFragment() {
         moviesViewModel.loadMovies()
     }
 
-    private fun renderMoviesList(movies: List<MovieView>?) {
-        moviesAdapter.collection = movies.orEmpty()
+    private fun renderMoviesList(movies: MovieView?) {
+        if(movies?.result != null) {
+            moviesAdapter.collection = movies?.result
+        }
         hideProgress()
     }
 

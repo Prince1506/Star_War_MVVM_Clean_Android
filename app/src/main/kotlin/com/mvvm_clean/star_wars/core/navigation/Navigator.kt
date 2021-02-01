@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.FragmentActivity
 import com.mvvm_clean.star_wars.core.extension.empty
@@ -14,6 +15,7 @@ import com.mvvm_clean.star_wars.features.login.LoginActivity
 import com.mvvm_clean.star_wars.features.movies.MovieDetailsActivity
 import com.mvvm_clean.star_wars.features.movies.MovieView
 import com.mvvm_clean.star_wars.features.movies.MoviesActivity
+import com.mvvm_clean.star_wars.features.movies.ResultEntity
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -33,9 +35,9 @@ class Navigator
 
     private fun showMovies(context: Context) = context.startActivity(MoviesActivity.callingIntent(context))
 
-    fun showMovieDetails(activity: FragmentActivity, movie: MovieView, navigationExtras: Extras) {
+    fun showMovieDetails(activity: FragmentActivity, movie: ResultEntity, navigationExtras: Extras) {
         val intent = MovieDetailsActivity.callingIntent(activity, movie)
-        val sharedView = navigationExtras.transitionSharedElement as ImageView
+        val sharedView = navigationExtras.transitionSharedElement as TextView
         val activityOptions = ActivityOptionsCompat
                 .makeSceneTransitionAnimation(activity, sharedView, sharedView.transitionName)
         activity.startActivity(intent, activityOptions.toBundle())
