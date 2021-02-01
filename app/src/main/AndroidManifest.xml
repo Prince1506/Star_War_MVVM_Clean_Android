@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.fernandocejas.sample">
+    package="com.mvvm_clean.star_wars">
 
     <!--Permissions-->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -9,7 +9,7 @@
 
     <!--Application-->
     <application
-        android:name=".AndroidApplication"
+        android:name="com.mvvm_clean.star_wars.AndroidApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -19,7 +19,7 @@
 
         <!--Activities-->
         <activity
-            android:name="com.fernandocejas.sample.core.navigation.RouteActivity"
+            android:name="com.mvvm_clean.star_wars.core.navigation.RouteActivity"
             android:noHistory="true"
             android:theme="@style/AppTheme.Translucent">
             <intent-filter>
@@ -29,15 +29,15 @@
         </activity>
 
         <activity
-            android:name=".features.login.LoginActivity"
+            android:name="com.mvvm_clean.star_wars.features.login.LoginActivity"
             android:label="@string/login_screen_title"></activity>
 
         <activity
-            android:name=".features.movies.MoviesActivity"
+            android:name="com.mvvm_clean.star_wars.features.movies.MoviesActivity"
             android:label="@string/movies_screen_title"></activity>
 
         <activity
-            android:name=".features.movies.MovieDetailsActivity"
+            android:name="com.mvvm_clean.star_wars.features.movies.MovieDetailsActivity"
             android:label="@string/movie_details_screen_title"
             android:theme="@style/AppTheme.Translucent"></activity>
 
