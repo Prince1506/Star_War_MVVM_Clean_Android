@@ -2,6 +2,10 @@ package com.mvvm_clean.star_wars.features.movies
 
 import com.mvvm_clean.star_wars.AndroidTest
 import com.mvvm_clean.star_wars.core.functional.Either.Right
+import com.mvvm_clean.star_wars.features.characters.GetMovieDetails
+import com.mvvm_clean.star_wars.features.characters.MovieDetails
+import com.mvvm_clean.star_wars.features.characters.MovieDetailsViewModel
+import com.mvvm_clean.star_wars.features.characters.PlayMovie
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.runBlocking
@@ -9,7 +13,7 @@ import org.amshove.kluent.shouldEqualTo
 import org.junit.Before
 import org.junit.Test
 
-class MovieDetailsViewModelTest : AndroidTest() {
+class PeopleListDataModelDetailsViewModelTest : AndroidTest() {
 
     private lateinit var movieDetailsViewModel: MovieDetailsViewModel
 

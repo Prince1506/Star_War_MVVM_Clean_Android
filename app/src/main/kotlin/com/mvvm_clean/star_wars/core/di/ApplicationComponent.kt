@@ -3,8 +3,8 @@ package com.mvvm_clean.star_wars.core.di
 import com.mvvm_clean.star_wars.AndroidApplication
 import com.mvvm_clean.star_wars.core.di.viewmodel.ViewModelModule
 import com.mvvm_clean.star_wars.core.navigation.RouteActivity
-import com.mvvm_clean.star_wars.features.movies.MovieDetailsFragment
-import com.mvvm_clean.star_wars.features.movies.MoviesFragment
+import com.mvvm_clean.star_wars.features.characters.MovieDetailsFragment
+import com.mvvm_clean.star_wars.features.characters.PeopleListFragment
 import dagger.Component
 import javax.inject.Singleton
 
@@ -14,6 +14,6 @@ interface ApplicationComponent {
     fun inject(application: AndroidApplication)
     fun inject(routeActivity: RouteActivity)
 
-    fun inject(moviesFragment: MoviesFragment)
+    fun inject(peopleListFragment: PeopleListFragment)
     fun inject(movieDetailsFragment: MovieDetailsFragment)
 }

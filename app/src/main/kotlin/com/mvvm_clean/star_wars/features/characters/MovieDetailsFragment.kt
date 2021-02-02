@@ -1,4 +1,4 @@
-package com.mvvm_clean.star_wars.features.movies
+package com.mvvm_clean.star_wars.features.characters
 
 import android.os.Bundle
 import android.view.View
@@ -8,7 +8,7 @@ import com.mvvm_clean.star_wars.core.exception.Failure.NetworkConnection
 import com.mvvm_clean.star_wars.core.exception.Failure.ServerError
 import com.mvvm_clean.star_wars.core.extension.*
 import com.mvvm_clean.star_wars.core.platform.BaseFragment
-import com.mvvm_clean.star_wars.features.movies.MovieFailure.NonExistentMovie
+import com.mvvm_clean.star_wars.features.characters.PeopleListApiFailure.NonExistentMovie
 import kotlinx.android.synthetic.main.fragment_movie_details.*
 import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject

@@ -33,11 +33,11 @@
             android:label="@string/login_screen_title"></activity>
 
         <activity
-            android:name="com.mvvm_clean.star_wars.features.movies.MoviesActivity"
+            android:name="com.mvvm_clean.star_wars.features.characters.PeopleListActivity"
             android:label="@string/movies_screen_title"></activity>
 
         <activity
-            android:name="com.mvvm_clean.star_wars.features.movies.MovieDetailsActivity"
+            android:name="com.mvvm_clean.star_wars.features.characters.MovieDetailsActivity"
             android:label="@string/movie_details_screen_title"
             android:theme="@style/AppTheme.Translucent"></activity>
 

@@ -1,9 +1,9 @@
-package com.mvvm_clean.star_wars.features.movies
+package com.mvvm_clean.star_wars.features.characters
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mvvm_clean.star_wars.core.platform.BaseViewModel
-import com.mvvm_clean.star_wars.features.movies.GetMovieDetails.Params
+import com.mvvm_clean.star_wars.features.characters.GetMovieDetails.Params
 import javax.inject.Inject
 
 class MovieDetailsViewModel

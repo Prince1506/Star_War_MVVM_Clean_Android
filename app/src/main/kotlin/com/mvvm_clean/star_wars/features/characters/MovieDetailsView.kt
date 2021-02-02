@@ -1,4 +1,4 @@
-package com.mvvm_clean.star_wars.features.movies
+package com.mvvm_clean.star_wars.features.characters
 
 data class MovieDetailsView(
     val id: Int,

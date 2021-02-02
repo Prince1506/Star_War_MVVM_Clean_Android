@@ -2,6 +2,9 @@ package com.mvvm_clean.star_wars.features.movies
 
 import com.mvvm_clean.star_wars.UnitTest
 import com.mvvm_clean.star_wars.core.functional.Either.Right
+import com.mvvm_clean.star_wars.features.characters.GetMovieDetails
+import com.mvvm_clean.star_wars.features.characters.MovieDetails
+import com.mvvm_clean.star_wars.features.characters.MoviesRepository
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
@@ -9,7 +12,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 
-class GetMovieDetailsTest : UnitTest() {
+class GetPeopleListDataModelDetailsTest : UnitTest() {
 
     private lateinit var getMovieDetails: GetMovieDetails
 

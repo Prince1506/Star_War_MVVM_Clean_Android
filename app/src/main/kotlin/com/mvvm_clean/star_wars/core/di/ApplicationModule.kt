@@ -3,7 +3,7 @@ package com.mvvm_clean.star_wars.core.di
 import android.content.Context
 import com.mvvm_clean.star_wars.AndroidApplication
 import com.mvvm_clean.star_wars.BuildConfig
-import com.mvvm_clean.star_wars.features.movies.MoviesRepository
+import com.mvvm_clean.star_wars.features.characters.MoviesRepository
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient

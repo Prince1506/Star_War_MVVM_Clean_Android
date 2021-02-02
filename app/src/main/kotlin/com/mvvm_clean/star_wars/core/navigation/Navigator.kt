@@ -5,17 +5,15 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.FragmentActivity
 import com.mvvm_clean.star_wars.core.extension.empty
 import com.mvvm_clean.star_wars.features.login.Authenticator
 import com.mvvm_clean.star_wars.features.login.LoginActivity
-import com.mvvm_clean.star_wars.features.movies.MovieDetailsActivity
-import com.mvvm_clean.star_wars.features.movies.MovieView
-import com.mvvm_clean.star_wars.features.movies.MoviesActivity
-import com.mvvm_clean.star_wars.features.movies.ResultEntity
+import com.mvvm_clean.star_wars.features.characters.MovieDetailsActivity
+import com.mvvm_clean.star_wars.features.characters.PeopleListActivity
+import com.mvvm_clean.star_wars.features.characters.ResultEntity
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -33,7 +31,7 @@ class Navigator
         }
     }
 
-    private fun showMovies(context: Context) = context.startActivity(MoviesActivity.callingIntent(context))
+    private fun showMovies(context: Context) = context.startActivity(PeopleListActivity.callingIntent(context))
 
     fun showMovieDetails(activity: FragmentActivity, movie: ResultEntity, navigationExtras: Extras) {
         val intent = MovieDetailsActivity.callingIntent(activity, movie)

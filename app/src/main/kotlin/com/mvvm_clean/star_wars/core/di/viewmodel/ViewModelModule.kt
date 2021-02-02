@@ -2,8 +2,8 @@ package com.mvvm_clean.star_wars.core.di.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.mvvm_clean.star_wars.features.movies.MovieDetailsViewModel
-import com.mvvm_clean.star_wars.features.movies.MoviesViewModel
+import com.mvvm_clean.star_wars.features.characters.MovieDetailsViewModel
+import com.mvvm_clean.star_wars.features.characters.PeopleListViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -15,8 +15,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(MoviesViewModel::class)
-    abstract fun bindsMoviesViewModel(moviesViewModel: MoviesViewModel): ViewModel
+    @ViewModelKey(PeopleListViewModel::class)
+    abstract fun bindsMoviesViewModel(peopleListViewModel: PeopleListViewModel): ViewModel
 
     @Binds
     @IntoMap

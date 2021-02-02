@@ -7,7 +7,8 @@ import com.mvvm_clean.star_wars.core.extension.empty
 import com.mvvm_clean.star_wars.core.functional.Either
 import com.mvvm_clean.star_wars.core.functional.Either.Right
 import com.mvvm_clean.star_wars.core.platform.NetworkHandler
-import com.mvvm_clean.star_wars.features.movies.MoviesRepository.Network
+import com.mvvm_clean.star_wars.features.characters.*
+import com.mvvm_clean.star_wars.features.characters.MoviesRepository.Network
 import io.mockk.Called
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -27,13 +28,13 @@ class MoviesRepositoryTest : UnitTest() {
     private lateinit var networkHandler: NetworkHandler
 
     @MockK
-    private lateinit var service: MoviesService
+    private lateinit var service: StarWarApiImpl
 
     @MockK
-    private lateinit var moviesCall: Call<List<MovieEntity>>
+    private lateinit var moviesCall: Call<List<PeopleListResponseEntity>>
 
     @MockK
-    private lateinit var moviesResponse: Response<List<MovieEntity>>
+    private lateinit var moviesResponse: Response<List<PeopleListResponseEntity>>
 
     @MockK
     private lateinit var movieDetailsCall: Call<MovieDetailsEntity>
@@ -52,26 +53,26 @@ class MoviesRepositoryTest : UnitTest() {
         every { moviesResponse.body() } returns null
         every { moviesResponse.isSuccessful } returns true
         every { moviesCall.execute() } returns moviesResponse
-        every { service.movies() } returns moviesCall
+        every { service.getPeopleListByQuery() } returns moviesCall
 
         val movies = networkRepository.movies()
 
-        movies shouldEqual Right(emptyList<Movie>())
-        verify(exactly = 1) { service.movies() }
+        movies shouldEqual Right(emptyList<PeopleListDataModel>())
+        verify(exactly = 1) { service.getPeopleListByQuery() }
     }
 
     @Test
     fun `should get movie list from service`() {
         every { networkHandler.isNetworkAvailable() } returns true
-        every { moviesResponse.body() } returns listOf(MovieEntity(1, "poster"))
+        every { moviesResponse.body() } returns listOf(PeopleListResponseEntity(1, "poster"))
         every { moviesResponse.isSuccessful } returns true
         every { moviesCall.execute() } returns moviesResponse
-        every { service.movies() } returns moviesCall
+        every { service.getPeopleListByQuery() } returns moviesCall
 
         val movies = networkRepository.movies()
 
-        movies shouldEqual Right(listOf(Movie(1, "poster")))
-        verify(exactly = 1) { service.movies() }
+        movies shouldEqual Right(listOf(PeopleListDataModel(1, "poster")))
+        verify(exactly = 1) { service.getPeopleListByQuery() }
     }
 
     @Test
@@ -91,7 +92,7 @@ class MoviesRepositoryTest : UnitTest() {
         every { networkHandler.isNetworkAvailable() } returns true
         every { moviesResponse.isSuccessful } returns false
         every { moviesCall.execute() } returns moviesResponse
-        every { service.movies() } returns moviesCall
+        every { service.getPeopleListByQuery() } returns moviesCall
 
         val movies = networkRepository.movies()
 
@@ -104,7 +105,7 @@ class MoviesRepositoryTest : UnitTest() {
     fun `movies request should catch exceptions`() {
         every { networkHandler.isNetworkAvailable() } returns true
         every { moviesCall.execute() } returns moviesResponse
-        every { service.movies() } returns moviesCall
+        every { service.getPeopleListByQuery() } returns moviesCall
 
         val movies = networkRepository.movies()
 

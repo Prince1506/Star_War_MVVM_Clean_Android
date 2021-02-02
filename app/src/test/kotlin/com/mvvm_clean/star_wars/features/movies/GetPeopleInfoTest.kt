@@ -3,6 +3,9 @@ package com.mvvm_clean.star_wars.features.movies
 import com.mvvm_clean.star_wars.UnitTest
 import com.mvvm_clean.star_wars.core.functional.Either.Right
 import com.mvvm_clean.star_wars.core.interactor.UseCase
+import com.mvvm_clean.star_wars.features.characters.GetPeopleInfo
+import com.mvvm_clean.star_wars.features.characters.PeopleListDataModel
+import com.mvvm_clean.star_wars.features.characters.MoviesRepository
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
@@ -10,22 +13,22 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 
-class GetMoviesTest : UnitTest() {
+class GetPeopleInfoTest : UnitTest() {
 
-    private lateinit var getMovies: GetMovies
+    private lateinit var getPeopleInfo: GetPeopleInfo
 
     @MockK
     private lateinit var moviesRepository: MoviesRepository
 
     @Before
     fun setUp() {
-        getMovies = GetMovies(moviesRepository)
-        every { moviesRepository.movies() } returns Right(listOf(Movie.empty))
+        getPeopleInfo = GetPeopleInfo(moviesRepository)
+        every { moviesRepository.movies() } returns Right(listOf(PeopleListDataModel.empty))
     }
 
     @Test
     fun `should get data from repository`() {
-        runBlocking { getMovies.run(UseCase.None()) }
+        runBlocking { getPeopleInfo.run(UseCase.None()) }
 
         verify(exactly = 1) { moviesRepository.movies() }
     }

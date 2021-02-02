@@ -1,18 +1,17 @@
-package com.mvvm_clean.star_wars.features.movies
+package com.mvvm_clean.star_wars.features.characters
 
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mvvm_clean.star_wars.R
 import com.mvvm_clean.star_wars.core.extension.inflate
-import com.mvvm_clean.star_wars.core.extension.loadFromUrl
 import com.mvvm_clean.star_wars.core.navigation.Navigator
 import kotlinx.android.synthetic.main.row_movie.view.*
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
-class MoviesAdapter
-@Inject constructor() : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
+class PeopleListAdapter
+@Inject constructor() : RecyclerView.Adapter<PeopleListAdapter.ViewHolder>() {
 
     internal var collection: List<ResultEntity> by Delegates.observable(emptyList()) { _, _, _ ->
         notifyDataSetChanged()

@@ -1,4 +1,4 @@
-package com.mvvm_clean.star_wars.features.movies
+package com.mvvm_clean.star_wars.features.characters
 
 import android.os.Bundle
 import android.view.View
@@ -11,28 +11,28 @@ import com.mvvm_clean.star_wars.core.exception.Failure.ServerError
 import com.mvvm_clean.star_wars.core.extension.*
 import com.mvvm_clean.star_wars.core.navigation.Navigator
 import com.mvvm_clean.star_wars.core.platform.BaseFragment
-import com.mvvm_clean.star_wars.features.movies.MovieFailure.ListNotAvailable
-import kotlinx.android.synthetic.main.fragment_movies.*
+import com.mvvm_clean.star_wars.features.characters.PeopleListApiFailure.ListNotAvailable
+import kotlinx.android.synthetic.main.fragment_people_list.*
 import javax.inject.Inject
 
-class MoviesFragment : BaseFragment() {
+class PeopleListFragment : BaseFragment() {
 
     @Inject
     lateinit var navigator: Navigator
 
     @Inject
-    lateinit var moviesAdapter: MoviesAdapter
+    lateinit var peopleListAdapter: PeopleListAdapter
 
-    private lateinit var moviesViewModel: MoviesViewModel
+    private lateinit var peopleListViewModel: PeopleListViewModel
 
-    override fun layoutId() = R.layout.fragment_movies
+    override fun layoutId() = R.layout.fragment_people_list
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         appComponent.inject(this)
 
-        moviesViewModel = viewModel(viewModelFactory) {
-            observe(movies, ::renderMoviesList)
+        peopleListViewModel = viewModel(viewModelFactory) {
+            observe(peopleListLiveData, ::renderMoviesList)
             failure(failure, ::handleFailure)
         }
     }
@@ -45,23 +45,23 @@ class MoviesFragment : BaseFragment() {
 
 
     private fun initializeView() {
-        movieList.layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
-        movieList.adapter = moviesAdapter
-        moviesAdapter.clickListener = { movie, navigationExtras ->
+        rv_people_list.layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
+        rv_people_list.adapter = peopleListAdapter
+        peopleListAdapter.clickListener = { movie, navigationExtras ->
             navigator.showMovieDetails(activity!!, movie, navigationExtras)
         }
     }
 
     private fun loadMoviesList() {
         emptyView.invisible()
-        movieList.visible()
+        rv_people_list.visible()
         showProgress()
-        moviesViewModel.loadMovies()
+        peopleListViewModel.loadPeopleList()
     }
 
-    private fun renderMoviesList(movies: MovieView?) {
+    private fun renderMoviesList(movies: PeoplseListView?) {
         if(movies?.result != null) {
-            moviesAdapter.collection = movies?.result
+            peopleListAdapter.collection = movies?.result
         }
         hideProgress()
     }
@@ -75,7 +75,7 @@ class MoviesFragment : BaseFragment() {
     }
 
     private fun renderFailure(@StringRes message: Int) {
-        movieList.invisible()
+        rv_people_list.invisible()
         emptyView.visible()
         hideProgress()
         notifyWithAction(message, R.string.action_refresh, ::loadMoviesList)

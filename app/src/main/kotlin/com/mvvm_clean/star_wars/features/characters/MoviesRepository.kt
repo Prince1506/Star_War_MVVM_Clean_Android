@@ -1,4 +1,4 @@
-package com.mvvm_clean.star_wars.features.movies
+package com.mvvm_clean.star_wars.features.characters
 
 import com.mvvm_clean.star_wars.BuildConfig
 import com.mvvm_clean.star_wars.core.exception.Failure
@@ -12,21 +12,21 @@ import retrofit2.Call
 import javax.inject.Inject
 
 interface MoviesRepository {
-    fun movies(searchQuery:String): Either<Failure, Movie>
+    fun movies(searchQuery:String): Either<Failure, PeopleListDataModel>
     fun movieDetails(movieId: Int): Either<Failure, MovieDetails>
 
     class Network
     @Inject constructor(
         private val networkHandler: NetworkHandler,
-        private val service: MoviesService
+        private val service: StarWarApiImpl
     ) : MoviesRepository {
 
-        override fun movies(searchQuery:String): Either<Failure, Movie> {
+        override fun movies(searchQuery:String): Either<Failure, PeopleListDataModel> {
             return when (networkHandler.isNetworkAvailable()) {
                 true -> request(
-                    service.movies(searchQuery),
+                    service.getPeopleListByQuery(searchQuery),
                     { it.toMovie()},
-                    MovieEntity(0, null, null, emptyList())
+                    PeopleListResponseEntity(0, null, null, emptyList())
                 )
                 false -> Left(NetworkConnection)
             }

@@ -1,7 +1,7 @@
-package com.mvvm_clean.star_wars.features.movies
+package com.mvvm_clean.star_wars.features.characters
 
 import com.mvvm_clean.star_wars.core.interactor.UseCase
-import com.mvvm_clean.star_wars.features.movies.GetMovieDetails.Params
+import com.mvvm_clean.star_wars.features.characters.GetMovieDetails.Params
 import javax.inject.Inject
 
 class GetMovieDetails
