@@ -21,15 +21,6 @@
             app:expandedTitleMarginStart="@dimen/activity_horizontal_margin"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
-            <ImageView
-                android:id="@+id/tv_people_name"
-                style="@style/MoviePoster"
-                android:layout_height="240dp"
-                android:layout_centerHorizontal="true"
-                android:fitsSystemWindows="true"
-                android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax" />
-
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -41,7 +32,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
-            android:id="@+id/movieDetails"
+            android:id="@+id/peopleDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -51,34 +42,34 @@
 
             <TextView
                 style="@style/MovieDetailsTitle"
-                android:text="@string/movie_details_summary" />
+                android:text="@string/people_details_summary" />
 
             <TextView
-                android:id="@+id/movieSummary"
+                android:id="@+id/peopleSummary"
                 style="@style/MovieDetailsText" />
 
             <TextView
                 style="@style/MovieDetailsTitle"
-                android:text="@string/movie_details_cast" />
+                android:text="@string/people_details_cast" />
 
             <TextView
-                android:id="@+id/movieCast"
+                android:id="@+id/peopleCast"
                 style="@style/MovieDetailsText" />
 
             <TextView
                 style="@style/MovieDetailsTitle"
-                android:text="@string/movie_details_director" />
+                android:text="@string/people_details_director" />
 
             <TextView
-                android:id="@+id/movieDirector"
+                android:id="@+id/peopleDirector"
                 style="@style/MovieDetailsText" />
 
             <TextView
                 style="@style/MovieDetailsTitle"
-                android:text="@string/movie_details_year" />
+                android:text="@string/people_details_year" />
 
             <TextView
-                android:id="@+id/movieYear"
+                android:id="@+id/peopleYear"
                 style="@style/MovieDetailsText" />
 
         </LinearLayout>
@@ -86,7 +77,7 @@
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/moviePlay"
+        android:id="@+id/peoplePlay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
@@ -100,5 +91,16 @@
         app:fabSize="normal"
         app:layout_anchor="@id/appbar"
         app:layout_anchorGravity="bottom|right" />
+
+    <ImageView
+        android:id="@+id/tv_people_name"
+        style="@style/MoviePoster"
+        android:layout_height="240dp"
+        android:layout_centerHorizontal="true"
+        android:fitsSystemWindows="true"
+        android:scaleType="centerCrop"
+        app:layout_anchor="@+id/appbar"
+        app:layout_anchorGravity="center"
+        app:layout_collapseMode="parallax" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -14,6 +14,7 @@ import com.mvvm_clean.star_wars.core.di.ApplicationComponent
 import com.mvvm_clean.star_wars.core.extension.appContext
 import com.mvvm_clean.star_wars.core.extension.viewContainer
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_layout.*
 import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 
@@ -45,7 +46,7 @@ abstract class BaseFragment : Fragment() {
     internal fun hideProgress() = progressStatus(View.GONE)
 
     private fun progressStatus(viewStatus: Int) =
-            with(activity) { if (this is BaseActivity) this.progress.visibility = viewStatus }
+        with(activity) { if (this is BaseActivity) this.pb_fact_list.visibility = viewStatus }
 
     internal fun notify(@StringRes message: Int) =
             Snackbar.make(viewContainer, message, Snackbar.LENGTH_SHORT).show()

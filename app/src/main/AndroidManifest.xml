@@ -37,7 +37,7 @@
             android:label="@string/people_list_screen_title"></activity>
 
         <activity
-            android:name="com.mvvm_clean.star_wars.features.characters.MovieDetailsActivity"
+            android:name="com.mvvm_clean.star_wars.features.characters.PeopleDetailsActivity"
             android:label="@string/movie_details_screen_title"
             android:theme="@style/AppTheme.Translucent"></activity>
 

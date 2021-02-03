@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="people_details_screen_title">People Details</string>
+    <string name="people_details_summary">Summary</string>
+    <string name="people_details_cast">Name:</string>
+    <string name="people_details_director">Birth Year:</string>
+    <string name="people_details_year">Height:</string>
+    <string name="people_details_species">Species</string>
+    <string name="people_details_language">Languages:</string>
+    <string name="people_details_homeworld">Home World:</string>
+    <string name="people_details_population">Population:</string>
+    <string name="people_details_films">Films:</string>
+    <string name="people_details_opening_crawl">Opening Crawl:</string>
+</resources>

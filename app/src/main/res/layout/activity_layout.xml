@@ -12,4 +12,13 @@
         android:layout_below="@+id/appbar"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+    <ProgressBar
+        android:id="@+id/pb_fact_list"
+        android:layout_width="100dp"
+        android:layout_height="99dp"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:indeterminateOnly="true"
+        android:indeterminateTint="@color/white" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -13,13 +13,13 @@ import kotlinx.android.synthetic.main.fragment_movie_details.*
 import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 
-class MovieDetailsFragment : BaseFragment() {
+class PeopleDetailsFragment : BaseFragment() {
 
     companion object {
         private const val PARAM_MOVIE = "param_movie"
 
-        fun forMovie(movie: ResultEntity?): MovieDetailsFragment {
-            val movieDetailsFragment = MovieDetailsFragment()
+        fun forPeopleInfo(movie: ResultEntity?): PeopleDetailsFragment {
+            val movieDetailsFragment = PeopleDetailsFragment()
             movie?.let {
                 val arguments = Bundle()
                 arguments.putParcelable(PARAM_MOVIE, it)
@@ -34,7 +34,7 @@ class MovieDetailsFragment : BaseFragment() {
 
     private lateinit var movieDetailsViewModel: MovieDetailsViewModel
 
-    override fun layoutId() = R.layout.fragment_movie_details
+    override fun layoutId() = R.layout.fragment_people_details
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
