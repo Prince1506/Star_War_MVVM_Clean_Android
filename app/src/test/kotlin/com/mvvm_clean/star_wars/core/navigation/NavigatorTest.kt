@@ -1,9 +1,9 @@
 package com.mvvm_clean.star_wars.core.navigation
 
 import com.mvvm_clean.star_wars.AndroidTest
+import com.mvvm_clean.star_wars.features.characters.PeopleListActivity
 import com.mvvm_clean.star_wars.features.login.Authenticator
 import com.mvvm_clean.star_wars.features.login.LoginActivity
-import com.mvvm_clean.star_wars.features.characters.PeopleListActivity
 import com.mvvm_clean.star_wars.shouldNavigateTo
 import io.mockk.every
 import io.mockk.impl.annotations.MockK

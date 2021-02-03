@@ -2,12 +2,9 @@ package com.mvvm_clean.star_wars.features.characters
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.mvvm_clean.star_wars.core.exception.Failure
 import com.mvvm_clean.star_wars.core.interactor.UseCase.None
 import com.mvvm_clean.star_wars.core.platform.BaseViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class PeopleListViewModel

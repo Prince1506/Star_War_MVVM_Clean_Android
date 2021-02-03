@@ -1,7 +1,5 @@
 package com.mvvm_clean.star_wars.features.characters
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
 import com.mvvm_clean.star_wars.core.platform.KParcelable
 import kotlinx.android.parcel.Parcelize
 

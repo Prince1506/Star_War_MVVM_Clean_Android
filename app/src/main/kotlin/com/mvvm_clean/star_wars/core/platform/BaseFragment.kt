@@ -8,14 +8,13 @@ import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import com.mvvm_clean.star_wars.AndroidApplication
 import com.mvvm_clean.star_wars.R.color
 import com.mvvm_clean.star_wars.core.di.ApplicationComponent
 import com.mvvm_clean.star_wars.core.extension.appContext
 import com.mvvm_clean.star_wars.core.extension.viewContainer
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_layout.*
-import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 
 /**

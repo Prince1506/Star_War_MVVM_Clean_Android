@@ -5,11 +5,11 @@ import android.view.View
 import android.widget.TextView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.FragmentActivity
-import com.mvvm_clean.star_wars.features.login.Authenticator
-import com.mvvm_clean.star_wars.features.login.LoginActivity
 import com.mvvm_clean.star_wars.features.characters.PeopleDetailsActivity
 import com.mvvm_clean.star_wars.features.characters.PeopleListActivity
 import com.mvvm_clean.star_wars.features.characters.ResultEntity
+import com.mvvm_clean.star_wars.features.login.Authenticator
+import com.mvvm_clean.star_wars.features.login.LoginActivity
 import javax.inject.Inject
 import javax.inject.Singleton
 

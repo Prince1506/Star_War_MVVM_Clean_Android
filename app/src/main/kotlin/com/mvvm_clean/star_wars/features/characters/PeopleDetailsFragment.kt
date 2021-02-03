@@ -9,7 +9,6 @@ import com.mvvm_clean.star_wars.core.exception.Failure.ServerError
 import com.mvvm_clean.star_wars.core.extension.*
 import com.mvvm_clean.star_wars.core.platform.BaseFragment
 import com.mvvm_clean.star_wars.features.characters.PeopleListApiFailure.NonExistentMovie
-import kotlinx.android.synthetic.main.fragment_movie_details.*
 import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 
@@ -52,35 +51,35 @@ class PeopleDetailsFragment : BaseFragment() {
         if (firstTimeCreated(savedInstanceState)) {
 //            movieDetailsViewModel.loadMovieDetails((arguments?.get(PARAM_MOVIE) as ResultEntity).name)
         } else {
-            movieDetailsAnimator.scaleUpView(moviePlay)
-            movieDetailsAnimator.cancelTransition(tv_people_name)
+//            movieDetailsAnimator.scaleUpView(moviePlay)
+//            movieDetailsAnimator.cancelTransition(tv_people_name)
 //            moviePoster.loadFromUrl((arguments!![PARAM_MOVIE] as ResultEntity).poster)
         }
     }
 
     override fun onBackPressed() {
-        movieDetailsAnimator.fadeInvisible(scrollView, movieDetails)
-        if (moviePlay.isVisible())
-            movieDetailsAnimator.scaleDownView(moviePlay)
-        else
-            movieDetailsAnimator.cancelTransition(tv_people_name)
+//        movieDetailsAnimator.fadeInvisible(scrollView, movieDetails)
+//        if (moviePlay.isVisible())
+//            movieDetailsAnimator.scaleDownView(moviePlay)
+//        else
+//            movieDetailsAnimator.cancelTransition(tv_people_name)
     }
 
     private fun renderMovieDetails(movie: MovieDetailsView?) {
         movie?.let {
             with(movie) {
-                activity?.let {
-                    tv_people_name.loadUrlAndPostponeEnterTransition(poster, it)
-                    it.toolbar.title = title
-                }
-                movieSummary.text = summary
-                movieCast.text = cast
-                movieDirector.text = director
-                movieYear.text = year.toString()
+//                activity?.let {
+//                    tv_people_name.loadUrlAndPostponeEnterTransition(poster, it)
+//                    it.toolbar.title = title
+//                }
+//                movieSummary.text = summary
+//                movieCast.text = cast
+//                movieDirector.text = director
+//                movieYear.text = year.toString()
             }
         }
-        movieDetailsAnimator.fadeVisible(scrollView, movieDetails)
-        movieDetailsAnimator.scaleUpView(moviePlay)
+//        movieDetailsAnimator.fadeVisible(scrollView, movieDetails)
+//        movieDetailsAnimator.scaleUpView(moviePlay)
     }
 
     private fun handleFailure(failure: Failure?) {

@@ -11,7 +11,7 @@
 
     <TextView
         android:id="@+id/tv_people_name"
-        style="@style/MoviePoster"
+        style="@style/PeoplePoster"
         android:padding="@dimen/margin_10"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

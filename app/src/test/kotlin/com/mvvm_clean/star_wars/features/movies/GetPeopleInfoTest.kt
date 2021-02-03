@@ -4,8 +4,8 @@ import com.mvvm_clean.star_wars.UnitTest
 import com.mvvm_clean.star_wars.core.functional.Either.Right
 import com.mvvm_clean.star_wars.core.interactor.UseCase
 import com.mvvm_clean.star_wars.features.characters.GetPeopleInfo
-import com.mvvm_clean.star_wars.features.characters.PeopleListDataModel
 import com.mvvm_clean.star_wars.features.characters.MoviesRepository
+import com.mvvm_clean.star_wars.features.characters.PeopleListDataModel
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
