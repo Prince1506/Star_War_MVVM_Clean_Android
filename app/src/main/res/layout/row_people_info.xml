@@ -10,10 +10,11 @@
     card_view:cardElevation="@dimen/card_elevation">
 
     <TextView
-        android:id="@+id/moviePoster"
+        android:id="@+id/tv_people_name"
         style="@style/MoviePoster"
+        android:padding="@dimen/margin_10"
         android:layout_width="match_parent"
-        android:layout_height="180dp" />
+        android:layout_height="wrap_content" />
 
     <!-- Used for the ripple effect on touch -->
     <LinearLayout

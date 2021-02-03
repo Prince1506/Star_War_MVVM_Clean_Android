@@ -18,6 +18,6 @@ class RouteActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         appComponent.inject(this)
-        navigator.showMain(this)
+        navigator.navigateToScreens(this)
     }
 }

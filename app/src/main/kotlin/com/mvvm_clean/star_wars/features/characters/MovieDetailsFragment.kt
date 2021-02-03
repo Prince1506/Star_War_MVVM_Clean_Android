@@ -53,7 +53,7 @@ class MovieDetailsFragment : BaseFragment() {
 //            movieDetailsViewModel.loadMovieDetails((arguments?.get(PARAM_MOVIE) as ResultEntity).name)
         } else {
             movieDetailsAnimator.scaleUpView(moviePlay)
-            movieDetailsAnimator.cancelTransition(moviePoster)
+            movieDetailsAnimator.cancelTransition(tv_people_name)
 //            moviePoster.loadFromUrl((arguments!![PARAM_MOVIE] as ResultEntity).poster)
         }
     }
@@ -63,21 +63,20 @@ class MovieDetailsFragment : BaseFragment() {
         if (moviePlay.isVisible())
             movieDetailsAnimator.scaleDownView(moviePlay)
         else
-            movieDetailsAnimator.cancelTransition(moviePoster)
+            movieDetailsAnimator.cancelTransition(tv_people_name)
     }
 
     private fun renderMovieDetails(movie: MovieDetailsView?) {
         movie?.let {
             with(movie) {
                 activity?.let {
-                    moviePoster.loadUrlAndPostponeEnterTransition(poster, it)
+                    tv_people_name.loadUrlAndPostponeEnterTransition(poster, it)
                     it.toolbar.title = title
                 }
                 movieSummary.text = summary
                 movieCast.text = cast
                 movieDirector.text = director
                 movieYear.text = year.toString()
-                moviePlay.setOnClickListener { movieDetailsViewModel.playMovie(trailer) }
             }
         }
         movieDetailsAnimator.fadeVisible(scrollView, movieDetails)

@@ -9,7 +9,6 @@ import javax.inject.Inject
 class MovieDetailsViewModel
 @Inject constructor(
     private val getMovieDetails: GetMovieDetails,
-    private val playMovie: PlayMovie
 ) : BaseViewModel() {
 
     private val _movieDetails: MutableLiveData<MovieDetailsView> = MutableLiveData()
@@ -18,7 +17,6 @@ class MovieDetailsViewModel
     fun loadMovieDetails(movieId: Int) =
         getMovieDetails(Params(movieId)) { it.fold(::handleFailure, ::handleMovieDetails) }
 
-    fun playMovie(url: String) = playMovie(PlayMovie.Params(url))
 
     private fun handleMovieDetails(movie: MovieDetails) {
         _movieDetails.value = MovieDetailsView(
