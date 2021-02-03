@@ -36,24 +36,34 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="MoviePoster">
+    <style name="PeoplePoster">
         <item name="android:layout_width">match_parent</item>
         <item name="android:transitionName">@string/people_transition_poster</item>
         <item name="android:textSize"> @dimen/text_30</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="MovieDetailsTitle">
+    <style name="PeopleDetailsTitle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/colorTextSecondary</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
         <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:textSize">@dimen/text_20</item>
         <item name="android:paddingRight">20dp</item>
         <item name="android:paddingLeft">20dp</item>
     </style>
+    <style name="PeopleDetailsTitleHeading">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_20</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingLeft">20dp</item>
+    </style>
 
-    <style name="MovieDetailsText" parent="MovieDetailsTitle">
+    <style name="PeopleDetailsText" parent="PeopleDetailsTitle">
         <item name="android:textColor">@color/colorTextPrimary</item>
         <item name="android:textSize">@dimen/text_15</item>
         <item name="android:paddingBottom">25dp</item>

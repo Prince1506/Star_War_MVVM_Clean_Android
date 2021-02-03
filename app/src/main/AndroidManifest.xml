@@ -30,16 +30,16 @@
 
         <activity
             android:name="com.mvvm_clean.star_wars.features.login.LoginActivity"
-            android:label="@string/login_screen_title"></activity>
+            android:label="@string/login_screen_title"/>
 
         <activity
             android:name="com.mvvm_clean.star_wars.features.characters.PeopleListActivity"
-            android:label="@string/people_list_screen_title"></activity>
+            android:label="@string/people_list_screen_title"/>
 
         <activity
             android:name="com.mvvm_clean.star_wars.features.characters.PeopleDetailsActivity"
-            android:label="@string/movie_details_screen_title"
-            android:theme="@style/AppTheme.Translucent"></activity>
+            android:label="@string/people_details_screen_title"
+            android:theme="@style/AppTheme.Translucent"/>
 
     </application>
 

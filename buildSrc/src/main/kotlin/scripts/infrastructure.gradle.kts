@@ -44,8 +44,8 @@ tasks.register("runApp", Exec::class) {
         val adb = "${sdkDir}/platform-tools/adb"
 
         val applicationPackage =
-            "com.fernandocejas.sample.${Default.BUILD_FLAVOR}.${Default.BUILD_TYPE}"
-        val launchActivity = "com.fernandocejas.sample.core.navigation.RouteActivity"
+            "com.mvvm_clean.star_wars.${Default.BUILD_FLAVOR}.${Default.BUILD_TYPE}"
+        val launchActivity = "com.mvvm_clean.star_wars.core.navigation.RouteActivity"
 
         commandLine(adb, "shell", "am", "start", "-n", "${applicationPackage}/${launchActivity}")
     }

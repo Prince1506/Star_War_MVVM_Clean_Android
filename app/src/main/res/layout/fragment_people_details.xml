@@ -41,36 +41,96 @@
             android:visibility="visible">
 
             <TextView
-                style="@style/MovieDetailsTitle"
+                style="@style/PeopleDetailsTitleHeading"
                 android:text="@string/people_details_summary" />
 
             <TextView
-                android:id="@+id/peopleSummary"
-                style="@style/MovieDetailsText" />
+
+                android:text="@string/people_details_name"
+                style="@style/PeopleDetailsTitle" />
 
             <TextView
-                style="@style/MovieDetailsTitle"
-                android:text="@string/people_details_cast" />
+                android:id="@+id/tv_peopleDetails_name"
+                style="@style/PeopleDetailsText"
+                android:text="Prince soni" />
 
             <TextView
-                android:id="@+id/peopleCast"
-                style="@style/MovieDetailsText" />
+                android:text="@string/people_details_birth_year"
+                style="@style/PeopleDetailsTitle" />
 
             <TextView
-                style="@style/MovieDetailsTitle"
-                android:text="@string/people_details_director" />
+                android:id="@+id/tv_peopleDetails_birth_year"
+                style="@style/PeopleDetailsText"
+                android:text="@string/people_details_birth_year" />
 
             <TextView
-                android:id="@+id/peopleDirector"
-                style="@style/MovieDetailsText" />
+                android:text="@string/people_details_height"
+                style="@style/PeopleDetailsTitle" />
 
             <TextView
-                style="@style/MovieDetailsTitle"
-                android:text="@string/people_details_year" />
+                android:id="@+id/tv_peopleDetails_height"
+                style="@style/PeopleDetailsText"
+                android:text="@string/people_details_height" />
 
             <TextView
-                android:id="@+id/peopleYear"
-                style="@style/MovieDetailsText" />
+                style="@style/PeopleDetailsTitleHeading"
+                android:text="@string/people_details_species" />
+
+
+            <TextView
+                android:text="@string/people_details_name"
+                style="@style/PeopleDetailsTitle" />
+
+            <TextView
+                android:id="@+id/tv_peopleDetails_speciesName"
+                style="@style/PeopleDetailsText"
+                android:text="@string/people_details_name" />
+
+            <TextView
+                android:text="@string/people_details_language"
+                style="@style/PeopleDetailsTitle" />
+
+            <TextView
+                android:id="@+id/tv_peopleDetails_language"
+                style="@style/PeopleDetailsText"
+                android:text="@string/people_details_language" />
+
+            <TextView
+                android:text="@string/people_details_homeworld"
+                style="@style/PeopleDetailsTitle" />
+
+            <TextView
+                android:id="@+id/tv_peopleDetails_homeworld"
+                style="@style/PeopleDetailsText"
+                android:text="@string/people_details_homeworld" />
+
+            <TextView
+                android:text="@string/people_details_population"
+                style="@style/PeopleDetailsTitle" />
+
+            <TextView
+                android:id="@+id/tv_peopleDetails_population"
+                style="@style/PeopleDetailsText"
+                android:text="@string/people_details_population" />
+
+            <TextView
+                android:text="@string/people_details_films"
+                style="@style/PeopleDetailsTitle" />
+
+            <TextView
+                android:id="@+id/tv_peopleDetails_films"
+                style="@style/PeopleDetailsText"
+                android:text="@string/people_details_films" />
+
+            <TextView
+                android:text="@string/people_details_opening_crawl"
+                style="@style/PeopleDetailsTitle" />
+
+            <TextView
+                android:id="@+id/tv_peopleDetails_opening_crawl"
+                style="@style/PeopleDetailsText"
+                android:text="@string/people_details_opening_crawl" />
+
 
         </LinearLayout>
 
@@ -94,7 +154,7 @@
 
     <ImageView
         android:id="@+id/tv_people_name"
-        style="@style/MoviePoster"
+        style="@style/PeoplePoster"
         android:layout_height="240dp"
         android:layout_centerHorizontal="true"
         android:fitsSystemWindows="true"
