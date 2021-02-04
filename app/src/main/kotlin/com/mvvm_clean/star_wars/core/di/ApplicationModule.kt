@@ -3,7 +3,7 @@ package com.mvvm_clean.star_wars.core.di
 import android.content.Context
 import com.mvvm_clean.star_wars.AndroidApplication
 import com.mvvm_clean.star_wars.BuildConfig
-import com.mvvm_clean.star_wars.features.characters.MoviesRepository
+import com.mvvm_clean.star_wars.features.people_list.domain.api.StarWarApiRepository
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -41,5 +41,5 @@ class ApplicationModule(private val application: AndroidApplication) {
 
     @Provides
     @Singleton
-    fun provideMoviesRepository(dataSource: MoviesRepository.Network): MoviesRepository = dataSource
+    fun provideMoviesRepository(dataSource: StarWarApiRepository.Network): StarWarApiRepository = dataSource
 }

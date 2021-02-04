@@ -1,8 +1,8 @@
 package com.mvvm_clean.star_wars.features.movies
 
 import com.mvvm_clean.star_wars.AndroidTest
-import com.mvvm_clean.star_wars.core.navigation.Navigator
-import com.mvvm_clean.star_wars.features.characters.PlayMovie
+import com.mvvm_clean.star_wars.core.presentation.navigation.Navigator
+import com.mvvm_clean.star_wars.features.people_list.PlayMovie
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
 import org.junit.Before

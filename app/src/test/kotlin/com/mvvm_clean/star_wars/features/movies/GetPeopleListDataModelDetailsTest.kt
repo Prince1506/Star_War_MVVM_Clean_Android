@@ -1,10 +1,10 @@
 package com.mvvm_clean.star_wars.features.movies
 
 import com.mvvm_clean.star_wars.UnitTest
-import com.mvvm_clean.star_wars.core.functional.Either.Right
-import com.mvvm_clean.star_wars.features.characters.GetMovieDetails
-import com.mvvm_clean.star_wars.features.characters.MovieDetails
-import com.mvvm_clean.star_wars.features.characters.MoviesRepository
+import com.mvvm_clean.star_wars.core.domain.functional.Either.Right
+import com.mvvm_clean.star_wars.features.people_list.GetPeopleDetails
+import com.mvvm_clean.star_wars.features.people_details.domain.models.PeopleDetailsDataModel
+import com.mvvm_clean.star_wars.features.people_list.domain.api.StarWarApiRepository
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
@@ -14,22 +14,22 @@ import org.junit.Test
 
 class GetPeopleListDataModelDetailsTest : UnitTest() {
 
-    private lateinit var getMovieDetails: GetMovieDetails
+    private lateinit var getPeopleDetails: GetPeopleDetails
 
     @MockK
-    private lateinit var moviesRepository: MoviesRepository
+    private lateinit var starWarApiRepository: StarWarApiRepository
 
     @Before
     fun setUp() {
-        getMovieDetails = GetMovieDetails(moviesRepository)
-        every { moviesRepository.movieDetails(MOVIE_ID) } returns Right(MovieDetails.empty)
+        getPeopleDetails = GetPeopleDetails(starWarApiRepository)
+        every { starWarApiRepository.movieDetails(MOVIE_ID) } returns Right(PeopleDetailsDataModel.empty)
     }
 
     @Test
     fun `should get data from repository`() {
-        runBlocking { getMovieDetails.run(GetMovieDetails.Params(MOVIE_ID)) }
+        runBlocking { getPeopleDetails.run(GetPeopleDetails.Params(MOVIE_ID)) }
 
-        verify(exactly = 1) { moviesRepository.movieDetails(MOVIE_ID) }
+        verify(exactly = 1) { starWarApiRepository.movieDetails(MOVIE_ID) }
     }
 
     companion object {

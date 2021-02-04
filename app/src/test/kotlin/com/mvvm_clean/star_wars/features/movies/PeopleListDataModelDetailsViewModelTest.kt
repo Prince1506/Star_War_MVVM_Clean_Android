@@ -1,42 +1,38 @@
 package com.mvvm_clean.star_wars.features.movies
 
 import com.mvvm_clean.star_wars.AndroidTest
-import com.mvvm_clean.star_wars.core.functional.Either.Right
-import com.mvvm_clean.star_wars.features.characters.GetMovieDetails
-import com.mvvm_clean.star_wars.features.characters.MovieDetails
-import com.mvvm_clean.star_wars.features.characters.MovieDetailsViewModel
-import com.mvvm_clean.star_wars.features.characters.PlayMovie
+import com.mvvm_clean.star_wars.core.domain.functional.Either.Right
+import com.mvvm_clean.star_wars.features.people_list.GetPeopleDetails
+import com.mvvm_clean.star_wars.features.people_details.domain.models.PeopleDetailsDataModel
+import com.mvvm_clean.star_wars.features.people_details.presentation.models.PeopleDetailsViewModel
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.runBlocking
 import org.amshove.kluent.shouldEqualTo
 import org.junit.Before
 import org.junit.Test
 
 class PeopleListDataModelDetailsViewModelTest : AndroidTest() {
 
-    private lateinit var movieDetailsViewModel: MovieDetailsViewModel
+    private lateinit var peopleDetailsViewModel: PeopleDetailsViewModel
 
     @MockK
-    private lateinit var getMovieDetails: GetMovieDetails
+    private lateinit var getPeopleDetails: GetPeopleDetails
 
-    @MockK
-    private lateinit var playMovie: PlayMovie
 
     @Before
     fun setUp() {
-        movieDetailsViewModel = MovieDetailsViewModel(getMovieDetails, playMovie)
+//        peopleDetailsViewModel = PeopleDetailsViewModel(getPeopleDetails, playMovie)
     }
 
     @Test
     fun `loading movie details should update live data`() {
-        val movieDetails = MovieDetails(
+        val movieDetails = PeopleDetailsDataModel(
             0, "IronMan", "poster", "summary",
             "cast", "director", 2018, "trailer"
         )
-        coEvery { getMovieDetails.run(any()) } returns Right(movieDetails)
+        coEvery { getPeopleDetails.run(any()) } returns Right(movieDetails)
 
-        movieDetailsViewModel.movieDetails.observeForever {
+        peopleDetailsViewModel.peopleDetailsLiveData.observeForever {
             with(it!!) {
                 id shouldEqualTo 0
                 title shouldEqualTo "IronMan"
@@ -49,6 +45,6 @@ class PeopleListDataModelDetailsViewModelTest : AndroidTest() {
             }
         }
 
-        runBlocking { movieDetailsViewModel.loadMovieDetails(0) }
+//        runBlocking { peopleDetailsViewModel.loadPeopleDetails(0) }
     }
 }
