@@ -44,6 +44,10 @@
                 style="@style/PeopleDetailsTitleHeading"
                 android:text="@string/people_details_summary" />
 
+            <View
+                style="@style/v_color_white_heading"
+                />
+
             <TextView
 
                 android:text="@string/people_details_name"
@@ -75,6 +79,9 @@
             <TextView
                 style="@style/PeopleDetailsTitleHeading"
                 android:text="@string/people_details_species" />
+            <View
+                style="@style/v_color_white_heading"
+                />
 
 
             <TextView
@@ -135,32 +142,4 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/peoplePlay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:scaleX="0.0"
-        android:scaleY="0.0"
-        android:src="@mipmap/ic_launcher"
-        app:backgroundTint="@color/colorSecondary"
-        app:elevation="6dp"
-        app:fabSize="normal"
-        app:layout_anchor="@id/appbar"
-        app:layout_anchorGravity="bottom|right" />
-
-    <ImageView
-        android:id="@+id/tv_people_name"
-        style="@style/PeoplePoster"
-        android:layout_height="240dp"
-        android:layout_centerHorizontal="true"
-        android:fitsSystemWindows="true"
-        android:scaleType="centerCrop"
-        app:layout_anchor="@+id/appbar"
-        app:layout_anchorGravity="center"
-        app:layout_collapseMode="parallax" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
