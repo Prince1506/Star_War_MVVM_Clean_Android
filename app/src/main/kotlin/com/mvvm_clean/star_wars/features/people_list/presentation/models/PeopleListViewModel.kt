@@ -28,7 +28,7 @@ class PeopleListViewModel
     }
 
     private fun handlePeopleList(peopleListDataModel: PeopleListDataModel) {
-        isProgressLoading.value = true
+        isProgressLoading.value = false
         peopleListMutableLiveData.value =  PeoplseListView(
             peopleListDataModel.count,
             peopleListDataModel.next,
