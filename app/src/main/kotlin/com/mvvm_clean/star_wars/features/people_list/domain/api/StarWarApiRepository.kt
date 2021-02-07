@@ -1,21 +1,26 @@
 package com.mvvm_clean.star_wars.features.people_list.domain.api
 
 import com.mvvm_clean.star_wars.BuildConfig
+import com.mvvm_clean.star_wars.core.data.NetworkHandler
 import com.mvvm_clean.star_wars.core.domain.exception.Failure
 import com.mvvm_clean.star_wars.core.domain.exception.Failure.NetworkConnection
 import com.mvvm_clean.star_wars.core.domain.exception.Failure.ServerError
 import com.mvvm_clean.star_wars.core.domain.functional.Either
 import com.mvvm_clean.star_wars.core.domain.functional.Either.Left
 import com.mvvm_clean.star_wars.core.domain.functional.Either.Right
-import com.mvvm_clean.star_wars.core.data.NetworkHandler
-import com.mvvm_clean.star_wars.features.people_list.domain.models.PeopleListDataModel
+import com.mvvm_clean.star_wars.features.people_details.domain.models.PlanetListDataModel
+import com.mvvm_clean.star_wars.features.people_details.domain.models.SpeciesListDataModel
 import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PeopleListResponseEntity
+import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PlanetListResponseEntity
+import com.mvvm_clean.star_wars.features.people_list.data.repo.response.SpeciesListResponseEntity
+import com.mvvm_clean.star_wars.features.people_list.domain.models.PeopleListDataModel
 import retrofit2.Call
 import javax.inject.Inject
 
 interface StarWarApiRepository {
-    fun movies(searchQuery:String): Either<Failure, PeopleListDataModel>
-//    fun movieDetails(movieId: String): Either<Failure, PeopleDetailsDataModel>
+    fun getPeopleByQuery(searchQuery: String): Either<Failure, PeopleListDataModel>
+    fun getSpeciesByQuery(searchQuery: String): Either<Failure, SpeciesListDataModel>
+    fun getPlanetsByQuery(searchQuery: String): Either<Failure, PlanetListDataModel>
 
     class Network
     @Inject constructor(
@@ -23,27 +28,35 @@ interface StarWarApiRepository {
         private val service: StarWarApiImpl
     ) : StarWarApiRepository {
 
-        override fun movies(searchQuery:String): Either<Failure, PeopleListDataModel> {
-            return when (networkHandler.isNetworkAvailable()) {
+        override fun getPeopleByQuery(searchQuery: String): Either<Failure, PeopleListDataModel> =
+            when (networkHandler.isNetworkAvailable()) {
                 true -> request(
                     service.getPeopleListByQuery(searchQuery),
-                    { it.toMovie()},
-                    PeopleListResponseEntity(0, null, null, emptyList())
+                    { it.toPeopleList() },
+                    PeopleListResponseEntity.empty
                 )
                 false -> Left(NetworkConnection)
             }
-        }
 
-//        override fun movieDetails(movieId: String): Either<Failure, PeopleDetailsDataModel> {
-//            return when (networkHandler.isNetworkAvailable()) {
-//                true -> request(
-//                    service.movieDetails(movieId),
-//                    { it.toMovieDetails() },
-//                    MovieDetailsEntity.empty
-//                )
-//                false -> Left(NetworkConnection)
-//            }
-//        }
+        override fun getSpeciesByQuery(searchQuery: String): Either<Failure, SpeciesListDataModel> =
+            when (networkHandler.isNetworkAvailable()) {
+                true -> request(
+                    service.getSpeciesListByQuery(searchQuery),
+                    { it.toSpeciesDataModel() },
+                    SpeciesListResponseEntity.empty
+                )
+                false -> Left(NetworkConnection)
+            }
+
+        override fun getPlanetsByQuery(searchQuery: String): Either<Failure, PlanetListDataModel> =
+            when (networkHandler.isNetworkAvailable()) {
+                true -> request(
+                    service.getPlanetListByQuery(searchQuery),
+                    { it.toPlanetsDataModel() },
+                    PlanetListResponseEntity.empty
+                )
+                false -> Left(NetworkConnection)
+            }
 
         private fun <T, R> request(
             call: Call<T>,

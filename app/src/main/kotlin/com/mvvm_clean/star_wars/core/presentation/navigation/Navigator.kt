@@ -3,11 +3,11 @@ package com.mvvm_clean.star_wars.core.presentation.navigation
 import android.content.Context
 import android.view.View
 import androidx.fragment.app.FragmentActivity
-import com.mvvm_clean.star_wars.features.people_details.presentation.activities.PeopleDetailsActivity
-import com.mvvm_clean.star_wars.features.people_list.presentation.ui.activities.PeopleListActivity
-import com.mvvm_clean.star_wars.features.people_list.data.repo.response.ResultEntity
 import com.mvvm_clean.star_wars.features.login.Authenticator
 import com.mvvm_clean.star_wars.features.login.LoginActivity
+import com.mvvm_clean.star_wars.features.people_details.presentation.activities.PeopleDetailsActivity
+import com.mvvm_clean.star_wars.features.people_list.data.repo.response.SpeciesListEntity
+import com.mvvm_clean.star_wars.features.people_list.presentation.ui.activities.PeopleListActivity
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -16,7 +16,11 @@ import javax.inject.Singleton
 class Navigator
 @Inject constructor(private val authenticator: Authenticator) {
 
-    private fun showLogin(context: Context) = context.startActivity(LoginActivity.callingIntent(context))
+    private fun showLogin(context: Context) = context.startActivity(
+        LoginActivity.callingIntent(
+            context
+        )
+    )
 
     fun navigateToScreens(context: Context) {
         when (authenticator.userLoggedIn()) {
@@ -25,9 +29,14 @@ class Navigator
         }
     }
 
-    private fun showPeopleList(context: Context) = context.startActivity(PeopleListActivity.callingIntent(context))
+    private fun showPeopleList(context: Context) =
+        context.startActivity(PeopleListActivity.callingIntent(context))
 
-    fun showPeopleDetails(activity: FragmentActivity, movie: ResultEntity, navigationExtras: Extras) {
+    fun showPeopleDetails(
+        activity: FragmentActivity,
+        movie: SpeciesListEntity,
+        navigationExtras: Extras
+    ) {
         val intent = PeopleDetailsActivity.callingIntent(activity, movie)
 //        val sharedView = navigationExtras.transitionSharedElement as TextView
 //        val activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(

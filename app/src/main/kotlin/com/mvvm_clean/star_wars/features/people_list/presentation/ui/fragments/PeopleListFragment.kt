@@ -6,12 +6,12 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.mvvm_clean.star_wars.R
+import com.mvvm_clean.star_wars.core.base.BaseFragment
 import com.mvvm_clean.star_wars.core.domain.exception.Failure
 import com.mvvm_clean.star_wars.core.domain.exception.Failure.NetworkConnection
 import com.mvvm_clean.star_wars.core.domain.exception.Failure.ServerError
 import com.mvvm_clean.star_wars.core.domain.extension.*
 import com.mvvm_clean.star_wars.core.presentation.navigation.Navigator
-import com.mvvm_clean.star_wars.core.base.BaseFragment
 import com.mvvm_clean.star_wars.features.people_list.domain.repo.PeopleListApiFailure.ListNotAvailable
 import com.mvvm_clean.star_wars.features.people_list.presentation.models.PeopleListViewModel
 import com.mvvm_clean.star_wars.features.people_list.presentation.models.PeoplseListView
@@ -30,6 +30,7 @@ class PeopleListFragment : BaseFragment() {
     private lateinit var peopleListViewModel: PeopleListViewModel
 
     override fun layoutId() = R.layout.fragment_people_list
+    val searchQuery = "a"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,12 +75,12 @@ class PeopleListFragment : BaseFragment() {
         emptyView.invisible()
         rv_people_list.visible()
         showProgress()
-        peopleListViewModel.loadPeopleList()
+        peopleListViewModel.loadPeopleList(searchQuery)
     }
 
     private fun renderPeopleList(peoplseListView: PeoplseListView?) {
-        if(peoplseListView?.result != null) {
-            peopleListAdapter.collection = peoplseListView?.result
+        if (peoplseListView?.peopleList != null) {
+            peopleListAdapter.collection = peoplseListView.peopleList
         }
         hideProgress()
     }

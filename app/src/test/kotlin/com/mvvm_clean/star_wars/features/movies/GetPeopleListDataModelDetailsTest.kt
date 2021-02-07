@@ -3,7 +3,6 @@ package com.mvvm_clean.star_wars.features.movies
 import com.mvvm_clean.star_wars.UnitTest
 import com.mvvm_clean.star_wars.core.domain.functional.Either.Right
 import com.mvvm_clean.star_wars.features.people_list.GetPeopleDetails
-import com.mvvm_clean.star_wars.features.people_details.domain.models.PeopleDetailsDataModel
 import com.mvvm_clean.star_wars.features.people_list.domain.api.StarWarApiRepository
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -22,14 +21,16 @@ class GetPeopleListDataModelDetailsTest : UnitTest() {
     @Before
     fun setUp() {
         getPeopleDetails = GetPeopleDetails(starWarApiRepository)
-        every { starWarApiRepository.movieDetails(MOVIE_ID) } returns Right(PeopleDetailsDataModel.empty)
+        every { starWarApiRepository.getSpeciesByQuery(MOVIE_ID) } returns Right(
+            PeopleDetailsDataModel.empty
+        )
     }
 
     @Test
     fun `should get data from repository`() {
         runBlocking { getPeopleDetails.run(GetPeopleDetails.Params(MOVIE_ID)) }
 
-        verify(exactly = 1) { starWarApiRepository.movieDetails(MOVIE_ID) }
+        verify(exactly = 1) { starWarApiRepository.getSpeciesByQuery(MOVIE_ID) }
     }
 
     companion object {

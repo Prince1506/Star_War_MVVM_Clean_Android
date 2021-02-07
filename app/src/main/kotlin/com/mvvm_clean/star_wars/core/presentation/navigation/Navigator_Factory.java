@@ -1,28 +1,30 @@
 package com.mvvm_clean.star_wars.core.presentation.navigation;
 
 import com.mvvm_clean.star_wars.features.login.Authenticator;
-import dagger.internal.Factory;
+
 import javax.annotation.Generated;
 import javax.inject.Provider;
 
+import dagger.internal.Factory;
+
 @Generated(
-  value = "dagger.internal.codegen.ComponentProcessor",
-  comments = "https://google.github.io/dagger"
+        value = "dagger.internal.codegen.ComponentProcessor",
+        comments = "https://google.github.io/dagger"
 )
 public final class Navigator_Factory implements Factory<Navigator> {
-  private final Provider<Authenticator> authenticatorProvider;
+    private final Provider<Authenticator> authenticatorProvider;
 
-  public Navigator_Factory(Provider<Authenticator> authenticatorProvider) {
-    assert authenticatorProvider != null;
-    this.authenticatorProvider = authenticatorProvider;
-  }
+    public Navigator_Factory(Provider<Authenticator> authenticatorProvider) {
+        assert authenticatorProvider != null;
+        this.authenticatorProvider = authenticatorProvider;
+    }
 
-  @Override
-  public Navigator get() {
-    return new Navigator(authenticatorProvider.get());
-  }
+    @Override
+    public Navigator get() {
+        return new Navigator(authenticatorProvider.get());
+    }
 
-  public static Factory<Navigator> create(Provider<Authenticator> authenticatorProvider) {
-    return new Navigator_Factory(authenticatorProvider);
+    public static Factory<Navigator> create(Provider<Authenticator> authenticatorProvider) {
+        return new Navigator_Factory(authenticatorProvider);
   }
 }

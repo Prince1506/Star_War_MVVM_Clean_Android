@@ -33,30 +33,45 @@ android {
 }
 
 dependencies {
-    //Compile time dependencies
+    /* Compile time dependencies */
     kapt(Libraries.lifecycleCompiler)
     kapt(Libraries.daggerCompiler)
     compileOnly(Libraries.javaxAnnotation)
     compileOnly(Libraries.javaxInject)
 
-    // Application dependencies
+    /*Application dependencies*/
+
+    // Kotlin
     implementation(Libraries.kotlinStdLib)
     implementation(Libraries.kotlinCoroutines)
     implementation(Libraries.kotlinCoroutinesAndroid)
-    implementation(Libraries.appCompat)
     implementation(Libraries.ktxCore)
+
+    // Design related libraries
+    implementation(Libraries.appCompat)
     implementation(Libraries.constraintLayout)
-    implementation(Libraries.viewModel)
-    implementation(Libraries.liveData)
-    implementation(Libraries.lifecycleExtensions)
     implementation(Libraries.cardView)
     implementation(Libraries.recyclerView)
     implementation(Libraries.material)
+
+    // MVVM Libraries
+    implementation(Libraries.viewModel)
+    implementation(Libraries.liveData)
+    implementation(Libraries.lifecycleExtensions)
+
+    // Annotations
     implementation(Libraries.androidAnnotations)
+
+    // Image
     implementation(Libraries.glide)
+
+    // Dependency Injection
     implementation(Libraries.dagger)
+
+    // Network
     implementation(Libraries.retrofit)
     implementation(Libraries.okHttpLoggingInterceptor)
+    implementation(Libraries.moshiConveter)
 
     // Unit/Android tests dependencies
     testImplementation(TestLibraries.junit4)

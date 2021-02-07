@@ -2,12 +2,10 @@ package com.mvvm_clean.star_wars.features.movies
 
 import com.mvvm_clean.star_wars.AndroidTest
 import com.mvvm_clean.star_wars.core.domain.functional.Either.Right
-import com.mvvm_clean.star_wars.features.people_list.GetPeopleDetails
-import com.mvvm_clean.star_wars.features.people_details.domain.models.PeopleDetailsDataModel
 import com.mvvm_clean.star_wars.features.people_details.presentation.models.PeopleDetailsViewModel
+import com.mvvm_clean.star_wars.features.people_list.GetPeopleDetails
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
-import org.amshove.kluent.shouldEqualTo
 import org.junit.Before
 import org.junit.Test
 

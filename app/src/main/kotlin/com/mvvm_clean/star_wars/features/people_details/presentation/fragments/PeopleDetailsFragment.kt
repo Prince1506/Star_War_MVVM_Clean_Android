@@ -3,22 +3,26 @@ package com.mvvm_clean.star_wars.features.people_details.presentation.fragments
 import android.os.Bundle
 import android.view.View
 import com.mvvm_clean.star_wars.R
+import com.mvvm_clean.star_wars.core.base.BaseFragment
 import com.mvvm_clean.star_wars.core.domain.exception.Failure
 import com.mvvm_clean.star_wars.core.domain.exception.Failure.NetworkConnection
 import com.mvvm_clean.star_wars.core.domain.exception.Failure.ServerError
-import com.mvvm_clean.star_wars.core.domain.extension.*
-import com.mvvm_clean.star_wars.core.base.BaseFragment
-import com.mvvm_clean.star_wars.features.people_details.presentation.models.PeopleDetailsView
+import com.mvvm_clean.star_wars.core.domain.extension.close
+import com.mvvm_clean.star_wars.core.domain.extension.failure
+import com.mvvm_clean.star_wars.core.domain.extension.observe
+import com.mvvm_clean.star_wars.core.domain.extension.viewModel
+import com.mvvm_clean.star_wars.features.people_details.domain.models.PeopleDetailsDataModel
 import com.mvvm_clean.star_wars.features.people_details.presentation.models.PeopleDetailsViewModel
+import com.mvvm_clean.star_wars.features.people_list.data.repo.response.SpeciesListEntity
 import com.mvvm_clean.star_wars.features.people_list.domain.repo.PeopleListApiFailure.NonExistentMovie
-import com.mvvm_clean.star_wars.features.people_list.data.repo.response.ResultEntity
+import kotlinx.android.synthetic.main.fragment_people_details.*
 
 class PeopleDetailsFragment : BaseFragment() {
 
     companion object {
         private const val PARAM_MOVIE = "param_movie"
 
-        fun forPeopleInfo(movie: ResultEntity?): PeopleDetailsFragment {
+        fun forPeopleInfo(movie: SpeciesListEntity?): PeopleDetailsFragment {
             val movieDetailsFragment = PeopleDetailsFragment()
             movie?.let {
                 val arguments = Bundle()
@@ -41,15 +45,18 @@ class PeopleDetailsFragment : BaseFragment() {
         appComponent.inject(this)
 
         peopleDetailsViewModel = viewModel(viewModelFactory) {
-            observe(peopleDetailsLiveData, ::renderPeopleDetails)
+            observe(getPeopleDetailLiveData(), ::renderPeopleDetails)
             failure(failure, ::handleApiFailure)
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val name = (arguments?.get(PARAM_MOVIE) as ResultEntity).name
-        name?.let { peopleDetailsViewModel.loadPeopleDetails(it) }
+        val name = (arguments?.get(PARAM_MOVIE) as SpeciesListEntity).name
+        name?.let {
+            peopleDetailsViewModel.loadPlanetData(it)
+            peopleDetailsViewModel.loadSpeciesData(it)
+        }
 
 //        } else {
 //            movieDetailsAnimator.scaleUpView(moviePlay)
@@ -66,17 +73,18 @@ class PeopleDetailsFragment : BaseFragment() {
 //            movieDetailsAnimator.cancelTransition(tv_people_name)
     }
 
-    private fun renderPeopleDetails(people: PeopleDetailsView?) {
-        people?.let {
-            with(people) {
-//                activity?.let {
-//                    tv_people_name.loadUrlAndPostponeEnterTransition(poster, it)
-//                    it.toolbar.title = title
-//                }
-//                movieSummary.text = summary
-//                movieCast.text = cast
-//                movieDirector.text = director
-//                movieYear.text = year.toString()
+    private fun renderPeopleDetails(peopleDetailsDataModel: PeopleDetailsDataModel?) {
+        peopleDetailsDataModel?.let {
+            with(peopleDetailsDataModel) {
+                tv_peopleDetails_birth_year.text = peopleDetailsDataModel.birthYear
+                tv_peopleDetails_films.text = peopleDetailsDataModel.film
+                tv_peopleDetails_height.text = peopleDetailsDataModel.height
+                tv_peopleDetails_homeworld.text = peopleDetailsDataModel.homeworld
+                tv_peopleDetails_language.text = peopleDetailsDataModel.languages
+                tv_peopleDetails_name.text = peopleDetailsDataModel.name
+                tv_peopleDetails_opening_crawl.text = peopleDetailsDataModel.openingCrawl
+                tv_peopleDetails_speciesName.text = peopleDetailsDataModel.speciesName
+                tv_peopleDetails_population.text = peopleDetailsDataModel.population
             }
         }
 //        movieDetailsAnimator.fadeVisible(scrollView, movieDetails)

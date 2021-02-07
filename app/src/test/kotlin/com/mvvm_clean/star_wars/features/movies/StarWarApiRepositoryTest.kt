@@ -1,19 +1,18 @@
 package com.mvvm_clean.star_wars.features.movies
 
 import com.mvvm_clean.star_wars.UnitTest
-import com.mvvm_clean.star_wars.features.people_list.domain.api.StarWarApiImpl
-import com.mvvm_clean.star_wars.features.people_list.domain.api.StarWarApiRepository
+import com.mvvm_clean.star_wars.core.data.NetworkHandler
 import com.mvvm_clean.star_wars.core.domain.exception.Failure.NetworkConnection
 import com.mvvm_clean.star_wars.core.domain.exception.Failure.ServerError
 import com.mvvm_clean.star_wars.core.domain.extension.empty
 import com.mvvm_clean.star_wars.core.domain.functional.Either
 import com.mvvm_clean.star_wars.core.domain.functional.Either.Right
-import com.mvvm_clean.star_wars.core.data.NetworkHandler
 import com.mvvm_clean.star_wars.features.people_list.*
+import com.mvvm_clean.star_wars.features.people_list.data.repo.response.SpeciesListResponseEntity
+import com.mvvm_clean.star_wars.features.people_list.domain.api.StarWarApiImpl
+import com.mvvm_clean.star_wars.features.people_list.domain.api.StarWarApiRepository
 import com.mvvm_clean.star_wars.features.people_list.domain.api.StarWarApiRepository.Network
-import com.mvvm_clean.star_wars.features.people_details.domain.models.PeopleDetailsDataModel
 import com.mvvm_clean.star_wars.features.people_list.domain.models.PeopleListDataModel
-import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PeopleListResponseEntity
 import io.mockk.Called
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -36,10 +35,10 @@ class StarWarApiRepositoryTest : UnitTest() {
     private lateinit var service: StarWarApiImpl
 
     @MockK
-    private lateinit var moviesCall: Call<List<PeopleListResponseEntity>>
+    private lateinit var moviesCall: Call<List<SpeciesListResponseEntity>>
 
     @MockK
-    private lateinit var moviesResponse: Response<List<PeopleListResponseEntity>>
+    private lateinit var moviesResponse: Response<List<SpeciesListResponseEntity>>
 
     @MockK
     private lateinit var movieDetailsCall: Call<MovieDetailsEntity>
@@ -60,7 +59,7 @@ class StarWarApiRepositoryTest : UnitTest() {
         every { moviesCall.execute() } returns moviesResponse
         every { service.getPeopleListByQuery() } returns moviesCall
 
-        val movies = networkRepository.movies()
+        val movies = networkRepository.getPeopleByQuery()
 
         movies shouldEqual Right(emptyList<PeopleListDataModel>())
         verify(exactly = 1) { service.getPeopleListByQuery() }
@@ -69,12 +68,12 @@ class StarWarApiRepositoryTest : UnitTest() {
     @Test
     fun `should get movie list from service`() {
         every { networkHandler.isNetworkAvailable() } returns true
-        every { moviesResponse.body() } returns listOf(PeopleListResponseEntity(1, "poster"))
+        every { moviesResponse.body() } returns listOf(SpeciesListResponseEntity(1, "poster"))
         every { moviesResponse.isSuccessful } returns true
         every { moviesCall.execute() } returns moviesResponse
         every { service.getPeopleListByQuery() } returns moviesCall
 
-        val movies = networkRepository.movies()
+        val movies = networkRepository.getPeopleByQuery()
 
         movies shouldEqual Right(listOf(PeopleListDataModel(1, "poster")))
         verify(exactly = 1) { service.getPeopleListByQuery() }
@@ -84,7 +83,7 @@ class StarWarApiRepositoryTest : UnitTest() {
     fun `movies service should return network failure when no connection`() {
         every { networkHandler.isNetworkAvailable() } returns false
 
-        val movies = networkRepository.movies()
+        val movies = networkRepository.getPeopleByQuery()
 
         movies shouldBeInstanceOf Either::class.java
         movies.isLeft shouldEqual true
@@ -99,7 +98,7 @@ class StarWarApiRepositoryTest : UnitTest() {
         every { moviesCall.execute() } returns moviesResponse
         every { service.getPeopleListByQuery() } returns moviesCall
 
-        val movies = networkRepository.movies()
+        val movies = networkRepository.getPeopleByQuery()
 
         movies shouldBeInstanceOf Either::class.java
         movies.isLeft shouldEqual true
@@ -112,7 +111,7 @@ class StarWarApiRepositoryTest : UnitTest() {
         every { moviesCall.execute() } returns moviesResponse
         every { service.getPeopleListByQuery() } returns moviesCall
 
-        val movies = networkRepository.movies()
+        val movies = networkRepository.getPeopleByQuery()
 
         movies shouldBeInstanceOf Either::class.java
         movies.isLeft shouldEqual true
@@ -127,7 +126,7 @@ class StarWarApiRepositoryTest : UnitTest() {
         every { movieDetailsCall.execute() } returns movieDetailsResponse
         every { service.movieDetails(1) } returns movieDetailsCall
 
-        val movieDetails = networkRepository.movieDetails(1)
+        val movieDetails = networkRepository.getSpeciesByQuery(1)
 
         movieDetails shouldEqual Right(PeopleDetailsDataModel.empty)
         verify(exactly = 1) { service.movieDetails(1) }
@@ -145,7 +144,7 @@ class StarWarApiRepositoryTest : UnitTest() {
         every { movieDetailsCall.execute() } returns movieDetailsResponse
         every { service.movieDetails(1) } returns movieDetailsCall
 
-        val movieDetails = networkRepository.movieDetails(1)
+        val movieDetails = networkRepository.getSpeciesByQuery(1)
 
         movieDetails shouldEqual Right(
             PeopleDetailsDataModel(
@@ -160,7 +159,7 @@ class StarWarApiRepositoryTest : UnitTest() {
     fun `movie details service should return network failure when no connection`() {
         every { networkHandler.isNetworkAvailable() } returns false
 
-        val movieDetails = networkRepository.movieDetails(1)
+        val movieDetails = networkRepository.getSpeciesByQuery(1)
 
         movieDetails shouldBeInstanceOf Either::class.java
         movieDetails.isLeft shouldEqual true
@@ -178,7 +177,7 @@ class StarWarApiRepositoryTest : UnitTest() {
         every { movieDetailsCall.execute() } returns movieDetailsResponse
         every { service.movieDetails(1) } returns movieDetailsCall
 
-        val movieDetails = networkRepository.movieDetails(1)
+        val movieDetails = networkRepository.getSpeciesByQuery(1)
 
         movieDetails shouldBeInstanceOf Either::class.java
         movieDetails.isLeft shouldEqual true
@@ -191,7 +190,7 @@ class StarWarApiRepositoryTest : UnitTest() {
         every { movieDetailsCall.execute() } returns movieDetailsResponse
         every { service.movieDetails(1) } returns movieDetailsCall
 
-        val movieDetails = networkRepository.movieDetails(1)
+        val movieDetails = networkRepository.getSpeciesByQuery(1)
 
         movieDetails shouldBeInstanceOf Either::class.java
         movieDetails.isLeft shouldEqual true

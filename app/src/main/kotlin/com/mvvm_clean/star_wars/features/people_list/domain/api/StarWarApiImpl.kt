@@ -10,6 +10,12 @@ class StarWarApiImpl
 @Inject constructor(retrofit: Retrofit) : StarWarApi {
     private val starWarApi by lazy { retrofit.create(StarWarApi::class.java) }
 
-    override fun getPeopleListByQuery(searchQuery :String) = starWarApi.getPeopleListByQuery(searchQuery)
-//    override fun movieDetails(movieId: String) = starWarApi.movieDetails(movieId)
+    override fun getPeopleListByQuery(searchQuery: String) =
+        starWarApi.getPeopleListByQuery(searchQuery)
+
+    override fun getSpeciesListByQuery(searchQuery: String) =
+        starWarApi.getSpeciesListByQuery(searchQuery)
+
+    override fun getPlanetListByQuery(searchQuery: String) =
+        starWarApi.getPlanetListByQuery(searchQuery)
 }
