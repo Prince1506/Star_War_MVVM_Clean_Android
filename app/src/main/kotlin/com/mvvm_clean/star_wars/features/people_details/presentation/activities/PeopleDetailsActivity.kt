@@ -9,11 +9,11 @@ import com.mvvm_clean.star_wars.features.people_list.data.repo.response.SpeciesL
 class PeopleDetailsActivity : BaseActivity() {
 
     companion object {
-        private const val  INTENT_EXTRA_PARAM_PEOPLE= "com.mvvm_clean.star_war.INTENT_PARAM_PEOPLE_INFO"
+        private const val INTENT_EXTRA_PARAM_PEOPLE = "INTENT_PARAM_PEOPLE_INFO"
 
-        fun callingIntent(context: Context, movie: SpeciesListEntity): Intent {
+        fun callingIntent(context: Context, speciesListEntity: SpeciesListEntity): Intent {
             val intent = Intent(context, PeopleDetailsActivity::class.java)
-            intent.putExtra(INTENT_EXTRA_PARAM_PEOPLE, movie)
+            intent.putExtra(INTENT_EXTRA_PARAM_PEOPLE, speciesListEntity)
             return intent
         }
     }

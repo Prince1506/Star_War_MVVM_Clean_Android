@@ -5,7 +5,6 @@ import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PlanetLi
 import com.mvvm_clean.star_wars.features.people_list.data.repo.response.SpeciesListResponseEntity
 import retrofit2.Call
 import retrofit2.http.GET
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 internal interface StarWarApi {
@@ -23,5 +22,5 @@ internal interface StarWarApi {
     fun getSpeciesListByQuery(@Query(PARAM_SEARCH_KEY) searchKey: String): Call<SpeciesListResponseEntity>
 
     @GET(PATH_PLANETS)
-    fun getPlanetListByQuery(@Path(PARAM_SEARCH_KEY) searchKey: String): Call<PlanetListResponseEntity>
+    fun getPlanetListByQuery(@Query(PARAM_SEARCH_KEY) searchKey: String): Call<PlanetListResponseEntity>
 }

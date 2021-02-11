@@ -23,6 +23,7 @@ class PeopleDetailsViewModel
 
     private val planetsDetailsMutableLiveData: MutableLiveData<PeopleDetailsDataModel> =
         MutableLiveData()
+
     private val planetsDetailsLiveData: LiveData<PeopleDetailsDataModel> =
         planetsDetailsMutableLiveData
 
@@ -46,7 +47,7 @@ class PeopleDetailsViewModel
         if (planetListDataModel.results?.size == 1) {
             mPeopleDetailsDataModel.population = planetListDataModel.results.get(0).population
         }
-        speciesMutableLiveData.value = mPeopleDetailsDataModel
+       planetsDetailsMutableLiveData.postValue(mPeopleDetailsDataModel)
     }
 
     private fun handleSpeciesData(speciesListDataModel: SpeciesListDataModel) {
@@ -56,7 +57,7 @@ class PeopleDetailsViewModel
             mPeopleDetailsDataModel.name = speciesListDataModel.results?.get(0)?.name
             mPeopleDetailsDataModel.languages = speciesListDataModel.results?.get(0)?.language
         }
-        speciesMutableLiveData.value = mPeopleDetailsDataModel
+        speciesMutableLiveData.postValue(mPeopleDetailsDataModel)
     }
 
     fun loadPeopleDetails(movieId: String) {

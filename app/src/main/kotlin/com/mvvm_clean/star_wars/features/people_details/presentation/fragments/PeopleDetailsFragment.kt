@@ -20,13 +20,13 @@ import kotlinx.android.synthetic.main.fragment_people_details.*
 class PeopleDetailsFragment : BaseFragment() {
 
     companion object {
-        private const val PARAM_MOVIE = "param_movie"
+        const val PARAM_PEOPLE_ENTITY = "param_peopleEntity"
 
         fun forPeopleInfo(movie: SpeciesListEntity?): PeopleDetailsFragment {
             val movieDetailsFragment = PeopleDetailsFragment()
             movie?.let {
                 val arguments = Bundle()
-                arguments.putParcelable(PARAM_MOVIE, it)
+                arguments.putParcelable(PARAM_PEOPLE_ENTITY, it)
                 movieDetailsFragment.arguments = arguments
             }
             return movieDetailsFragment
@@ -52,7 +52,7 @@ class PeopleDetailsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val name = (arguments?.get(PARAM_MOVIE) as SpeciesListEntity).name
+        val name = (arguments?.get(PARAM_PEOPLE_ENTITY) as SpeciesListEntity).name
         name?.let {
             peopleDetailsViewModel.loadPlanetData(it)
             peopleDetailsViewModel.loadSpeciesData(it)
@@ -76,15 +76,15 @@ class PeopleDetailsFragment : BaseFragment() {
     private fun renderPeopleDetails(peopleDetailsDataModel: PeopleDetailsDataModel?) {
         peopleDetailsDataModel?.let {
             with(peopleDetailsDataModel) {
-                tv_peopleDetails_birth_year.text = peopleDetailsDataModel.birthYear
-                tv_peopleDetails_films.text = peopleDetailsDataModel.film
-                tv_peopleDetails_height.text = peopleDetailsDataModel.height
-                tv_peopleDetails_homeworld.text = peopleDetailsDataModel.homeworld
-                tv_peopleDetails_language.text = peopleDetailsDataModel.languages
-                tv_peopleDetails_name.text = peopleDetailsDataModel.name
-                tv_peopleDetails_opening_crawl.text = peopleDetailsDataModel.openingCrawl
-                tv_peopleDetails_speciesName.text = peopleDetailsDataModel.speciesName
-                tv_peopleDetails_population.text = peopleDetailsDataModel.population
+                tv_peopleDetails_birth_year.text = peopleDetailsDataModel.birthYearNotNull
+                tv_peopleDetails_films.text = peopleDetailsDataModel.filmNotNull
+                tv_peopleDetails_height.text = peopleDetailsDataModel.heightNotNull
+                tv_peopleDetails_homeworld.text = peopleDetailsDataModel.homeworldNotNull
+                tv_peopleDetails_language.text = peopleDetailsDataModel.languagesNotNull
+                tv_peopleDetails_name.text = peopleDetailsDataModel.nameNotNull
+                tv_peopleDetails_opening_crawl.text = peopleDetailsDataModel.openingCrawlNotNull
+                tv_peopleDetails_speciesName.text = peopleDetailsDataModel.speciesNameNotNull
+                tv_peopleDetails_population.text = peopleDetailsDataModel.populationNotNull
             }
         }
 //        movieDetailsAnimator.fadeVisible(scrollView, movieDetails)

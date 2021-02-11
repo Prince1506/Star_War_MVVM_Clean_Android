@@ -34,10 +34,10 @@ class Navigator
 
     fun showPeopleDetails(
         activity: FragmentActivity,
-        movie: SpeciesListEntity,
+        speciesListEntity: SpeciesListEntity,
         navigationExtras: Extras
     ) {
-        val intent = PeopleDetailsActivity.callingIntent(activity, movie)
+        val intent = PeopleDetailsActivity.callingIntent(activity, speciesListEntity)
 //        val sharedView = navigationExtras.transitionSharedElement as TextView
 //        val activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
 //                    activity,
