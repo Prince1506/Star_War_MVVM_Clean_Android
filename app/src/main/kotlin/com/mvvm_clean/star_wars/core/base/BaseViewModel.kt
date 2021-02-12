@@ -20,8 +20,8 @@ abstract class BaseViewModel : ViewModel() {
         _failure.value = failure
     }
 
-    fun <A, B> zipLiveData(a: LiveData<A>, b: LiveData<B>): LiveData<Pair<A, B>> {
-        return MediatorLiveData<Pair<A, B>>().apply {
+    fun <A, B> zipLiveData(a: LiveData<A>, b: LiveData<B>): LiveData<Pair<A, B>> =
+        MediatorLiveData<Pair<A, B>>().apply {
             var lastA: A? = null
             var lastB: B? = null
 
@@ -41,9 +41,5 @@ abstract class BaseViewModel : ViewModel() {
                 update()
             }
         }
-    }
-
-    // In above example LiveData object is source parameter and in the change listener LiveData object is created along with update call.
-
 
 }

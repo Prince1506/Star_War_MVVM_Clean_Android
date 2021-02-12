@@ -1,6 +1,7 @@
 package com.mvvm_clean.star_wars.features.people_details.presentation.models
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.mvvm_clean.star_wars.core.base.BaseViewModel
 import com.mvvm_clean.star_wars.features.people_details.domain.models.PeopleDetailsDataModel
@@ -16,6 +17,7 @@ class PeopleDetailsViewModel
     private val getPlanetsInfo: GetPlanetsInfo,
 ) : BaseViewModel() {
 
+    val mPeopleDetailMediatorLiveData = MediatorLiveData<PeopleDetailsDataModel>()
     private val mPeopleDetailsDataModel = PeopleDetailsDataModel()
 
     private val speciesMutableLiveData: MutableLiveData<PeopleDetailsDataModel> = MutableLiveData()
@@ -26,10 +28,6 @@ class PeopleDetailsViewModel
 
     private val planetsDetailsLiveData: LiveData<PeopleDetailsDataModel> =
         planetsDetailsMutableLiveData
-
-    val peopleDetailsLiveData = zipLiveData(speciesDetailsLiveData, planetsDetailsLiveData)
-
-    fun getPeopleDetailLiveData() = planetsDetailsMutableLiveData
 
     fun loadSpeciesData(searchQuery: String) {
         getSpeciesInfo(searchQuery) {
@@ -44,21 +42,40 @@ class PeopleDetailsViewModel
     }
 
     private fun handlePlanetsData(planetListDataModel: PlanetListDataModel) {
-        if (planetListDataModel.results?.size == 1) {
+        val size = planetListDataModel.results?.size
+        if (size != null && size >= 1) {
             mPeopleDetailsDataModel.population = planetListDataModel.results.get(0).population
         }
-       planetsDetailsMutableLiveData.postValue(mPeopleDetailsDataModel)
+        planetsDetailsMutableLiveData.postValue(mPeopleDetailsDataModel)
+
+        mPeopleDetailMediatorLiveData.addSource(planetsDetailsMutableLiveData) {
+            mPeopleDetailMediatorLiveData.value = it
+            if (!mPeopleDetailsDataModel.isEmpty()) {
+                //Hide progress
+            }
+        }
+
     }
+
 
     private fun handleSpeciesData(speciesListDataModel: SpeciesListDataModel) {
 
-        if (speciesListDataModel.results?.size == 1) {
+        val size = speciesListDataModel.results?.size
+        if (size != null && size >= 1) {
             mPeopleDetailsDataModel.homeworld = speciesListDataModel.results?.get(0)?.homeworld
             mPeopleDetailsDataModel.name = speciesListDataModel.results?.get(0)?.name
             mPeopleDetailsDataModel.languages = speciesListDataModel.results?.get(0)?.language
         }
         speciesMutableLiveData.postValue(mPeopleDetailsDataModel)
+
+        mPeopleDetailMediatorLiveData.addSource(speciesMutableLiveData) {
+            mPeopleDetailMediatorLiveData.value = it
+            if (!mPeopleDetailsDataModel.isEmpty()) {
+                //Hide progress
+            }
+        }
     }
+
 
     fun loadPeopleDetails(movieId: String) {
 //        getPeopleDetails(Params(movieId)) { it.fold(::handleFailure, ::handlePeopleDetails) }

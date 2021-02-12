@@ -14,8 +14,8 @@ class StarWarApiImpl
         starWarApi.getPeopleListByQuery(searchQuery)
 
     override fun getSpeciesListByQuery(searchQuery: String) =
-        starWarApi.getSpeciesListByQuery(searchQuery)
+        starWarApi.getSpeciesListByQuery("a")
 
     override fun getPlanetListByQuery(searchQuery: String) =
-        starWarApi.getPlanetListByQuery(searchQuery)
+        starWarApi.getPlanetListByQuery("a")
 }

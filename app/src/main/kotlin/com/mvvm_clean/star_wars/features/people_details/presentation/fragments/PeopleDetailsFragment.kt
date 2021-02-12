@@ -45,7 +45,7 @@ class PeopleDetailsFragment : BaseFragment() {
         appComponent.inject(this)
 
         peopleDetailsViewModel = viewModel(viewModelFactory) {
-            observe(getPeopleDetailLiveData(), ::renderPeopleDetails)
+            observe(mPeopleDetailMediatorLiveData, ::renderPeopleDetails)
             failure(failure, ::handleApiFailure)
         }
     }
