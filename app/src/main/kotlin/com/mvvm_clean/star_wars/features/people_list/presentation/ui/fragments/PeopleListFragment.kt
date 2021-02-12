@@ -1,6 +1,8 @@
 package com.mvvm_clean.star_wars.features.people_list.presentation.ui.fragments
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import androidx.annotation.StringRes
 import androidx.lifecycle.Observer
@@ -12,6 +14,7 @@ import com.mvvm_clean.star_wars.core.domain.exception.Failure.NetworkConnection
 import com.mvvm_clean.star_wars.core.domain.exception.Failure.ServerError
 import com.mvvm_clean.star_wars.core.domain.extension.*
 import com.mvvm_clean.star_wars.core.presentation.navigation.Navigator
+import com.mvvm_clean.star_wars.features.people_list.data.repo.response.SpeciesListEntity
 import com.mvvm_clean.star_wars.features.people_list.domain.repo.PeopleListApiFailure.ListNotAvailable
 import com.mvvm_clean.star_wars.features.people_list.presentation.models.PeopleListViewModel
 import com.mvvm_clean.star_wars.features.people_list.presentation.models.PeoplseListView
@@ -43,8 +46,7 @@ class PeopleListFragment : BaseFragment() {
 
         peopleListViewModel.getIsLoading()?.observe(
             this,
-            object : Observer<Boolean?>
-            {
+            object : Observer<Boolean?> {
                 override fun onChanged(aBoolean: Boolean?) {
                     if (aBoolean!!) {
                         showProgress()
@@ -64,11 +66,33 @@ class PeopleListFragment : BaseFragment() {
 
 
     private fun initializeView() {
-        rv_people_list.layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
+        rv_people_list.layoutManager = StaggeredGridLayoutManager(
+            1,
+            StaggeredGridLayoutManager.VERTICAL
+        )
         rv_people_list.adapter = peopleListAdapter
         peopleListAdapter.clickListener = { peopleInfo, navigationExtras ->
             navigator.showPeopleDetails(activity!!, peopleInfo, navigationExtras)
         }
+
+        tv_peopleList_searchField.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun afterTextChanged(s: Editable) {
+                filter(s.toString())
+            }
+        })
+    }
+
+    fun filter(text: String) {
+        val temp: MutableList<SpeciesListEntity> = ArrayList()
+        for (d in peopleListAdapter.collection) {
+            if (d.name?.contains(text) == true) {
+                temp.add(d)
+            }
+        }
+        //update recyclerview
+        peopleListAdapter.updateList(temp)
     }
 
     private fun loadPeopleList() {
@@ -84,6 +108,7 @@ class PeopleListFragment : BaseFragment() {
         }
         hideProgress()
     }
+
 
     private fun handleFailure(failure: Failure?) {
         when (failure) {

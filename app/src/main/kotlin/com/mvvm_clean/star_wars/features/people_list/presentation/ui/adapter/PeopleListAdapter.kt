@@ -21,12 +21,16 @@ class PeopleListAdapter
     internal var clickListener: (SpeciesListEntity, Navigator.Extras) -> Unit = { _, _ -> }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-            ViewHolder(parent.inflate(R.layout.row_people_info))
+        ViewHolder(parent.inflate(R.layout.row_people_info))
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) =
-            viewHolder.bind(collection.get(position), clickListener)
+        viewHolder.bind(collection.get(position), clickListener)
 
     override fun getItemCount() = collection.size
+    fun updateList(speciesMutableList: MutableList<SpeciesListEntity>) {
+        collection = speciesMutableList
+        notifyDataSetChanged()
+    }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(
