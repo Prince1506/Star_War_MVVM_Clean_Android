@@ -14,7 +14,7 @@ import com.mvvm_clean.star_wars.core.domain.exception.Failure.NetworkConnection
 import com.mvvm_clean.star_wars.core.domain.exception.Failure.ServerError
 import com.mvvm_clean.star_wars.core.domain.extension.*
 import com.mvvm_clean.star_wars.core.presentation.navigation.Navigator
-import com.mvvm_clean.star_wars.features.people_list.data.repo.response.SpeciesListEntity
+import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PeopleEntity
 import com.mvvm_clean.star_wars.features.people_list.domain.repo.PeopleListApiFailure.ListNotAvailable
 import com.mvvm_clean.star_wars.features.people_list.presentation.models.PeopleListViewModel
 import com.mvvm_clean.star_wars.features.people_list.presentation.models.PeoplseListView
@@ -85,7 +85,7 @@ class PeopleListFragment : BaseFragment() {
     }
 
     fun filter(text: String) {
-        val temp: MutableList<SpeciesListEntity> = ArrayList()
+        val temp: MutableList<PeopleEntity> = ArrayList()
         for (d in peopleListAdapter.collection) {
             if (d.name?.contains(text) == true) {
                 temp.add(d)

@@ -4,7 +4,7 @@ import com.mvvm_clean.star_wars.core.base.KParcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class PeopleListEntity(
+data class PeopleEntity(
 
     // Attributes for Star war GetPeople API
     var name: String? = null,

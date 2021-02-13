@@ -10,7 +10,7 @@ data class PeopleListResponseEntity(
     private val previous: String? = null,
 
     @Json(name = "results")
-    private val results: List<com.mvvm_clean.star_wars.features.people_list.data.repo.response.SpeciesListEntity>? = null,
+    private val results: List<PeopleEntity>? = null,
 ) {
 
     companion object {

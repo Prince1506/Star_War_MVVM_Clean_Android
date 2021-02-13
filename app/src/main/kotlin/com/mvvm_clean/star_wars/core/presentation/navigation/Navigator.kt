@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentActivity
 import com.mvvm_clean.star_wars.features.login.Authenticator
 import com.mvvm_clean.star_wars.features.login.LoginActivity
 import com.mvvm_clean.star_wars.features.people_details.presentation.activities.PeopleDetailsActivity
-import com.mvvm_clean.star_wars.features.people_list.data.repo.response.SpeciesListEntity
+import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PeopleEntity
 import com.mvvm_clean.star_wars.features.people_list.presentation.ui.activities.PeopleListActivity
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -34,10 +34,10 @@ class Navigator
 
     fun showPeopleDetails(
         activity: FragmentActivity,
-        speciesListEntity: SpeciesListEntity,
+        peopleEntity: PeopleEntity,
         navigationExtras: Extras
     ) {
-        val intent = PeopleDetailsActivity.callingIntent(activity, speciesListEntity)
+        val intent = PeopleDetailsActivity.callingIntent(activity, peopleEntity)
 //        val sharedView = navigationExtras.transitionSharedElement as TextView
 //        val activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
 //                    activity,

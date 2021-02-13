@@ -1,12 +1,12 @@
 package com.mvvm_clean.star_wars.features.people_list.domain.models
 
-import com.mvvm_clean.star_wars.features.people_list.data.repo.response.SpeciesListEntity
+import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PeopleEntity
 
 data class PeopleListDataModel(
     val count: Int? = null,
     val next: String? = null,
     val previous: String? = null,
-    val peopleList: List<SpeciesListEntity>? = null
+    val people: List<PeopleEntity>? = null
 ) {
 
     companion object {
