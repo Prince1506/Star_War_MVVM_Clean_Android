@@ -36,7 +36,7 @@ class PeopleDetailsFragment : BaseFragment() {
 //    @Inject
 //    lateinit var movieDetailsAnimator: MovieDetailsAnimator
 
-    private lateinit var peopleDetailsViewModel: PeopleDetailsViewModel
+    private lateinit var mPeopleDetailsViewModel: PeopleDetailsViewModel
 
     override fun layoutId() = R.layout.fragment_people_details
 
@@ -44,20 +44,21 @@ class PeopleDetailsFragment : BaseFragment() {
         super.onCreate(savedInstanceState)
         appComponent.inject(this)
 
-        peopleDetailsViewModel = viewModel(viewModelFactory)
+        mPeopleDetailsViewModel = viewModel(viewModelFactory)
         {
             observe(mPeopleDetailMediatorLiveData, ::renderPeopleDetails)
             failure(failure, ::handleApiFailure)
         }
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val mPeopleEntity = (arguments?.get(PARAM_PEOPLE_ENTITY) as PeopleEntity)
-
-        mPeopleEntity.name?.let {
-            peopleDetailsViewModel.loadPlanetData(it)
-            peopleDetailsViewModel.loadSpeciesData(it)
+        val peopleEntity = (arguments?.get(PARAM_PEOPLE_ENTITY) as PeopleEntity)
+        mPeopleDetailsViewModel.updatePeopleDetailWithPeopleInfo(peopleEntity)
+        peopleEntity.name?.let {
+            mPeopleDetailsViewModel.loadPlanetData(it)
+            mPeopleDetailsViewModel.loadSpeciesData(it)
         }
 
     }

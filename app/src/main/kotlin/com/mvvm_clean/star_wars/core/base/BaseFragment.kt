@@ -48,11 +48,13 @@ abstract class BaseFragment : Fragment() {
         with(activity) { if (this is BaseActivity) this.pb_fact_list.visibility = viewStatus }
 
     internal fun notify(@StringRes message: Int) =
-            Snackbar.make(viewContainer, message, Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(viewContainer, message, Snackbar.LENGTH_SHORT).show()
 
-    internal fun notifyWithAction(@StringRes message: Int, @StringRes actionText: Int, action: () -> Any) {
+    internal fun notifyWithAction(
+        @StringRes message: Int,
+        @StringRes actionText: Int
+    ) {
         val snackBar = Snackbar.make(viewContainer, message, Snackbar.LENGTH_INDEFINITE)
-        snackBar.setAction(actionText) { _ -> action.invoke() }
         snackBar.setActionTextColor(ContextCompat.getColor(appContext, color.colorTextPrimary))
         snackBar.show()
     }

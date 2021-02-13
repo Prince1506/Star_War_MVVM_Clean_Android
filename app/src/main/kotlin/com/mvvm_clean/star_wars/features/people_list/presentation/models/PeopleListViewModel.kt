@@ -13,17 +13,16 @@ import javax.inject.Inject
 class PeopleListViewModel
 @Inject constructor(private val getPeopleInfo: GetPeopleInfo) : BaseViewModel() {
 
-    init {
-
-    }
 
     val observer = Observer<String> {
+        isProgressLoading.value = true
         getPeopleInfo(it) { it.fold(::handlePeopleListFailure, ::handlePeopleList) }
     }
     private val peopleListMutableLiveData: MutableLiveData<PeoplseListView> = MutableLiveData()
     val peopleListLiveData: LiveData<PeoplseListView> = peopleListMutableLiveData
     private val isProgressLoading = MutableLiveData<Boolean>()
     private val peopleNameMutableLiveData = MutableLiveData<String>()
+
 
     fun setSearchQueryString(userId: String) {
         this.peopleNameMutableLiveData.postValue(userId)

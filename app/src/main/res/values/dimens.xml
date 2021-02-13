@@ -26,4 +26,6 @@
 
     <!-- Progress view. -->
     <dimen name="progress_view_height">10dp</dimen>
+    <dimen name="thin_1dp">1dp</dimen>
+    <dimen name="rounded_10dp">10dp</dimen>
 </resources>

@@ -1,9 +1,9 @@
 package com.mvvm_clean.star_wars.features.people_list.presentation.ui.fragments
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView.OnEditorActionListener
 import androidx.annotation.StringRes
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -21,6 +21,7 @@ import com.mvvm_clean.star_wars.features.people_list.presentation.models.Peoplse
 import com.mvvm_clean.star_wars.features.people_list.presentation.ui.adapter.PeopleListAdapter
 import kotlinx.android.synthetic.main.fragment_people_list.*
 import javax.inject.Inject
+
 
 class PeopleListFragment : BaseFragment() {
 
@@ -61,7 +62,6 @@ class PeopleListFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initializeView()
-        loadPeopleList()
     }
 
 
@@ -75,13 +75,21 @@ class PeopleListFragment : BaseFragment() {
             navigator.showPeopleDetails(activity!!, peopleInfo, navigationExtras)
         }
 
-        tv_peopleList_searchField.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                filter(s.toString())
+        tv_peopleList_searchField.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                peopleListViewModel.setSearchQueryString(tv_peopleList_searchField.text.toString())
+                return@OnEditorActionListener true
             }
+            false
         })
+
+        /*addTextChangedListener(object : TextWatcher {
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun afterTextChanged(s: Editable) {
+                    filter(s.toString())
+                }
+            })*/
     }
 
     fun filter(text: String) {
@@ -95,7 +103,7 @@ class PeopleListFragment : BaseFragment() {
         peopleListAdapter.updateList(temp)
     }
 
-    private fun loadPeopleList() {
+    private fun loadPeopleList(searchQuery: String) {
         emptyView.invisible()
         rv_people_list.visible()
         showProgress()
@@ -122,6 +130,6 @@ class PeopleListFragment : BaseFragment() {
         rv_people_list.invisible()
         emptyView.visible()
         hideProgress()
-        notifyWithAction(message, R.string.action_refresh, ::loadPeopleList)
+        notifyWithAction(message, R.string.action_refresh)
     }
 }

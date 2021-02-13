@@ -8,6 +8,8 @@
     <color name="colorTextSecondary">#7f1a18</color>
 
     <color name="translucentBackground">#ED000000</color>
+    <color name="transparent_black">#66000000</color>
     <color name="black">#000</color>
+    <color name="red">#ff0000</color>
 
 </resources>

@@ -9,6 +9,7 @@ import com.mvvm_clean.star_wars.features.people_details.domain.models.PlanetList
 import com.mvvm_clean.star_wars.features.people_details.domain.models.SpeciesListDataModel
 import com.mvvm_clean.star_wars.features.people_details.domain.use_cases.GetPlanetsInfo
 import com.mvvm_clean.star_wars.features.people_details.domain.use_cases.GetSpeciesInfo
+import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PeopleEntity
 import javax.inject.Inject
 
 class PeopleDetailsViewModel
@@ -28,6 +29,13 @@ class PeopleDetailsViewModel
 
     private val planetsDetailsLiveData: LiveData<PeopleDetailsDataModel> =
         planetsDetailsMutableLiveData
+
+    fun updatePeopleDetailWithPeopleInfo(peopleEntity: PeopleEntity) {
+        mPeopleDetailsDataModel.name = peopleEntity.name
+        mPeopleDetailsDataModel.birthYear = peopleEntity.birthYear
+        mPeopleDetailsDataModel.height = peopleEntity.height
+        mPeopleDetailsDataModel.film = peopleEntity.films.toString()
+    }
 
     fun loadSpeciesData(searchQuery: String) {
         getSpeciesInfo(searchQuery) {
