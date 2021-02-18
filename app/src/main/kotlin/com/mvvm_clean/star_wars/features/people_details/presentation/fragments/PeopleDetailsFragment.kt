@@ -1,8 +1,9 @@
 package com.mvvm_clean.star_wars.features.people_details.presentation.fragments
 
 import android.os.Bundle
+import android.text.Html
 import android.view.View
-import com.mvvm_clean.star_wars.BuildConfig
+import androidx.core.text.HtmlCompat
 import com.mvvm_clean.star_wars.R
 import com.mvvm_clean.star_wars.core.base.BaseFragment
 import com.mvvm_clean.star_wars.core.domain.exception.Failure
@@ -19,6 +20,7 @@ import com.mvvm_clean.star_wars.features.people_list.domain.repo.PeopleListApiFa
 import kotlinx.android.synthetic.main.fragment_people_details.*
 
 class PeopleDetailsFragment : BaseFragment() {
+    private val filmUrl = "http://swapi.dev/api/films/"
     private val PATH_FILMS = "films/"
 
     companion object {
@@ -62,21 +64,28 @@ class PeopleDetailsFragment : BaseFragment() {
 
         peopleEntity.let {
             for (film in it.films!!) {
-                val filmId = getFilmId(film)
-                mPeopleDetailsViewModel.getFilmsFromId(filmId)
+                getFilmId(film).apply {
+                    if (this != -1)
+                        mPeopleDetailsViewModel.getFilmsFromId(this)
+                }
+
             }
         }
 
     }
 
     private fun getFilmId(film: String): Int {
-        val filmIdArr = film.split(BuildConfig.BASE_URL + PATH_FILMS)
+        val filmIdArr = film.split(filmUrl)
         var filmId = -1 // -1 tells that id is not available
 
         if (filmIdArr.size > 1) {
             if (filmIdArr[1].contains(getString(R.string.forward_slash))) {
                 val filmIdStr = filmIdArr[1].split(getString(R.string.forward_slash))[0]
-                filmId = filmIdStr as? Int ?: -1
+                try {
+                    filmId = filmIdStr.toInt()
+                } catch (nfe: NumberFormatException) {
+                    nfe.printStackTrace()
+                }
             }
 
         }
@@ -89,12 +98,26 @@ class PeopleDetailsFragment : BaseFragment() {
 
         peopleDetailsDataModel?.let {
             tv_peopleDetails_birth_year.text = it.birthYearNotNull
-            tv_peopleDetails_films.text = it.filmNotNull
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                tv_peopleDetails_films.text =
+                    Html.fromHtml(it.filmNotNull, HtmlCompat.FROM_HTML_MODE_COMPACT)
+            } else {
+                tv_peopleDetails_films.text = Html.fromHtml(it.filmNotNull)
+            }
+
             tv_peopleDetails_height.text = it.heightNotNull
             tv_peopleDetails_homeworld.text = it.homeworldNotNull
             tv_peopleDetails_language.text = it.languagesNotNull
             tv_peopleDetails_name.text = it.nameNotNull
-            tv_peopleDetails_opening_crawl.text = it.openingCrawlNotNull
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                tv_peopleDetails_opening_crawl.text =
+                    Html.fromHtml(it.openingCrawlNotNull, HtmlCompat.FROM_HTML_MODE_COMPACT)
+            } else {
+                tv_peopleDetails_opening_crawl.text = Html.fromHtml(it.openingCrawlNotNull)
+            }
+
             tv_peopleDetails_speciesName.text = it.speciesNameNotNull
             tv_peopleDetails_population.text = it.populationNotNull
         }

@@ -23,9 +23,12 @@ class PeopleDetailsViewModel
     val mPeopleDetailMediatorLiveData = MediatorLiveData<PeopleDetailsDataModel>()
 
     private val mPeopleDetailsDataModel = PeopleDetailsDataModel()
+
     private val speciesMutableLiveData: MutableLiveData<PeopleDetailsDataModel> = MutableLiveData()
+
     private val planetsDetailsMutableLiveData: MutableLiveData<PeopleDetailsDataModel> =
         MutableLiveData()
+
     private val filmDataMutableLiveData: MutableLiveData<PeopleDetailsDataModel> = MutableLiveData()
 
     fun updatePeopleDetailWithPeopleInfo(peopleEntity: PeopleEntity) {
@@ -40,18 +43,6 @@ class PeopleDetailsViewModel
         }
     }
 
-    private fun handleFilmData(filmDataModel: FilmDataModel) {
-        mPeopleDetailsDataModel.openingCrawl = filmDataModel.opening_crawl
-        mPeopleDetailsDataModel.film += filmDataModel.title
-        filmDataMutableLiveData.postValue(mPeopleDetailsDataModel)
-
-        mPeopleDetailMediatorLiveData.addSource(filmDataMutableLiveData) {
-            mPeopleDetailMediatorLiveData.value = it
-            if (!mPeopleDetailsDataModel.isEmpty()) {
-                //Hide progress
-            }
-        }
-    }
 
     fun loadSpeciesData(searchQuery: String) {
         getSpeciesInfo(searchQuery) {
@@ -78,9 +69,29 @@ class PeopleDetailsViewModel
                 //Hide progress
             }
         }
-
     }
 
+
+    private fun handleFilmData(filmDataModel: FilmDataModel) {
+
+        mPeopleDetailsDataModel.let {
+            if (it.film?.isEmpty() == false) {
+                mPeopleDetailsDataModel.film += " <br> " + filmDataModel.title
+            } else {
+                mPeopleDetailsDataModel.film = filmDataModel.title
+            }
+            it.openingCrawl += filmDataModel.title + " : <br> " + filmDataModel.opening_crawl + " <br> <br> "
+            filmDataMutableLiveData.postValue(it)
+        }
+
+        mPeopleDetailMediatorLiveData.addSource(filmDataMutableLiveData) {
+            mPeopleDetailMediatorLiveData.value = it
+            if (!mPeopleDetailsDataModel.isEmpty()) {
+                //Hide progress
+            }
+        }
+        mPeopleDetailMediatorLiveData.removeSource(filmDataMutableLiveData)
+    }
 
     private fun handleSpeciesData(speciesListDataModel: SpeciesListDataModel) {
 

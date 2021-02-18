@@ -11,7 +11,7 @@ data class PeopleDetailsDataModel(
     var homeworld: String? = "-",
     var population: String? = "-",
     var film: String? = "",
-    var openingCrawl: String? = "-",
+    var openingCrawl: String? = "",
 ) {
     val speciesNameNotNull: String?
         get() = if (String.isEmptyOrNull(speciesName)) "-" else speciesName
