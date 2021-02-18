@@ -9,21 +9,23 @@ import com.mvvm_clean.star_wars.core.domain.functional.Either
 import com.mvvm_clean.star_wars.core.domain.functional.Either.Left
 import com.mvvm_clean.star_wars.core.domain.functional.Either.Right
 import com.mvvm_clean.star_wars.features.people_details.data.repo.response.FilmResponseEntity
+import com.mvvm_clean.star_wars.features.people_details.data.repo.response.SpeciesDataModel
+import com.mvvm_clean.star_wars.features.people_details.data.repo.response.SpeciesResponseEntity
 import com.mvvm_clean.star_wars.features.people_details.domain.models.FilmDataModel
 import com.mvvm_clean.star_wars.features.people_details.domain.models.PlanetListDataModel
-import com.mvvm_clean.star_wars.features.people_details.domain.models.SpeciesListDataModel
 import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PeopleListResponseEntity
 import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PlanetListResponseEntity
-import com.mvvm_clean.star_wars.features.people_list.data.repo.response.SpeciesListResponseEntity
 import com.mvvm_clean.star_wars.features.people_list.domain.models.PeopleListDataModel
 import retrofit2.Call
 import javax.inject.Inject
 
 interface StarWarApiRepository {
     fun getPeopleByQuery(searchQuery: String): Either<Failure, PeopleListDataModel>
-    fun getSpeciesByQuery(searchQuery: String): Either<Failure, SpeciesListDataModel>
+
+    //    fun getSpeciesByQuery(searchQuery: String): Either<Failure, SpeciesListDataModel>
     fun getPlanetsByQuery(searchQuery: String): Either<Failure, PlanetListDataModel>
     fun getFilmByQuery(filmId: Int): Either<Failure, FilmDataModel>
+    fun getSpeciesByQuery(speceisId: Int): Either<Failure, SpeciesDataModel>
 
     class Network
     @Inject constructor(
@@ -37,16 +39,6 @@ interface StarWarApiRepository {
                     service.getPeopleListByQuery(searchQuery),
                     { it.toPeopleList() },
                     PeopleListResponseEntity.empty
-                )
-                false -> Left(NetworkConnection)
-            }
-
-        override fun getSpeciesByQuery(searchQuery: String): Either<Failure, SpeciesListDataModel> =
-            when (networkHandler.isNetworkAvailable()) {
-                true -> request(
-                    service.getSpeciesListByQuery(searchQuery),
-                    { it.toSpeciesDataModel() },
-                    SpeciesListResponseEntity.empty
                 )
                 false -> Left(NetworkConnection)
             }
@@ -72,6 +64,18 @@ interface StarWarApiRepository {
                 )
                 false -> Left(NetworkConnection)
             }
+
+        override fun getSpeciesByQuery(speciesId: Int): Either<Failure, SpeciesDataModel> =
+
+            when (networkHandler.isNetworkAvailable()) {
+                true -> request(
+                    service.getSpeciesByQuery(speciesId),
+                    { it.toSpeciesDataModel() },
+                    SpeciesResponseEntity.empty
+                )
+                false -> Left(NetworkConnection)
+            }
+
 
         private fun <T, R> request(
             call: Call<T>,

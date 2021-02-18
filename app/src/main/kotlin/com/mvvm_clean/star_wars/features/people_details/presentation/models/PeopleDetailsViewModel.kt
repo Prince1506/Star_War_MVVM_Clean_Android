@@ -3,10 +3,10 @@ package com.mvvm_clean.star_wars.features.people_details.presentation.models
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.mvvm_clean.star_wars.core.base.BaseViewModel
+import com.mvvm_clean.star_wars.features.people_details.data.repo.response.SpeciesDataModel
 import com.mvvm_clean.star_wars.features.people_details.domain.models.FilmDataModel
 import com.mvvm_clean.star_wars.features.people_details.domain.models.PeopleDetailsDataModel
 import com.mvvm_clean.star_wars.features.people_details.domain.models.PlanetListDataModel
-import com.mvvm_clean.star_wars.features.people_details.domain.models.SpeciesListDataModel
 import com.mvvm_clean.star_wars.features.people_details.domain.use_cases.GetFilmNames
 import com.mvvm_clean.star_wars.features.people_details.domain.use_cases.GetPlanetsInfo
 import com.mvvm_clean.star_wars.features.people_details.domain.use_cases.GetSpeciesInfo
@@ -44,8 +44,8 @@ class PeopleDetailsViewModel
     }
 
 
-    fun loadSpeciesData(searchQuery: String) {
-        getSpeciesInfo(searchQuery) {
+    fun loadSpeciesData(speciesId: Int) {
+        getSpeciesInfo(speciesId) {
             it.fold(::handleFailure, ::handleSpeciesData)
         }
     }
@@ -76,7 +76,7 @@ class PeopleDetailsViewModel
 
         mPeopleDetailsDataModel.let {
             if (it.film?.isEmpty() == false) {
-                mPeopleDetailsDataModel.film += " <br> " + filmDataModel.title
+                mPeopleDetailsDataModel.film += filmDataModel.title + " <br> "
             } else {
                 mPeopleDetailsDataModel.film = filmDataModel.title
             }
@@ -93,15 +93,14 @@ class PeopleDetailsViewModel
         mPeopleDetailMediatorLiveData.removeSource(filmDataMutableLiveData)
     }
 
-    private fun handleSpeciesData(speciesListDataModel: SpeciesListDataModel) {
+    private fun handleSpeciesData(speciesListDataModel: SpeciesDataModel) {
 
-        val size = speciesListDataModel.results?.size
-        if (size != null && size >= 1) {
-            mPeopleDetailsDataModel.homeworld = speciesListDataModel.results?.get(0)?.homeworld
-            mPeopleDetailsDataModel.name = speciesListDataModel.results?.get(0)?.name
-            mPeopleDetailsDataModel.languages = speciesListDataModel.results?.get(0)?.language
+        mPeopleDetailsDataModel.let {
+            it.homeworld += speciesListDataModel.homeworld + " <br> "
+            it.speciesName += speciesListDataModel.name + " <br> "
+            it.languages += speciesListDataModel.language + " <br> "
+            speciesMutableLiveData.postValue(it)
         }
-        speciesMutableLiveData.postValue(mPeopleDetailsDataModel)
 
         mPeopleDetailMediatorLiveData.addSource(speciesMutableLiveData) {
             mPeopleDetailMediatorLiveData.value = it
@@ -109,6 +108,7 @@ class PeopleDetailsViewModel
                 //Hide progress
             }
         }
+        mPeopleDetailMediatorLiveData.removeSource(speciesMutableLiveData)
     }
 
 

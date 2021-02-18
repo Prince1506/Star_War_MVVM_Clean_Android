@@ -9,10 +9,7 @@ import com.mvvm_clean.star_wars.core.base.BaseFragment
 import com.mvvm_clean.star_wars.core.domain.exception.Failure
 import com.mvvm_clean.star_wars.core.domain.exception.Failure.NetworkConnection
 import com.mvvm_clean.star_wars.core.domain.exception.Failure.ServerError
-import com.mvvm_clean.star_wars.core.domain.extension.close
-import com.mvvm_clean.star_wars.core.domain.extension.failure
-import com.mvvm_clean.star_wars.core.domain.extension.observe
-import com.mvvm_clean.star_wars.core.domain.extension.viewModel
+import com.mvvm_clean.star_wars.core.domain.extension.*
 import com.mvvm_clean.star_wars.features.people_details.domain.models.PeopleDetailsDataModel
 import com.mvvm_clean.star_wars.features.people_details.presentation.models.PeopleDetailsViewModel
 import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PeopleEntity
@@ -21,6 +18,7 @@ import kotlinx.android.synthetic.main.fragment_people_details.*
 
 class PeopleDetailsFragment : BaseFragment() {
     private val filmUrl = "http://swapi.dev/api/films/"
+    private val speciesUrl = "http://swapi.dev/api/species/"
     private val PATH_FILMS = "films/"
 
     companion object {
@@ -59,7 +57,6 @@ class PeopleDetailsFragment : BaseFragment() {
         mPeopleDetailsViewModel.updatePeopleDetailWithPeopleInfo(peopleEntity)
         peopleEntity.name?.let {
             mPeopleDetailsViewModel.loadPlanetData(it)
-            mPeopleDetailsViewModel.loadSpeciesData(it)
         }
 
         peopleEntity.let {
@@ -70,12 +67,22 @@ class PeopleDetailsFragment : BaseFragment() {
                 }
 
             }
+            for (species in it.species!!) {
+                getFilmId(species).apply {
+                    if (this != -1) mPeopleDetailsViewModel.loadSpeciesData(this)
+                }
+            }
         }
 
     }
 
     private fun getFilmId(film: String): Int {
-        val filmIdArr = film.split(filmUrl)
+        var filmIdArr = arrayOf(String.empty(), String.empty())
+
+        if (film.contains("film")) filmIdArr = film.split(filmUrl).toTypedArray()
+        else if (film.contains("species")) filmIdArr = film.split(speciesUrl).toTypedArray()
+
+
         var filmId = -1 // -1 tells that id is not available
 
         if (filmIdArr.size > 1) {
@@ -100,25 +107,34 @@ class PeopleDetailsFragment : BaseFragment() {
             tv_peopleDetails_birth_year.text = it.birthYearNotNull
 
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+
                 tv_peopleDetails_films.text =
                     Html.fromHtml(it.filmNotNull, HtmlCompat.FROM_HTML_MODE_COMPACT)
+
+                tv_peopleDetails_opening_crawl.text =
+                    Html.fromHtml(it.openingCrawlNotNull, HtmlCompat.FROM_HTML_MODE_COMPACT)
+
+                tv_peopleDetails_homeworld.text =
+                    Html.fromHtml(it.homeworldNotNull, HtmlCompat.FROM_HTML_MODE_COMPACT)
+
+                tv_peopleDetails_language.text =
+                    Html.fromHtml(it.languagesNotNull, HtmlCompat.FROM_HTML_MODE_COMPACT)
+
+                tv_peopleDetails_speciesName.text =
+                    Html.fromHtml(it.speciesNameNotNull, HtmlCompat.FROM_HTML_MODE_COMPACT)
+
             } else {
                 tv_peopleDetails_films.text = Html.fromHtml(it.filmNotNull)
+                tv_peopleDetails_opening_crawl.text = Html.fromHtml(it.openingCrawlNotNull)
+
+                tv_peopleDetails_homeworld.text = Html.fromHtml(it.homeworldNotNull)
+                tv_peopleDetails_language.text = Html.fromHtml(it.languagesNotNull)
+                tv_peopleDetails_speciesName.text = Html.fromHtml(it.speciesNameNotNull)
             }
 
             tv_peopleDetails_height.text = it.heightNotNull
-            tv_peopleDetails_homeworld.text = it.homeworldNotNull
-            tv_peopleDetails_language.text = it.languagesNotNull
+
             tv_peopleDetails_name.text = it.nameNotNull
-
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                tv_peopleDetails_opening_crawl.text =
-                    Html.fromHtml(it.openingCrawlNotNull, HtmlCompat.FROM_HTML_MODE_COMPACT)
-            } else {
-                tv_peopleDetails_opening_crawl.text = Html.fromHtml(it.openingCrawlNotNull)
-            }
-
-            tv_peopleDetails_speciesName.text = it.speciesNameNotNull
             tv_peopleDetails_population.text = it.populationNotNull
         }
 //        movieDetailsAnimator.fadeVisible(scrollView, movieDetails)
