@@ -2,6 +2,7 @@ package com.mvvm_clean.star_wars.features.people_details.presentation.fragments
 
 import android.os.Bundle
 import android.view.View
+import com.mvvm_clean.star_wars.BuildConfig
 import com.mvvm_clean.star_wars.R
 import com.mvvm_clean.star_wars.core.base.BaseFragment
 import com.mvvm_clean.star_wars.core.domain.exception.Failure
@@ -18,6 +19,7 @@ import com.mvvm_clean.star_wars.features.people_list.domain.repo.PeopleListApiFa
 import kotlinx.android.synthetic.main.fragment_people_details.*
 
 class PeopleDetailsFragment : BaseFragment() {
+    private val PATH_FILMS = "films/"
 
     companion object {
         const val PARAM_PEOPLE_ENTITY = "param_peopleEntity"
@@ -32,9 +34,6 @@ class PeopleDetailsFragment : BaseFragment() {
             return movieDetailsFragment
         }
     }
-
-//    @Inject
-//    lateinit var movieDetailsAnimator: MovieDetailsAnimator
 
     private lateinit var mPeopleDetailsViewModel: PeopleDetailsViewModel
 
@@ -61,6 +60,27 @@ class PeopleDetailsFragment : BaseFragment() {
             mPeopleDetailsViewModel.loadSpeciesData(it)
         }
 
+        peopleEntity.let {
+            for (film in it.films!!) {
+                val filmId = getFilmId(film)
+                mPeopleDetailsViewModel.getFilmsFromId(filmId)
+            }
+        }
+
+    }
+
+    private fun getFilmId(film: String): Int {
+        val filmIdArr = film.split(BuildConfig.BASE_URL + PATH_FILMS)
+        var filmId = -1 // -1 tells that id is not available
+
+        if (filmIdArr.size > 1) {
+            if (filmIdArr[1].contains(getString(R.string.forward_slash))) {
+                val filmIdStr = filmIdArr[1].split(getString(R.string.forward_slash))[0]
+                filmId = filmIdStr as? Int ?: -1
+            }
+
+        }
+        return filmId
     }
 
 

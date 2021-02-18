@@ -1,12 +1,13 @@
 package com.mvvm_clean.star_wars.features.people_details.presentation.models
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.mvvm_clean.star_wars.core.base.BaseViewModel
+import com.mvvm_clean.star_wars.features.people_details.domain.models.FilmDataModel
 import com.mvvm_clean.star_wars.features.people_details.domain.models.PeopleDetailsDataModel
 import com.mvvm_clean.star_wars.features.people_details.domain.models.PlanetListDataModel
 import com.mvvm_clean.star_wars.features.people_details.domain.models.SpeciesListDataModel
+import com.mvvm_clean.star_wars.features.people_details.domain.use_cases.GetFilmNames
 import com.mvvm_clean.star_wars.features.people_details.domain.use_cases.GetPlanetsInfo
 import com.mvvm_clean.star_wars.features.people_details.domain.use_cases.GetSpeciesInfo
 import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PeopleEntity
@@ -16,25 +17,40 @@ class PeopleDetailsViewModel
 @Inject constructor(
     private val getSpeciesInfo: GetSpeciesInfo,
     private val getPlanetsInfo: GetPlanetsInfo,
+    private val getFilmNames: GetFilmNames
 ) : BaseViewModel() {
 
     val mPeopleDetailMediatorLiveData = MediatorLiveData<PeopleDetailsDataModel>()
+
     private val mPeopleDetailsDataModel = PeopleDetailsDataModel()
-
     private val speciesMutableLiveData: MutableLiveData<PeopleDetailsDataModel> = MutableLiveData()
-    private val speciesDetailsLiveData: LiveData<PeopleDetailsDataModel> = speciesMutableLiveData
-
     private val planetsDetailsMutableLiveData: MutableLiveData<PeopleDetailsDataModel> =
         MutableLiveData()
-
-    private val planetsDetailsLiveData: LiveData<PeopleDetailsDataModel> =
-        planetsDetailsMutableLiveData
+    private val filmDataMutableLiveData: MutableLiveData<PeopleDetailsDataModel> = MutableLiveData()
 
     fun updatePeopleDetailWithPeopleInfo(peopleEntity: PeopleEntity) {
         mPeopleDetailsDataModel.name = peopleEntity.name
-        mPeopleDetailsDataModel.birthYear = peopleEntity.birthYear
+        mPeopleDetailsDataModel.birthYear = peopleEntity.birth_year
         mPeopleDetailsDataModel.height = peopleEntity.height
-        mPeopleDetailsDataModel.film = peopleEntity.films.toString()
+    }
+
+    fun getFilmsFromId(filmId: Int) {
+        getFilmNames(filmId) {
+            it.fold(::handleFailure, ::handleFilmData)
+        }
+    }
+
+    private fun handleFilmData(filmDataModel: FilmDataModel) {
+        mPeopleDetailsDataModel.openingCrawl = filmDataModel.opening_crawl
+        mPeopleDetailsDataModel.film += filmDataModel.title
+        filmDataMutableLiveData.postValue(mPeopleDetailsDataModel)
+
+        mPeopleDetailMediatorLiveData.addSource(filmDataMutableLiveData) {
+            mPeopleDetailMediatorLiveData.value = it
+            if (!mPeopleDetailsDataModel.isEmpty()) {
+                //Hide progress
+            }
+        }
     }
 
     fun loadSpeciesData(searchQuery: String) {

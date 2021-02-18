@@ -5,18 +5,16 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class PeopleEntity(
-
-    // Attributes for Star war GetPeople API
     var name: String? = null,
     var height: String? = null,
     var mass: String? = null,
-    var hairColor: String? = null,
-    var skinColor: String? = null,
-    var eyeColor: String? = null,
-    var birthYear: String? = null,
+    var hair_color: String? = null,
+    var skin_color: String? = null,
+    var eye_color: String? = null,
+    var birth_year: String? = null,
     var gender: String? = null,
     var homeworld: String? = null,
-    var films: List<String>? = null,
+    var films: ArrayList<String>? = null,
     var species: List<String>? = null,
     var vehicles: List<String>? = null,
     var starships: List<String>? = null,

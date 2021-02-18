@@ -1,5 +1,6 @@
 package com.mvvm_clean.star_wars.features.people_list.data.api
 
+import com.mvvm_clean.star_wars.features.people_details.data.repo.response.FilmResponseEntity
 import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PeopleListResponseEntity
 import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PlanetListResponseEntity
 import com.mvvm_clean.star_wars.features.people_list.data.repo.response.SpeciesListResponseEntity
@@ -13,6 +14,7 @@ internal interface StarWarApi {
         private const val PATH_PEOPLE = "people/"
         private const val PATH_SPECIES = "species/"
         private const val PATH_PLANETS = "planets/"
+        private const val PATH_FILMS = "films/"
     }
 
     @GET(PATH_PEOPLE)
@@ -23,4 +25,7 @@ internal interface StarWarApi {
 
     @GET(PATH_PLANETS)
     fun getPlanetListByQuery(@Query(PARAM_SEARCH_KEY) searchKey: String): Call<PlanetListResponseEntity>
+
+    @GET(PATH_FILMS)
+    fun getFilmByQuery(filmId: Int): Call<FilmResponseEntity>
 }

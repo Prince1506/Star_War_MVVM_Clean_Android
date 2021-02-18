@@ -8,6 +8,8 @@ import com.mvvm_clean.star_wars.core.domain.exception.Failure.ServerError
 import com.mvvm_clean.star_wars.core.domain.functional.Either
 import com.mvvm_clean.star_wars.core.domain.functional.Either.Left
 import com.mvvm_clean.star_wars.core.domain.functional.Either.Right
+import com.mvvm_clean.star_wars.features.people_details.data.repo.response.FilmResponseEntity
+import com.mvvm_clean.star_wars.features.people_details.domain.models.FilmDataModel
 import com.mvvm_clean.star_wars.features.people_details.domain.models.PlanetListDataModel
 import com.mvvm_clean.star_wars.features.people_details.domain.models.SpeciesListDataModel
 import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PeopleListResponseEntity
@@ -21,6 +23,7 @@ interface StarWarApiRepository {
     fun getPeopleByQuery(searchQuery: String): Either<Failure, PeopleListDataModel>
     fun getSpeciesByQuery(searchQuery: String): Either<Failure, SpeciesListDataModel>
     fun getPlanetsByQuery(searchQuery: String): Either<Failure, PlanetListDataModel>
+    fun getFilmByQuery(filmId: Int): Either<Failure, FilmDataModel>
 
     class Network
     @Inject constructor(
@@ -49,11 +52,23 @@ interface StarWarApiRepository {
             }
 
         override fun getPlanetsByQuery(searchQuery: String): Either<Failure, PlanetListDataModel> =
+
             when (networkHandler.isNetworkAvailable()) {
                 true -> request(
                     service.getPlanetListByQuery(searchQuery),
                     { it.toPlanetsDataModel() },
                     PlanetListResponseEntity.empty
+                )
+                false -> Left(NetworkConnection)
+            }
+
+        override fun getFilmByQuery(filmId: Int): Either<Failure, FilmDataModel> =
+
+            when (networkHandler.isNetworkAvailable()) {
+                true -> request(
+                    service.getFilmByQuery(filmId),
+                    { it.toFilmsDataModel() },
+                    FilmResponseEntity.empty
                 )
                 false -> Left(NetworkConnection)
             }

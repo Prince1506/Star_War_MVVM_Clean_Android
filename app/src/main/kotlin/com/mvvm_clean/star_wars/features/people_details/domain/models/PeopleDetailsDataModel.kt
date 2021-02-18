@@ -10,7 +10,7 @@ data class PeopleDetailsDataModel(
     var languages: String? = "-",
     var homeworld: String? = "-",
     var population: String? = "-",
-    var film: String? = "-",
+    var film: String? = "",
     var openingCrawl: String? = "-",
 ) {
     val speciesNameNotNull: String?
