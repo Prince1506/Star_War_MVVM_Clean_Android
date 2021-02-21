@@ -55,20 +55,22 @@ class PeopleDetailsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         val peopleEntity = (arguments?.get(PARAM_PEOPLE_ENTITY) as PeopleEntity)
         mPeopleDetailsViewModel.updatePeopleDetailWithPeopleInfo(peopleEntity)
+
+        showProgress()
         peopleEntity.name?.let {
             mPeopleDetailsViewModel.loadPlanetData(it)
         }
 
         peopleEntity.let {
             for (film in it.films!!) {
-                getFilmId(film).apply {
+                getIdFromUrl(film).apply {
                     if (this != -1)
                         mPeopleDetailsViewModel.getFilmsFromId(this)
                 }
 
             }
             for (species in it.species!!) {
-                getFilmId(species).apply {
+                getIdFromUrl(species).apply {
                     if (this != -1) mPeopleDetailsViewModel.loadSpeciesData(this)
                 }
             }
@@ -76,32 +78,33 @@ class PeopleDetailsFragment : BaseFragment() {
 
     }
 
-    private fun getFilmId(film: String): Int {
-        var filmIdArr = arrayOf(String.empty(), String.empty())
+    private fun getIdFromUrl(url: String): Int {
+        var urlArrWithId = arrayOf(String.empty(), String.empty())
 
-        if (film.contains("film")) filmIdArr = film.split(filmUrl).toTypedArray()
-        else if (film.contains("species")) filmIdArr = film.split(speciesUrl).toTypedArray()
+        if (url.contains("film")) urlArrWithId = url.split(filmUrl).toTypedArray()
+        else if (url.contains("species")) urlArrWithId = url.split(speciesUrl).toTypedArray()
 
 
-        var filmId = -1 // -1 tells that id is not available
+        var urlId = -1 // -1 tells that id is not available
 
-        if (filmIdArr.size > 1) {
-            if (filmIdArr[1].contains(getString(R.string.forward_slash))) {
-                val filmIdStr = filmIdArr[1].split(getString(R.string.forward_slash))[0]
+        if (urlArrWithId.size > 1) {
+            if (urlArrWithId[1].contains(getString(R.string.forward_slash))) {
+                val filmIdStr = urlArrWithId[1].split(getString(R.string.forward_slash))[0]
                 try {
-                    filmId = filmIdStr.toInt()
+                    urlId = filmIdStr.toInt()
                 } catch (nfe: NumberFormatException) {
                     nfe.printStackTrace()
                 }
             }
 
         }
-        return filmId
+        return urlId
     }
 
 
     private fun renderPeopleDetails(peopleDetailsDataModel: PeopleDetailsDataModel?) {
 
+        hideProgress()
 
         peopleDetailsDataModel?.let {
             tv_peopleDetails_birth_year.text = it.birthYearNotNull
@@ -137,8 +140,6 @@ class PeopleDetailsFragment : BaseFragment() {
             tv_peopleDetails_name.text = it.nameNotNull
             tv_peopleDetails_population.text = it.populationNotNull
         }
-//        movieDetailsAnimator.fadeVisible(scrollView, movieDetails)
-//        movieDetailsAnimator.scaleUpView(moviePlay)
     }
 
 

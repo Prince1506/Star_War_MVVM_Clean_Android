@@ -22,7 +22,6 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
-
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -31,9 +30,8 @@
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/peopleDetails"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_peopleDetail_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/black"
@@ -43,7 +41,7 @@
             android:visibility="visible">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/tv_peopleDetail_summary"
                 style="@style/PeopleDetailsTitleHeading"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -51,29 +49,30 @@
                 android:text="@string/people_details_summary" />
 
             <View
-                android:id="@+id/view"
+                android:id="@+id/v_peopleDetails_summary"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="@dimen/margin_5"
+                android:layout_marginRight="@dimen/margin_80"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView"
+                app:layout_constraintTop_toBottomOf="@id/tv_peopleDetail_summary"
                 style="@style/v_color_white_heading" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/tv_peopleDetail_name"
                 style="@style/PeopleDetailsTitle"
                 android:text="@string/people_details_name"
+                android:layout_marginTop="@dimen/margin_5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/view" />
+                app:layout_constraintTop_toBottomOf="@id/v_peopleDetails_summary" />
 
             <TextView
                 android:id="@+id/tv_peopleDetails_name"
                 style="@style/PeopleDetailsText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:text="Prince soni"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView2"
-                android:text="Prince soni" />
+                app:layout_constraintTop_toBottomOf="@id/tv_peopleDetail_name" />
 
             <TextView
                 android:id="@+id/textView3"
@@ -108,28 +107,32 @@
                 android:text="@string/people_details_height" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/tv_peopleDetails_speciesLbl"
                 style="@style/PeopleDetailsTitleHeading"
+                android:layout_marginTop="@dimen/margin_10"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_height"
                 android:text="@string/people_details_species" />
 
             <View
-                android:id="@+id/view2"
+                android:id="@+id/v_peopleDetails_species"
                 style="@style/v_color_white_heading"
+                android:layout_marginTop="@dimen/margin_5"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginRight="@dimen/margin_80"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView5" />
+                app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_speciesLbl" />
 
 
             <TextView
                 android:id="@+id/textView6"
                 style="@style/PeopleDetailsTitle"
                 android:text="@string/people_details_name"
+                android:layout_marginTop="@dimen/margin_5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/view2" />
+                app:layout_constraintTop_toBottomOf="@id/v_peopleDetails_species" />
 
             <TextView
                 android:id="@+id/tv_peopleDetails_speciesName"
@@ -188,7 +191,7 @@
                 android:text="@string/people_details_population" />
 
             <TextView
-                android:id="@+id/textView10"
+                android:id="@+id/tv_peopleDetails_filmsLbl"
                 style="@style/PeopleDetailsTitle"
                 android:text="@string/people_details_films"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -200,11 +203,11 @@
                 style="@style/PeopleDetailsText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView10"
+                app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_filmsLbl"
                 android:text="@string/people_details_films" />
 
             <TextView
-                android:id="@+id/textView11"
+                android:id="@+id/tv_peopleDetails_openingCrawlingLbl"
                 style="@style/PeopleDetailsTitle"
                 android:text="@string/people_details_opening_crawl"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -216,11 +219,10 @@
                 style="@style/PeopleDetailsText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView11"
+                app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_openingCrawlingLbl"
                 android:text="@string/people_details_opening_crawl" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -19,6 +19,7 @@
     <dimen name="margin_20">20dp</dimen>
     <dimen name="margin_25">25dp</dimen>
     <dimen name="margin_30">30dp</dimen>
+    <dimen name="margin_80">80dp</dimen>
 
     <!-- Card view. -->
     <dimen name="card_corner_radius">0dp</dimen>

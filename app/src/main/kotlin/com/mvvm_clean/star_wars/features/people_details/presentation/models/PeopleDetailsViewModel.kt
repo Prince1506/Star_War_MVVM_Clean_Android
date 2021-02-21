@@ -20,6 +20,10 @@ class PeopleDetailsViewModel
     private val getFilmNames: GetFilmNames
 ) : BaseViewModel() {
 
+    val noOfApiCalls = 2
+
+    var apiCounter = 0 // Tracks Api count
+
     val mPeopleDetailMediatorLiveData = MediatorLiveData<PeopleDetailsDataModel>()
 
     private val mPeopleDetailsDataModel = PeopleDetailsDataModel()
@@ -38,6 +42,7 @@ class PeopleDetailsViewModel
     }
 
     fun getFilmsFromId(filmId: Int) {
+        ++apiCounter
         getFilmNames(filmId) {
             it.fold(::handleFailure, ::handleFilmData)
         }
@@ -45,12 +50,14 @@ class PeopleDetailsViewModel
 
 
     fun loadSpeciesData(speciesId: Int) {
+        ++apiCounter
         getSpeciesInfo(speciesId) {
             it.fold(::handleFailure, ::handleSpeciesData)
         }
     }
 
     fun loadPlanetData(searchQuery: String) {
+        ++apiCounter
         getPlanetsInfo(searchQuery) {
             it.fold(::handleFailure, ::handlePlanetsData)
         }
@@ -111,17 +118,6 @@ class PeopleDetailsViewModel
         mPeopleDetailMediatorLiveData.removeSource(speciesMutableLiveData)
     }
 
+    fun decrementApiCount() = --apiCounter
 
-    fun loadPeopleDetails(movieId: String) {
-//        getPeopleDetails(Params(movieId)) { it.fold(::handleFailure, ::handlePeopleDetails) }
-
-    }
-
-
-    private fun handlePeopleDetails(peopleDataModel: PeopleDetailsDataModel) {
-//        _peopleDetailsMutableLiveData.value = PeopleDetailsView(
-//            peopleDataModel.id, peopleDataModel.title, peopleDataModel.poster,
-//            peopleDataModel.summary, peopleDataModel.cast, peopleDataModel.director, peopleDataModel.year, peopleDataModel.trailer
-//        )
-    }
 }
