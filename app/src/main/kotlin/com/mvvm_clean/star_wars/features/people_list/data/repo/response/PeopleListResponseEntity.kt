@@ -5,12 +5,12 @@ import com.squareup.moshi.Json
 
 
 data class PeopleListResponseEntity(
-    private val count: Int? = null,
-    private val next: String? = null,
-    private val previous: String? = null,
+    val count: Int? = null,
+    val next: String? = null,
+    val previous: String? = null,
 
     @Json(name = "results")
-    private val results: List<PeopleEntity>? = null,
+    val results: List<PeopleEntity>? = null,
 ) {
 
     companion object {

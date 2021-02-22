@@ -1,5 +1,5 @@
 @file:JvmName("AndroidAssertions")
-@file:JvmMultifileClasspackage
+@file:JvmMultifileClass
 
 
 import androidx.appcompat.app.AppCompatActivity

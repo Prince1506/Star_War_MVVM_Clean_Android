@@ -18,16 +18,6 @@ class UseCaseTest : AndroidTest() {
         result shouldEqual Right(MyType(TYPE_TEST))
     }
 
-//    @Test fun `should return correct data when executing use case`() {
-//        var result: Either<Failure, MyType>? = null
-//
-//        val params = MyParams("TestParam")
-//        val onResult = { myResult: Either<Failure, MyType> -> result = myResult }
-//
-//        runBlocking { useCase(params, onResult) }
-//
-//        result shouldEqual Right(MyType(TYPE_TEST))
-//    }
 
     data class MyType(val name: String)
     data class MyParams(val name: String)

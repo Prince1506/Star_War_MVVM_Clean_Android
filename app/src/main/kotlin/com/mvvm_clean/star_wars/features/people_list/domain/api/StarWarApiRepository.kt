@@ -21,8 +21,6 @@ import javax.inject.Inject
 
 interface StarWarApiRepository {
     fun getPeopleByQuery(searchQuery: String): Either<Failure, PeopleListDataModel>
-
-    //    fun getSpeciesByQuery(searchQuery: String): Either<Failure, SpeciesListDataModel>
     fun getPlanetsByQuery(searchQuery: String): Either<Failure, PlanetListDataModel>
     fun getFilmByQuery(filmId: Int): Either<Failure, FilmDataModel>
     fun getSpeciesByQuery(speceisId: Int): Either<Failure, SpeciesDataModel>

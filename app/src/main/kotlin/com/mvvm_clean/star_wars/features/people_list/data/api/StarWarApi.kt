@@ -24,9 +24,6 @@ internal interface StarWarApi {
     @GET(PATH_PEOPLE)
     fun getPeopleListByQuery(@Query(QUERY_PARAM_SEARCH_KEY) searchKey: String): Call<PeopleListResponseEntity>
 
-    /*    @GET(PATH_SPECIES)
-        fun getSpeciesListByQuery(@Query(QUERY_PARAM_SEARCH_KEY) searchKey: String): Call<SpeciesListResponseEntity>
-    */
     @GET(PATH_PLANETS)
     fun getPlanetListByQuery(@Query(QUERY_PARAM_SEARCH_KEY) searchKey: String): Call<PlanetListResponseEntity>
 

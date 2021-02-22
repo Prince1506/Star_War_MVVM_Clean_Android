@@ -4,10 +4,10 @@ import com.mvvm_clean.star_wars.features.people_details.domain.models.PlanetList
 
 
 data class PlanetListResponseEntity(
-    private val count: Int? = null,
-    private val next: String? = null,
-    private val previous: String? = null,
-    private val results: List<PlanetListEntity>? = null,
+    val count: Int? = null,
+    val next: String? = null,
+    val previous: String? = null,
+    val results: List<PlanetListEntity>? = null,
 ) {
 
     companion object {
