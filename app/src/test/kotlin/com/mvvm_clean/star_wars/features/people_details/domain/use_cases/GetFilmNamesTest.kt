@@ -1,9 +1,9 @@
-package com.mvvm_clean.star_wars.features.people_list.domain.use_cases
+package com.mvvm_clean.star_wars.features.people_details.domain.use_cases
 
 import com.mvvm_clean.star_wars.UnitTest
 import com.mvvm_clean.star_wars.core.domain.functional.Either
+import com.mvvm_clean.star_wars.features.people_details.domain.models.FilmDataModel
 import com.mvvm_clean.star_wars.features.people_list.domain.api.StarWarApiRepository
-import com.mvvm_clean.star_wars.features.people_list.domain.models.PeopleListDataModel
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
@@ -11,18 +11,18 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 
-class GetPeopleInfoTest : UnitTest() {
-    private val peopleName = "peopleName"
-    private lateinit var getPeopleInfo: GetPeopleInfo
+class GetFilmNamesTest : UnitTest() {
+    private val filmId = 1
+    private lateinit var getFilmNames: GetFilmNames
 
     @MockK
     private lateinit var starWarApiRepository: StarWarApiRepository
 
     @Before
     fun setUp() {
-        getPeopleInfo = GetPeopleInfo(starWarApiRepository)
-        every { starWarApiRepository.getPeopleByQuery(peopleName) } returns Either.Right(
-            PeopleListDataModel.empty
+        getFilmNames = GetFilmNames(starWarApiRepository)
+        every { starWarApiRepository.getFilmByQuery(filmId) } returns Either.Right(
+            FilmDataModel.empty
         )
     }
 
@@ -33,9 +33,9 @@ class GetPeopleInfoTest : UnitTest() {
     fun `should get data from repository`() {
 
         // Act
-        runBlocking { getPeopleInfo.run(peopleName) }
+        runBlocking { getFilmNames.run(filmId) }
 
         // Verify
-        verify(exactly = 1) { starWarApiRepository.getPeopleByQuery(peopleName) }
+        verify(exactly = 1) { starWarApiRepository.getFilmByQuery(filmId) }
     }
 }
