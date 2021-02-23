@@ -9,17 +9,14 @@ import com.mvvm_clean.star_wars.core.domain.functional.Either.Right
 import com.mvvm_clean.star_wars.core.domain.functional.onSuccess
 import com.mvvm_clean.star_wars.features.people_details.data.repo.response.FilmResponseEntity
 import com.mvvm_clean.star_wars.features.people_details.data.repo.response.SpeciesResponseEntity
-import com.mvvm_clean.star_wars.features.people_details.domain.models.FilmDataModel
-import com.mvvm_clean.star_wars.features.people_details.domain.models.PlanetListDataModel
 import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PeopleEntity
 import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PeopleListResponseEntity
 import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PlanetListEntity
 import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PlanetListResponseEntity
 import com.mvvm_clean.star_wars.features.people_list.domain.api.StarWarApiRepository.Network
-import com.mvvm_clean.star_wars.features.people_list.domain.models.PeopleListDataModel
 import io.mockk.Called
 import io.mockk.every
-import io.mockk.impl.annotations.MockK
+import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.verify
 import org.amshove.kluent.shouldBeInstanceOf
 import org.amshove.kluent.shouldEqual
@@ -30,6 +27,13 @@ import retrofit2.Response
 
 class StarWarApiRepositoryTest : UnitTest() {
 
+    private lateinit var planetEntity: PlanetListEntity
+    private lateinit var speciesResponseEntity: SpeciesResponseEntity
+    private lateinit var planetListEntity: PlanetListResponseEntity
+    private lateinit var peopleListEntity: PeopleListResponseEntity
+    private lateinit var peopleEntity: PeopleEntity
+    private lateinit var filmResponseEntity: FilmResponseEntity
+
     private val filmName = "filmName"
     private val planetName = "planetName"
     private val speciesName = "speciesName"
@@ -39,113 +43,105 @@ class StarWarApiRepositoryTest : UnitTest() {
 
     private lateinit var networkRepository: StarWarApiRepository.Network
 
-    @MockK
-    private lateinit var peopleListEntityMock: PeopleListResponseEntity
-
-    @MockK
-    private lateinit var filmResponseEntityMock: FilmResponseEntity
-
-    @MockK
-    private lateinit var peopleEntityMock: PeopleEntity
-
-    @MockK
-    private lateinit var planetListEntityMock: PlanetListResponseEntity
-
-    @MockK
-    private lateinit var planetListEntity: PlanetListEntity
-
-    @MockK
-    private lateinit var speciesResponseEntityMock: SpeciesResponseEntity
-
-    @MockK
+    @RelaxedMockK
     private lateinit var networkHandler: NetworkHandler
 
-    @MockK
+    @RelaxedMockK
     private lateinit var service: StarWarApiImpl
 
-    @MockK
+    @RelaxedMockK
     private lateinit var speciesResponseCall: Call<SpeciesResponseEntity>
 
-    @MockK
+    @RelaxedMockK
     private lateinit var filmResponseCall: Call<FilmResponseEntity>
 
-    @MockK
+    @RelaxedMockK
     private lateinit var planetListResponseCall: Call<PlanetListResponseEntity>
 
-    @MockK
+    @RelaxedMockK
     private lateinit var peopleListResponseCall: Call<PeopleListResponseEntity>
 
-    @MockK
+    @RelaxedMockK
     private lateinit var speciesResponse: Response<SpeciesResponseEntity>
 
-    @MockK
+    @RelaxedMockK
     private lateinit var filmResponse: Response<FilmResponseEntity>
 
-    @MockK
+    @RelaxedMockK
     private lateinit var planetListResponse: Response<PlanetListResponseEntity>
 
-    @MockK
+    @RelaxedMockK
     private lateinit var peopleListResponse: Response<PeopleListResponseEntity>
 
 
     @Before
     fun setUp() {
         networkRepository = Network(networkHandler, service)
+
+        speciesResponseEntity = SpeciesResponseEntity(speciesName)
+
+        peopleEntity = PeopleEntity(peopleName)
+        peopleListEntity = PeopleListResponseEntity(null, null, null, listOf(peopleEntity))
+
+        filmResponseEntity = FilmResponseEntity(filmName)
+
+        planetEntity = PlanetListEntity(planetName)
+        planetListEntity = PlanetListResponseEntity(null, null, null, listOf(planetEntity))
     }
 
     @Test
     fun `should return empty people list by default`() {
         every { networkHandler.isNetworkAvailable() } returns true
-        every { peopleListResponse.body() } returns null
+        every { peopleListResponse.body() } returns peopleListEntity
         every { peopleListResponse.isSuccessful } returns true
         every { peopleListResponseCall.execute() } returns peopleListResponse
         every { service.getPeopleListByQuery(peopleName) } returns peopleListResponseCall
 
         val peopleEntity = networkRepository.getPeopleByQuery(peopleName)
 
-        peopleEntity shouldEqual Right(emptyList<PeopleListDataModel>())
+        peopleEntity shouldEqual Right(peopleListEntity.toPeopleList())
         verify(exactly = 1) { service.getPeopleListByQuery(peopleName) }
     }
 
     @Test
     fun `should return empty planet list by default`() {
         every { networkHandler.isNetworkAvailable() } returns true
-        every { planetListResponse.body() } returns null
+        every { planetListResponse.body() } returns planetListEntity
         every { planetListResponse.isSuccessful } returns true
         every { planetListResponseCall.execute() } returns planetListResponse
         every { service.getPlanetListByQuery(peopleName) } returns planetListResponseCall
 
         val planetEntity = networkRepository.getPlanetsByQuery(peopleName)
 
-        planetEntity shouldEqual Right(emptyList<PlanetListDataModel>())
+        planetEntity shouldEqual Right(planetListEntity.toPlanetsDataModel())
         verify(exactly = 1) { service.getPlanetListByQuery(peopleName) }
     }
 
     @Test
     fun `should return empty film list by default`() {
         every { networkHandler.isNetworkAvailable() } returns true
-        every { filmResponse.body() } returns null
+        every { filmResponse.body() } returns filmResponseEntity
         every { filmResponse.isSuccessful } returns true
         every { filmResponseCall.execute() } returns filmResponse
         every { service.getFilmByQuery(filmId) } returns filmResponseCall
 
         val planetEntity = networkRepository.getFilmByQuery(filmId)
 
-        planetEntity shouldEqual Right(emptyList<FilmDataModel>())
+        planetEntity shouldEqual Right(filmResponseEntity.toFilmsDataModel())
         verify(exactly = 1) { service.getFilmByQuery(filmId) }
     }
 
     @Test
     fun `should return empty species list by default`() {
         every { networkHandler.isNetworkAvailable() } returns true
-        every { speciesResponse.body() } returns null
+        every { speciesResponse.body() } returns speciesResponseEntity
         every { speciesResponse.isSuccessful } returns true
         every { speciesResponseCall.execute() } returns speciesResponse
         every { service.getSpeciesByQuery(speciesId) } returns speciesResponseCall
 
         val speciesEntity = networkRepository.getSpeciesByQuery(speciesId)
 
-        speciesEntity shouldEqual Right(emptyList<PlanetListDataModel>())
+        speciesEntity shouldEqual Right(speciesResponseEntity.toSpeciesDataModel())
         verify(exactly = 1) { service.getSpeciesByQuery(speciesId) }
     }
 
@@ -318,29 +314,26 @@ class StarWarApiRepositoryTest : UnitTest() {
 
     @Test
     fun `should get species list from api`() {
+        //Assert
         every { networkHandler.isNetworkAvailable() } returns true
-        every { speciesResponse.body() } returns speciesResponseEntityMock
-        every { speciesResponseEntityMock.name } returns speciesName
+        every { speciesResponse.body() } returns speciesResponseEntity
         every { speciesResponse.isSuccessful } returns true
         every { speciesResponseCall.execute() } returns speciesResponse
         every { service.getSpeciesByQuery(speciesId) } returns speciesResponseCall
 
+        // Act
         val speciesResponseEntity = networkRepository.getSpeciesByQuery(speciesId)
 
-        speciesResponseEntity.onSuccess {
-            it.name shouldEqual speciesName
-        }
-
-        verify(exactly = 1) { service.getPeopleListByQuery(peopleName) }
+        //Verify
+        speciesResponseEntity.onSuccess { it.name shouldEqual speciesName }
+        verify(exactly = 1) { service.getSpeciesByQuery(speciesId) }
     }
 
 
     @Test
     fun `should get planet list from api`() {
         every { networkHandler.isNetworkAvailable() } returns true
-        every { planetListResponse.body() } returns planetListEntityMock
-        every { planetListEntityMock.results } returns listOf(planetListEntity)
-        every { planetListEntity.name } returns planetName
+        every { planetListResponse.body() } returns planetListEntity
         every { planetListResponse.isSuccessful } returns true
         every { planetListResponseCall.execute() } returns planetListResponse
         every { service.getPlanetListByQuery(peopleName) } returns planetListResponseCall
@@ -351,16 +344,14 @@ class StarWarApiRepositoryTest : UnitTest() {
             it.results?.get(0)?.name shouldEqual planetName
         }
 
-        verify(exactly = 1) { service.getPeopleListByQuery(peopleName) }
+        verify(exactly = 1) { service.getPlanetListByQuery(peopleName) }
     }
 
 
     @Test
     fun `should get people list from api`() {
         every { networkHandler.isNetworkAvailable() } returns true
-        every { peopleListResponse.body() } returns peopleListEntityMock
-        every { peopleListEntityMock.results } returns listOf(peopleEntityMock)
-        every { peopleEntityMock.name } returns peopleName
+        every { peopleListResponse.body() } returns peopleListEntity
         every { peopleListResponse.isSuccessful } returns true
         every { peopleListResponseCall.execute() } returns peopleListResponse
         every { service.getPeopleListByQuery(peopleName) } returns peopleListResponseCall
@@ -378,8 +369,7 @@ class StarWarApiRepositoryTest : UnitTest() {
     @Test
     fun `should get film list from api`() {
         every { networkHandler.isNetworkAvailable() } returns true
-        every { filmResponse.body() } returns filmResponseEntityMock
-        every { filmResponseEntityMock.title } returns filmName
+        every { filmResponse.body() } returns filmResponseEntity
         every { filmResponse.isSuccessful } returns true
         every { filmResponseCall.execute() } returns filmResponse
         every { service.getFilmByQuery(filmId) } returns filmResponseCall
@@ -389,7 +379,6 @@ class StarWarApiRepositoryTest : UnitTest() {
         filmResponseEntity.onSuccess {
             it.title shouldEqual filmName
         }
-
         verify(exactly = 1) { service.getFilmByQuery(filmId) }
     }
 
