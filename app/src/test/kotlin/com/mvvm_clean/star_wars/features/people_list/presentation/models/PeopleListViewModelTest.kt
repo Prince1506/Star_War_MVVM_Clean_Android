@@ -6,6 +6,7 @@ import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PeopleEn
 import com.mvvm_clean.star_wars.features.people_list.domain.models.PeopleListDataModel
 import com.mvvm_clean.star_wars.features.people_list.domain.use_cases.GetPeopleInfo
 import io.mockk.coEvery
+import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.runBlocking
 import org.amshove.kluent.shouldEqualTo
 import org.junit.Before
@@ -13,14 +14,18 @@ import org.junit.Test
 
 class PeopleListViewModelTest : AndroidTest() {
 
+
     private lateinit var peopleListViewModel: PeopleListViewModel
     private lateinit var peopleEntity: PeopleEntity
     private val peopleName = "Chewbacaa"
+
+    @MockK
     private lateinit var getPeopleInfo: GetPeopleInfo
 
     @Before
     fun setUp() {
         peopleEntity = PeopleEntity(peopleName)
+        peopleListViewModel = PeopleListViewModel(getPeopleInfo)
     }
 
     @Test

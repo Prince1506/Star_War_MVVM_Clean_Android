@@ -20,20 +20,17 @@ class PeopleDetailsViewModel
     private val getFilmNames: GetFilmNames
 ) : BaseViewModel() {
 
-    val noOfApiCalls = 2
-
-    var apiCounter = 0 // Tracks Api count
-
-    val mPeopleDetailMediatorLiveData = MediatorLiveData<PeopleDetailsDataModel>()
-
     private val mPeopleDetailsDataModel = PeopleDetailsDataModel()
 
+    val mPeopleDetailMediatorLiveData = MediatorLiveData<PeopleDetailsDataModel>()
     private val speciesMutableLiveData: MutableLiveData<PeopleDetailsDataModel> = MutableLiveData()
-
-    private val planetsDetailsMutableLiveData: MutableLiveData<PeopleDetailsDataModel> =
+    private val filmDataMutableLiveData: MutableLiveData<PeopleDetailsDataModel> = MutableLiveData()
+    private val planetsMutableLiveData: MutableLiveData<PeopleDetailsDataModel> =
         MutableLiveData()
 
-    private val filmDataMutableLiveData: MutableLiveData<PeopleDetailsDataModel> = MutableLiveData()
+    fun getSpeciesMutableLiveData() = speciesMutableLiveData
+    fun getFilmDataMutableLiveData() = filmDataMutableLiveData
+    fun getPlanetsMutableLiveData() = planetsMutableLiveData
 
     fun updatePeopleDetailWithPeopleInfo(peopleEntity: PeopleEntity) {
         mPeopleDetailsDataModel.name = peopleEntity.name
@@ -41,23 +38,19 @@ class PeopleDetailsViewModel
         mPeopleDetailsDataModel.height = peopleEntity.height
     }
 
-    fun getFilmsFromId(filmId: Int) {
-        ++apiCounter
+    fun loadFilmData(filmId: Int) {
         getFilmNames(filmId) {
             it.fold(::handleFailure, ::handleFilmData)
         }
     }
 
-
     fun loadSpeciesData(speciesId: Int) {
-        ++apiCounter
         getSpeciesInfo(speciesId) {
             it.fold(::handleFailure, ::handleSpeciesData)
         }
     }
 
     fun loadPlanetData(searchQuery: String) {
-        ++apiCounter
         getPlanetsInfo(searchQuery) {
             it.fold(::handleFailure, ::handlePlanetsData)
         }
@@ -68,16 +61,15 @@ class PeopleDetailsViewModel
         if (size != null && size >= 1) {
             mPeopleDetailsDataModel.population = planetListDataModel.results.get(0).population
         }
-        planetsDetailsMutableLiveData.postValue(mPeopleDetailsDataModel)
+        planetsMutableLiveData.postValue(mPeopleDetailsDataModel)
 
-        mPeopleDetailMediatorLiveData.addSource(planetsDetailsMutableLiveData) {
+        mPeopleDetailMediatorLiveData.addSource(planetsMutableLiveData) {
             mPeopleDetailMediatorLiveData.value = it
             if (!mPeopleDetailsDataModel.isEmpty()) {
                 //Hide progress
             }
         }
     }
-
 
     private fun handleFilmData(filmDataModel: FilmDataModel) {
 
@@ -117,7 +109,5 @@ class PeopleDetailsViewModel
         }
         mPeopleDetailMediatorLiveData.removeSource(speciesMutableLiveData)
     }
-
-    fun decrementApiCount() = --apiCounter
 
 }

@@ -65,7 +65,7 @@ class PeopleDetailsFragment : BaseFragment() {
             for (film in it.films!!) {
                 getIdFromUrl(film).apply {
                     if (this != -1)
-                        mPeopleDetailsViewModel.getFilmsFromId(this)
+                        mPeopleDetailsViewModel.loadFilmData(this)
                 }
 
             }
