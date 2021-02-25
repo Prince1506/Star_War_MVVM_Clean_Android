@@ -78,7 +78,7 @@ dependencies {
     testImplementation(TestLibraries.mockk)
     testImplementation(TestLibraries.kluent)
     testImplementation(TestLibraries.robolectric)
-
+    testImplementation("org.mockito:mockito-core:2.+")
     // Acceptance tests dependencies
     androidTestImplementation(TestLibraries.testRunner)
     androidTestImplementation(TestLibraries.espressoCore)
