@@ -1,73 +1,69 @@
 package com.mvvm_clean.star_wars.features.people_list.presentation.models
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import com.mvvm_clean.star_wars.core.domain.exception.Failure
 import com.mvvm_clean.star_wars.core.domain.functional.Either
 import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PeopleEntity
 import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PeopleListResponseEntity
 import com.mvvm_clean.star_wars.features.people_list.domain.models.PeopleListDataModel
 import com.mvvm_clean.star_wars.features.people_list.domain.use_cases.GetPeopleInfo
-import io.mockk.coEvery
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.runBlocking
 import org.amshove.kluent.shouldEqualTo
+import org.junit.After
 import org.junit.Before
-import org.junit.Rule
+import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.*
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.validateMockitoUsage
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
 class PeopleListViewModelTest {
-    @get:Rule
-    var instantTaskExecutorRule = InstantTaskExecutorRule()
-
-    @Captor
-    private lateinit var argumentCaptor: ArgumentCaptor<Boolean?>
-
-    @MockK
-    private lateinit var observerStr: Observer<String>
-
-    @MockK
-    private lateinit var observerBool: Observer<Boolean>
-
-    @MockK
-    private lateinit var observerPeopleList: Observer<PeopleListDataModel>
-
-    @MockK
-    private lateinit var failure: Failure
-
-    private lateinit var peopleListEntity: PeopleListResponseEntity
 
     @RelaxedMockK
     private lateinit var peopleListViewModel: PeopleListViewModel
 
-    @Mock
-    private lateinit var peopleListViewModelMock: PeopleListViewModel
-
 
     private lateinit var peopleEntity: PeopleEntity
     private val peopleName = "Chewbacaa"
-
-    @RelaxedMockK
-    private lateinit var peopleNameMutableLiveData: MutableLiveData<String>
+    private lateinit var peopleListEntity: PeopleListResponseEntity
 
     @Mock
-    private lateinit var progressDialog: MutableLiveData<Boolean>
+    lateinit var peopleListViewModelVerify: PeopleListViewModel
 
     @MockK
     private lateinit var getPeopleInfo: GetPeopleInfo
 
+
+    companion object {
+
+        @BeforeClass
+        fun setupBeforeClass() {
+
+        }
+
+    }
+
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this)
         peopleEntity = PeopleEntity(peopleName)
         peopleListEntity = PeopleListResponseEntity(null, null, null, listOf(peopleEntity))
     }
+
+    @After
+    fun method() {
+        validateMockitoUsage()
+//        clearAllMocks(true)
+//        clearInvocations(PeopleListViewModel::class.java)
+//        clearMocks(PeopleListViewModel::class.java)
+    }
+
 
     @Test
     fun `loading people list should update live data`() {
@@ -78,51 +74,36 @@ class PeopleListViewModelTest {
             listOf(peopleEntity)
         )
 
-        coEvery { getPeopleInfo.run(any()) } returns Either.Right(peopleListDataModel)
+        coEvery { getPeopleInfo.run(peopleName) } returns Either.Right(peopleListDataModel)
 
         peopleListViewModel.peopleListLiveData.observeForever {
-            it!!.people?.size shouldEqualTo 1
-            it.people?.get(1)?.name shouldEqualTo peopleName
+            it!!.peopleList?.size shouldEqualTo 1
+            it.peopleList?.get(1)?.name shouldEqualTo peopleName
         }
 
         runBlocking { peopleListViewModel.loadPeopleList(peopleName) }
+
     }
 
-    @Test
-    fun `For API failure progress live data should reset`() {
-        var isProgressLoading = MutableLiveData<Boolean>()
-
-        isProgressLoading.postValue(false)
-
-        Mockito.`when`(
-            peopleListViewModelMock.isProgressLoading
-        ).thenReturn(isProgressLoading)
-
-        peopleListViewModelMock.handlePeopleListFailure(
-            null
-        )
-
-
-        Mockito.verify(
-            peopleListViewModelMock,
-            Mockito.times(1)
-        ).isProgressLoading/*.postValue(false).postValue(false) .postValue(argumentCaptor.capture())*/
-
-/*      peopleListViewModel.getIsLoading()?.observeForever {
-          it shouldEqualTo false
-      }
-*/
-        /*val liveData: LiveData<Boolean?>? = peopleListViewModel.getIsLoading()
-
-        TestObserver.test<Boolean>(liveData)
-            .assertHasValue()
-            .assertHistorySize(1)
-            .doOnChanged(Consumer { Assert.assertEquals(it, false) })
-*/
-
-        /* val values = argumentCaptor.getAllValues();
-         Assert.assertEquals(false,values.get(0))*/
-    }
+//    @Test
+//    fun `For API failure progress live data should reset`() {
+//        every { peopleListViewModel.getProgressLoading() } returns MutableLiveData<Boolean>()
+//
+//        runBlocking { peopleListViewModel.handlePeopleListFailure(null) }
+//
+////        shadowOf(Looper.getMainLooper()).idle()
+//
+//        verify(
+//            peopleListViewModelVerify,
+//            times(1)
+//        ).getProgressLoading()
+//
+//
+//        peopleListViewModel.getIsLoading()?.observeForever {
+//            it shouldEqualTo false
+//        }
+//
+//    }
 
     @Test
     fun `For API success progress live data should reset`() {
@@ -134,29 +115,50 @@ class PeopleListViewModelTest {
         }
     }
 
-    @Test
-    fun `Whenever user name searched it should be observed forever`() {
 
-        runBlocking { peopleListViewModel.setSearchQueryString(peopleName) }
+//    @Test
+//    fun `Whenever user name searched it should be observed forever`() {
+//        every {
+//            peopleListViewModel.getPeopleNameMutabeLiveData()
+//        } returns MutableLiveData<String>()
+//
+//        runBlocking { peopleListViewModel.setSearchQueryString(peopleName) }
+//
+//        Mockito.verify(
+//            peopleListViewModelVerify,
+//            Mockito.times(2)
+//        ).getPeopleNameMutabeLiveData()
+//
+//        peopleListViewModel.peopleNameMutableLiveData?.observeForever {
+//            it shouldEqualTo peopleName
+//        }
+//    }
 
-        peopleListViewModel.peopleNameMutableLiveData.observeForever {
-            it shouldEqualTo peopleName
-        }
-    }
-/*
 
     @Test
     fun `User Name observing forever should get cleared`() {
-        every { peopleListViewModel.peopleNameMutableLiveData.removeObserver(observer) } just  Runs
+        val peopleListViewModelVerify = mock(PeopleListViewModel::class.java)
+        every {
+            peopleListViewModel.getPeopleNameMutabeLiveData()
+        } returns MutableLiveData<String>()
+
+        every {
+            peopleListViewModel.getPeopleNameMutabeLiveData().removeObserver(any())
+        } returns Unit
 
         peopleListViewModel.onCleared()
 
-        verify (atLeast = 1) {
-            peopleNameMutableLiveData.removeObserver(observer)
+        verify(exactly = 1) {
+            peopleListViewModel.onCleared()
         }
-    }
-*/
+        confirmVerified(peopleListViewModel)
 
+        Mockito.verify(
+            peopleListViewModelVerify,
+            Mockito.times(1)
+        ).peopleNameMutableLiveData
+
+    }
 
     /**
      * Check that the response we got is passed to live data
@@ -170,13 +172,9 @@ class PeopleListViewModelTest {
 
         // Verify
         peopleListViewModel.peopleListLiveData.observeForever {
-            it!!.people?.size shouldEqualTo 1
-            it.people?.get(1)?.name shouldEqualTo peopleName
+            it!!.peopleList?.size shouldEqualTo 1
+            it.peopleList?.get(1)?.name shouldEqualTo peopleName
         }
-
-
-//        peopleListViewModel.peopleListMutableLiveData.value shouldEqual peopleListEntity.toPeopleList()
-
     }
 
 
