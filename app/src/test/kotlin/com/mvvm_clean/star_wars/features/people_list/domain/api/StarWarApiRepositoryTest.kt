@@ -171,6 +171,7 @@ class StarWarApiRepositoryTest : UnitTest() {
         speciesEntity.fold(
             { failure -> failure shouldBeInstanceOf NetworkConnection::class.java },
             {})
+
         verify { service wasNot Called }
     }
 

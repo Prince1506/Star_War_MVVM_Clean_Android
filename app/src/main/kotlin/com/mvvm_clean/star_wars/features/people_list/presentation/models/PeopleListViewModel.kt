@@ -1,5 +1,6 @@
 package com.mvvm_clean.star_wars.features.people_list.presentation.models
 
+import androidx.annotation.RestrictTo
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -9,17 +10,19 @@ import com.mvvm_clean.star_wars.features.people_list.domain.models.PeopleListDat
 import com.mvvm_clean.star_wars.features.people_list.domain.use_cases.GetPeopleInfo
 import javax.inject.Inject
 
-
-class PeopleListViewModel
+open class PeopleListViewModel
 @Inject constructor(private val getPeopleInfo: GetPeopleInfo) : BaseViewModel() {
+    @RestrictTo(RestrictTo.Scope.TESTS)
+    val peopleListMutableLiveData: MutableLiveData<PeopleListDataModel> = MutableLiveData()
+    val peopleListLiveData: LiveData<PeopleListDataModel> = peopleListMutableLiveData
 
 
-    private val peopleListMutableLiveData: MutableLiveData<PeoplseListView> = MutableLiveData()
-    val peopleListLiveData: LiveData<PeoplseListView> = peopleListMutableLiveData
-    private val peopleNameMutableLiveData = MutableLiveData<String>()
+    open val peopleNameMutableLiveData = MutableLiveData<String>()
 
-    private val isProgressLoading = MutableLiveData<Boolean>()
+    open var isProgressLoading = MutableLiveData<Boolean>()
+    fun getProgressLoadingMutableData() = isProgressLoading
 
+    @RestrictTo(RestrictTo.Scope.TESTS)
     val observer = Observer<String> {
         isProgressLoading.value = true
         getPeopleInfo(it) { it.fold(::handlePeopleListFailure, ::handlePeopleList) }
@@ -38,23 +41,20 @@ class PeopleListViewModel
         return isProgressLoading
     }
 
-    private fun handlePeopleListFailure(failure: Failure) {
-        super.handleFailure(failure)
-        isProgressLoading.value = false
+    fun handlePeopleListFailure(failure: Failure?) {
+        isProgressLoading.postValue(false)
+        failure?.let { super.handleFailure(it) }
     }
 
-    private fun handlePeopleList(peopleListDataModel: PeopleListDataModel) {
+    fun handlePeopleList(peopleListDataModel: PeopleListDataModel) {
         isProgressLoading.value = false
-        peopleListMutableLiveData.value = PeoplseListView(
-            peopleListDataModel.count,
-            peopleListDataModel.next,
-            peopleListDataModel.previous,
-            peopleListDataModel.people
-        )
+        peopleListMutableLiveData.postValue(peopleListDataModel)
     }
 
-    override fun onCleared() {
+    public override fun onCleared() {
         peopleNameMutableLiveData.removeObserver(observer)
         super.onCleared()
     }
+
+
 }

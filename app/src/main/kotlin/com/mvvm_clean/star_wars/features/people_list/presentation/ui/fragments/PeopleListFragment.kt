@@ -15,9 +15,9 @@ import com.mvvm_clean.star_wars.core.domain.exception.Failure.ServerError
 import com.mvvm_clean.star_wars.core.domain.extension.*
 import com.mvvm_clean.star_wars.core.presentation.navigation.Navigator
 import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PeopleEntity
+import com.mvvm_clean.star_wars.features.people_list.domain.models.PeopleListDataModel
 import com.mvvm_clean.star_wars.features.people_list.domain.repo.PeopleListApiFailure.ListNotAvailable
 import com.mvvm_clean.star_wars.features.people_list.presentation.models.PeopleListViewModel
-import com.mvvm_clean.star_wars.features.people_list.presentation.models.PeoplseListView
 import com.mvvm_clean.star_wars.features.people_list.presentation.ui.adapter.PeopleListAdapter
 import kotlinx.android.synthetic.main.fragment_people_list.*
 import javax.inject.Inject
@@ -110,9 +110,9 @@ class PeopleListFragment : BaseFragment() {
         peopleListViewModel.loadPeopleList(searchQuery)
     }
 
-    private fun renderPeopleList(peoplseListView: PeoplseListView?) {
-        if (peoplseListView?.peopleList != null) {
-            peopleListAdapter.collection = peoplseListView.peopleList
+    private fun renderPeopleList(peoplseListView: PeopleListDataModel?) {
+        if (peoplseListView?.people != null) {
+            peopleListAdapter.collection = peoplseListView.people
         }
         hideProgress()
     }
