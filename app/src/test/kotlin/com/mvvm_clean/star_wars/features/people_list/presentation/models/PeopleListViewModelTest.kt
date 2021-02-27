@@ -1,6 +1,7 @@
 package com.mvvm_clean.star_wars.features.people_list.presentation.models
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.mvvm_clean.star_wars.core.domain.functional.Either
 import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PeopleEntity
 import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PeopleListResponseEntity
@@ -20,6 +21,19 @@ import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
 class PeopleListViewModelTest {
+
+    private val progressDataObserver = Observer<Boolean?> {
+        it shouldEqualTo false
+    }
+
+    private val peopleNameObserver = Observer<String>
+    {
+        it shouldEqualTo peopleName
+    }
+    private val peopleListObserver = Observer<PeoplseListView> {
+        it!!.peopleList?.size shouldEqualTo 1
+        it.peopleList?.get(1)?.name shouldEqualTo peopleName
+    }
 
     @RelaxedMockK
     private lateinit var peopleListViewModel: PeopleListViewModel
@@ -56,57 +70,67 @@ class PeopleListViewModelTest {
 
     @Test
     fun `loading people list should update live data`() {
-        val peopleListDataModel = PeopleListDataModel(
-            0,
-            null,
-            null,
-            listOf(peopleEntity)
-        )
+        try {
+            val peopleListDataModel = PeopleListDataModel(
+                0,
+                null,
+                null,
+                listOf(peopleEntity)
+            )
 
-        coEvery { getPeopleInfo.run(peopleName) } returns Either.Right(peopleListDataModel)
+            coEvery { getPeopleInfo.run(peopleName) } returns Either.Right(peopleListDataModel)
 
-        peopleListViewModel.peopleListLiveData.observeForever {
-            it!!.peopleList?.size shouldEqualTo 1
-            it.peopleList?.get(1)?.name shouldEqualTo peopleName
+            peopleListViewModel.getPeopleListLiveData().observeForever(peopleListObserver)
+
+            runBlocking { peopleListViewModel.loadPeopleList(peopleName) }
+        } finally {
+            peopleListViewModel.getPeopleListLiveData().removeObserver(peopleListObserver)
         }
-
-        runBlocking { peopleListViewModel.loadPeopleList(peopleName) }
-
     }
 
     @Test
     fun `For API failure progress live data should reset`() {
-        every { peopleListViewModel.getProgressLoading() } returns MutableLiveData<Boolean>()
+        try {
+            every { peopleListViewModel.getProgressLoadingMutableLiveData() } returns MutableLiveData<Boolean>()
 
-        runBlocking { peopleListViewModel.handlePeopleListFailure(null) }
+            runBlocking { peopleListViewModel.handlePeopleListFailure(null) }
 
-        peopleListViewModel.getIsLoading()?.observeForever {
-            it shouldEqualTo false
+            peopleListViewModel.getProgressLoadingLiveData()?.observeForever(progressDataObserver)
+
+        } finally {
+            peopleListViewModel.getProgressLoadingLiveData()?.removeObserver(progressDataObserver)
+
         }
 
     }
 
     @Test
     fun `For API success progress live data should reset`() {
+        try {
 
-        runBlocking { peopleListViewModel.handlePeopleList(peopleListEntity.toPeopleList()) }
+            runBlocking { peopleListViewModel.handlePeopleList(peopleListEntity.toPeopleList()) }
 
-        peopleListViewModel.getIsLoading()?.observeForever {
-            it shouldEqualTo false
+            peopleListViewModel.getProgressLoadingLiveData()?.observeForever(progressDataObserver)
+        } finally {
+            peopleListViewModel.getProgressLoadingLiveData()?.removeObserver(progressDataObserver)
+
         }
     }
 
 
     @Test
     fun `Whenever user name searched it should be observed forever`() {
-        every {
-            peopleListViewModel.getPeopleNameMutabeLiveData()
-        } returns MutableLiveData<String>()
+        try {
 
-        runBlocking { peopleListViewModel.setSearchQueryString(peopleName) }
+            every {
+                peopleListViewModel.getPeopleNameMutabeLiveData()
+            } returns MutableLiveData<String>()
 
-        peopleListViewModel.peopleNameMutableLiveData.observeForever {
-            it shouldEqualTo peopleName
+            runBlocking { peopleListViewModel.setSearchQueryString(peopleName) }
+
+            peopleListViewModel.getPeopleNameMutabeLiveData().observeForever(peopleNameObserver)
+        } finally {
+            peopleListViewModel.getPeopleNameMutabeLiveData().removeObserver(peopleNameObserver)
         }
     }
 
@@ -135,18 +159,18 @@ class PeopleListViewModelTest {
      */
     @Test
     fun `correct response is passed to handlePeopleList method`() {
+        try {
+            // Assert
 
-        // Assert
+            // Act
+            runBlocking { peopleListViewModel.handlePeopleList(peopleListEntity.toPeopleList()) }
 
-        // Act
-        runBlocking { peopleListViewModel.handlePeopleList(peopleListEntity.toPeopleList()) }
+            // Verify
+            peopleListViewModel.getPeopleListLiveData().observeForever(peopleListObserver)
 
-        // Verify
-        peopleListViewModel.peopleListLiveData.observeForever {
-            it!!.peopleList?.size shouldEqualTo 1
-            it.peopleList?.get(1)?.name shouldEqualTo peopleName
+        } finally {
+            peopleListViewModel.getPeopleListLiveData().removeObserver(peopleListObserver)
         }
+
     }
-
-
 }

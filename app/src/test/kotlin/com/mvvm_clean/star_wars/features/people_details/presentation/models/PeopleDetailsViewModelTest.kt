@@ -1,9 +1,12 @@
 package com.mvvm_clean.star_wars.features.people_details.presentation.models
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import com.mvvm_clean.star_wars.AndroidTest
 import com.mvvm_clean.star_wars.core.domain.functional.Either
 import com.mvvm_clean.star_wars.features.people_details.data.repo.response.FilmResponseEntity
 import com.mvvm_clean.star_wars.features.people_details.data.repo.response.SpeciesResponseEntity
+import com.mvvm_clean.star_wars.features.people_details.domain.models.PeopleDetailsDataModel
 import com.mvvm_clean.star_wars.features.people_details.domain.use_cases.GetFilmNames
 import com.mvvm_clean.star_wars.features.people_details.domain.use_cases.GetPlanetsInfo
 import com.mvvm_clean.star_wars.features.people_details.domain.use_cases.GetSpeciesInfo
@@ -19,6 +22,16 @@ import org.junit.Before
 import org.junit.Test
 
 class PeopleDetailsViewModelTest : AndroidTest() {
+
+    private val speciesObserver = Observer<PeopleDetailsDataModel> {
+        it!!.speciesName shouldEqualTo speciesName
+    }
+    private val filmObserver = Observer<PeopleDetailsDataModel> {
+        it!!.film shouldEqualTo filmName
+    }
+    private val planetObserver = Observer<PeopleDetailsDataModel> {
+        it!!.population shouldEqualTo population
+    }
 
     private val population = "100"
     private lateinit var planetEntity: PlanetListEntity
@@ -66,84 +79,107 @@ class PeopleDetailsViewModelTest : AndroidTest() {
 
     }
 
+    /**
+     * Observes a [LiveData] until the `block` is done executing.
+     */
+    fun <T> LiveData<T>.observeForTesting(block: () -> Unit): Observer<T> {
+        val observer = Observer<T> { }
+        try {
+            observeForever(observer)
+            block()
+        } finally {
+            removeObserver(observer)
+        }
+        return observer
+    }
+
     @Test
     fun `loading species list should update live data`() {
+        try {
+            coEvery { getSpeciesInfo.run(any()) } returns Either.Right(speciesResponseEntity.toSpeciesDataModel())
 
-        coEvery { getSpeciesInfo.run(any()) } returns Either.Right(speciesResponseEntity.toSpeciesDataModel())
+            runBlocking { peopleDetailsViewModel.loadSpeciesData(speciesId) }
 
-        peopleDetailsViewModel.getSpeciesMutableLiveData().observeForever {
-            it!!.speciesName shouldEqualTo speciesName
+            peopleDetailsViewModel.getSpeciesMutableLiveData().observeForever(speciesObserver)
+
+        } finally {
+            peopleDetailsViewModel.getSpeciesMutableLiveData().removeObserver(speciesObserver)
         }
-
-        runBlocking { peopleDetailsViewModel.loadSpeciesData(speciesId) }
     }
 
     @Test
     fun `loading film list should update live data`() {
+        try {
+            coEvery { getFilmNames.run(any()) } returns Either.Right(filmResponseEntity.toFilmsDataModel())
 
-        coEvery { getFilmNames.run(any()) } returns Either.Right(filmResponseEntity.toFilmsDataModel())
-
-        peopleDetailsViewModel.getFilmDataMutableLiveData().observeForever {
-            it!!.film shouldEqualTo filmName
+            runBlocking { peopleDetailsViewModel.loadFilmData(filmId) }
+            peopleDetailsViewModel.getFilmDataMutableLiveData().observeForever(filmObserver)
+        } finally {
+            peopleDetailsViewModel.getFilmDataMutableLiveData().removeObserver(filmObserver)
         }
-
-        runBlocking { peopleDetailsViewModel.loadFilmData(filmId) }
     }
 
     @Test
     fun `loading planet list should update live data`() {
+        try {
 
-        // Assert
-        coEvery { getPlanetInfo.run(any()) } returns Either.Right(planetListEntity.toPlanetsDataModel())
+            // Assert
+            coEvery { getPlanetInfo.run(any()) } returns Either.Right(planetListEntity.toPlanetsDataModel())
 
-        // Act
-        runBlocking { peopleDetailsViewModel.loadPlanetData(peopleName) }
+            // Act
+            runBlocking { peopleDetailsViewModel.loadPlanetData(peopleName) }
 
-        // Verify
-        peopleDetailsViewModel.getPlanetsMutableLiveData().observeForever {
-            it!!.population shouldEqualTo population
+            // Verify
+            peopleDetailsViewModel.getPlanetsMutableLiveData().observeForever(planetObserver)
+        } finally {
+            peopleDetailsViewModel.getPlanetsMutableLiveData().removeObserver(planetObserver)
         }
 
     }
 
     @Test
     fun `verify that passing response to handleFilmData triggers live data`() {
-        //Assert
+        try {
+            //Assert
 
-        //Act
-        runBlocking { peopleDetailsViewModel.handleFilmData(filmResponseEntity.toFilmsDataModel()) }
+            //Act
+            runBlocking { peopleDetailsViewModel.handleFilmData(filmResponseEntity.toFilmsDataModel()) }
 
-        //Verifiy
-        peopleDetailsViewModel.getFilmDataMutableLiveData().observeForever {
-            it!!.name shouldEqualTo filmName
+            //Verifiy
+            peopleDetailsViewModel.getFilmDataMutableLiveData().observeForever(filmObserver)
+        } finally {
+            peopleDetailsViewModel.getFilmDataMutableLiveData().removeObserver(filmObserver)
         }
     }
 
     @Test
     fun `verify that passing response to handlePlanetsData triggers live data`() {
-        //Assert
+        try {
+            //Assert
 
-        //Act
-        runBlocking { peopleDetailsViewModel.handlePlanetsData(planetListEntity.toPlanetsDataModel()) }
+            //Act
+            runBlocking { peopleDetailsViewModel.handlePlanetsData(planetListEntity.toPlanetsDataModel()) }
 
-        //Verifiy
-        peopleDetailsViewModel.getPlanetsMutableLiveData().observeForever {
-            it!!.population shouldEqualTo population
+            //Verifiy
+            peopleDetailsViewModel.getPlanetsMutableLiveData().observeForever(planetObserver)
+        } finally {
+            peopleDetailsViewModel.getPlanetsMutableLiveData().removeObserver(planetObserver)
         }
     }
 
 
     @Test
     fun `verify that passing response to handleSpeciesData triggers live data`() {
-        //Assert
+        try {
+            //Assert
 
-        //Act
-        runBlocking { peopleDetailsViewModel.handleSpeciesData(speciesResponseEntity.toSpeciesDataModel()) }
+            //Act
+            runBlocking { peopleDetailsViewModel.handleSpeciesData(speciesResponseEntity.toSpeciesDataModel()) }
 
-        //Verifiy
-        peopleDetailsViewModel.getSpeciesMutableLiveData().observeForever {
-            it!!.speciesName shouldEqualTo speciesName
+            //Verifiy
+            peopleDetailsViewModel.getSpeciesMutableLiveData().observeForever(speciesObserver)
+        } finally {
+            peopleDetailsViewModel.getSpeciesMutableLiveData().removeObserver(speciesObserver)
         }
     }
-
 }

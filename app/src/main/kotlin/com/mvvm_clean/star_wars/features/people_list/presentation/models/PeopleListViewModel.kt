@@ -1,5 +1,6 @@
 package com.mvvm_clean.star_wars.features.people_list.presentation.models
 
+import androidx.annotation.RestrictTo
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -15,36 +16,46 @@ open class PeopleListViewModel
 
 
     private val peopleListMutableLiveData: MutableLiveData<PeoplseListView> = MutableLiveData()
-    val peopleListLiveData: LiveData<PeoplseListView> = peopleListMutableLiveData
-    val peopleNameMutableLiveData = MutableLiveData<String>()
+    private val peopleListLiveData: LiveData<PeoplseListView> = peopleListMutableLiveData
+    private val peopleNameMutableLiveData = MutableLiveData<String>()
+    private val isProgressLoading = MutableLiveData<Boolean>()
 
-    open fun getPeopleNameMutabeLiveData() = peopleNameMutableLiveData
-    val isProgressLoading = MutableLiveData<Boolean>()
-    open fun getProgressLoading() = isProgressLoading
-    val observer = Observer<String> {
+    private val observer = Observer<String> {
         isProgressLoading.value = true
         getPeopleInfo(it) { it.fold(::handlePeopleListFailure, ::handlePeopleList) }
     }
 
+    internal fun getPeopleListLiveData() = peopleListLiveData
 
-    fun setSearchQueryString(userId: String) {
+    @RestrictTo(RestrictTo.Scope.TESTS)
+    internal fun getProgressLoadingMutableLiveData() = isProgressLoading
+
+    @RestrictTo(RestrictTo.Scope.TESTS)
+    internal fun getPeopleNameMutabeLiveData() = peopleNameMutableLiveData
+
+    @RestrictTo(RestrictTo.Scope.TESTS)
+    internal fun setSearchQueryString(userId: String) {
         peopleNameMutableLiveData.postValue(userId)
         peopleNameMutableLiveData.observeForever(observer)
     }
 
-    fun loadPeopleList(searchQuery: String) =
+    @RestrictTo(RestrictTo.Scope.TESTS)
+    internal fun loadPeopleList(searchQuery: String) =
         getPeopleInfo(searchQuery) { it.fold(::handlePeopleListFailure, ::handlePeopleList) }
 
-    fun getIsLoading(): LiveData<Boolean?>? {
+    @RestrictTo(RestrictTo.Scope.TESTS)
+    internal fun getProgressLoadingLiveData(): LiveData<Boolean?>? {
         return isProgressLoading
     }
 
-    open fun handlePeopleListFailure(failure: Failure?) {
+    @RestrictTo(RestrictTo.Scope.TESTS)
+    internal fun handlePeopleListFailure(failure: Failure?) {
         failure?.let { super.handleFailure(it) }
         isProgressLoading.value = false
     }
 
-    open fun handlePeopleList(peopleListDataModel: PeopleListDataModel) {
+    @RestrictTo(RestrictTo.Scope.TESTS)
+    internal fun handlePeopleList(peopleListDataModel: PeopleListDataModel) {
         isProgressLoading.value = false
         peopleListMutableLiveData.value = PeoplseListView(
             peopleListDataModel.count,
@@ -54,8 +65,10 @@ open class PeopleListViewModel
         )
     }
 
+    @RestrictTo(RestrictTo.Scope.TESTS)
     public override fun onCleared() {
         peopleNameMutableLiveData.removeObserver(observer)
         super.onCleared()
     }
+
 }

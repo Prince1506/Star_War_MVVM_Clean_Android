@@ -41,11 +41,11 @@ class PeopleListFragment : BaseFragment() {
         appComponent.inject(this)
 
         peopleListViewModel = viewModel(viewModelFactory) {
-            observe(peopleListLiveData, ::renderPeopleList)
+            observe(getPeopleListLiveData(), ::renderPeopleList)
             failure(failure, ::handleFailure)
         }
 
-        peopleListViewModel.getIsLoading()?.observe(
+        peopleListViewModel.getProgressLoadingLiveData()?.observe(
             this,
             object : Observer<Boolean?> {
                 override fun onChanged(aBoolean: Boolean?) {
