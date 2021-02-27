@@ -16,10 +16,6 @@ import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.validateMockitoUsage
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
@@ -32,9 +28,6 @@ class PeopleListViewModelTest {
     private lateinit var peopleEntity: PeopleEntity
     private val peopleName = "Chewbacaa"
     private lateinit var peopleListEntity: PeopleListResponseEntity
-
-    @Mock
-    lateinit var peopleListViewModelVerify: PeopleListViewModel
 
     @MockK
     private lateinit var getPeopleInfo: GetPeopleInfo
@@ -58,10 +51,6 @@ class PeopleListViewModelTest {
 
     @After
     fun method() {
-        validateMockitoUsage()
-//        clearAllMocks(true)
-//        clearInvocations(PeopleListViewModel::class.java)
-//        clearMocks(PeopleListViewModel::class.java)
     }
 
 
@@ -85,25 +74,17 @@ class PeopleListViewModelTest {
 
     }
 
-//    @Test
-//    fun `For API failure progress live data should reset`() {
-//        every { peopleListViewModel.getProgressLoading() } returns MutableLiveData<Boolean>()
-//
-//        runBlocking { peopleListViewModel.handlePeopleListFailure(null) }
-//
-////        shadowOf(Looper.getMainLooper()).idle()
-//
-//        verify(
-//            peopleListViewModelVerify,
-//            times(1)
-//        ).getProgressLoading()
-//
-//
-//        peopleListViewModel.getIsLoading()?.observeForever {
-//            it shouldEqualTo false
-//        }
-//
-//    }
+    @Test
+    fun `For API failure progress live data should reset`() {
+        every { peopleListViewModel.getProgressLoading() } returns MutableLiveData<Boolean>()
+
+        runBlocking { peopleListViewModel.handlePeopleListFailure(null) }
+
+        peopleListViewModel.getIsLoading()?.observeForever {
+            it shouldEqualTo false
+        }
+
+    }
 
     @Test
     fun `For API success progress live data should reset`() {
@@ -116,28 +97,22 @@ class PeopleListViewModelTest {
     }
 
 
-//    @Test
-//    fun `Whenever user name searched it should be observed forever`() {
-//        every {
-//            peopleListViewModel.getPeopleNameMutabeLiveData()
-//        } returns MutableLiveData<String>()
-//
-//        runBlocking { peopleListViewModel.setSearchQueryString(peopleName) }
-//
-//        Mockito.verify(
-//            peopleListViewModelVerify,
-//            Mockito.times(2)
-//        ).getPeopleNameMutabeLiveData()
-//
-//        peopleListViewModel.peopleNameMutableLiveData?.observeForever {
-//            it shouldEqualTo peopleName
-//        }
-//    }
+    @Test
+    fun `Whenever user name searched it should be observed forever`() {
+        every {
+            peopleListViewModel.getPeopleNameMutabeLiveData()
+        } returns MutableLiveData<String>()
+
+        runBlocking { peopleListViewModel.setSearchQueryString(peopleName) }
+
+        peopleListViewModel.peopleNameMutableLiveData.observeForever {
+            it shouldEqualTo peopleName
+        }
+    }
 
 
     @Test
     fun `User Name observing forever should get cleared`() {
-        val peopleListViewModelVerify = mock(PeopleListViewModel::class.java)
         every {
             peopleListViewModel.getPeopleNameMutabeLiveData()
         } returns MutableLiveData<String>()
@@ -153,20 +128,16 @@ class PeopleListViewModelTest {
         }
         confirmVerified(peopleListViewModel)
 
-        Mockito.verify(
-            peopleListViewModelVerify,
-            Mockito.times(1)
-        ).peopleNameMutableLiveData
-
     }
 
     /**
      * Check that the response we got is passed to live data
      */
     @Test
-    fun `correct response is passed to loadPeopleList method`() {
+    fun `correct response is passed to handlePeopleList method`() {
 
         // Assert
+
         // Act
         runBlocking { peopleListViewModel.handlePeopleList(peopleListEntity.toPeopleList()) }
 

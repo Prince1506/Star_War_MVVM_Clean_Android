@@ -1,5 +1,6 @@
 package com.mvvm_clean.star_wars.features.people_details.presentation.models
 
+import androidx.annotation.RestrictTo
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.mvvm_clean.star_wars.core.base.BaseViewModel
@@ -56,7 +57,8 @@ class PeopleDetailsViewModel
         }
     }
 
-    private fun handlePlanetsData(planetListDataModel: PlanetListDataModel) {
+    @RestrictTo(RestrictTo.Scope.TESTS)
+    internal fun handlePlanetsData(planetListDataModel: PlanetListDataModel) {
         val size = planetListDataModel.results?.size
         if (size != null && size >= 1) {
             mPeopleDetailsDataModel.population = planetListDataModel.results.get(0).population
@@ -71,7 +73,7 @@ class PeopleDetailsViewModel
         }
     }
 
-    private fun handleFilmData(filmDataModel: FilmDataModel) {
+    fun handleFilmData(filmDataModel: FilmDataModel) {
 
         mPeopleDetailsDataModel.let {
             if (it.film?.isEmpty() == false) {
@@ -92,7 +94,8 @@ class PeopleDetailsViewModel
         mPeopleDetailMediatorLiveData.removeSource(filmDataMutableLiveData)
     }
 
-    private fun handleSpeciesData(speciesListDataModel: SpeciesDataModel) {
+    @RestrictTo(RestrictTo.Scope.TESTS)
+    internal fun handleSpeciesData(speciesListDataModel: SpeciesDataModel) {
 
         mPeopleDetailsDataModel.let {
             it.homeworld += speciesListDataModel.homeworld + " <br> "
