@@ -14,6 +14,7 @@ import com.mvvm_clean.star_wars.R.color
 import com.mvvm_clean.star_wars.core.di.ApplicationComponent
 import com.mvvm_clean.star_wars.core.domain.extension.appContext
 import com.mvvm_clean.star_wars.core.domain.extension.viewContainer
+import com.mvvm_clean.star_wars.features.people_list.presentation.ui.registers.CountingIdlingResourceSingleton
 import kotlinx.android.synthetic.main.activity_layout.*
 import javax.inject.Inject
 
@@ -57,5 +58,13 @@ abstract class BaseFragment : Fragment() {
         val snackBar = Snackbar.make(viewContainer, message, Snackbar.LENGTH_INDEFINITE)
         snackBar.setActionTextColor(ContextCompat.getColor(appContext, color.colorTextPrimary))
         snackBar.show()
+    }
+
+    fun handleApiSuccess() {
+        CountingIdlingResourceSingleton.decrement()
+    }
+
+    fun handleApiFailure() {
+        CountingIdlingResourceSingleton.decrement()
     }
 }

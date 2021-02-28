@@ -14,11 +14,11 @@ import com.mvvm_clean.star_wars.core.domain.exception.Failure.NetworkConnection
 import com.mvvm_clean.star_wars.core.domain.exception.Failure.ServerError
 import com.mvvm_clean.star_wars.core.domain.extension.*
 import com.mvvm_clean.star_wars.core.presentation.navigation.Navigator
-import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PeopleEntity
 import com.mvvm_clean.star_wars.features.people_list.domain.repo.PeopleListApiFailure.ListNotAvailable
 import com.mvvm_clean.star_wars.features.people_list.presentation.models.PeopleListViewModel
 import com.mvvm_clean.star_wars.features.people_list.presentation.models.PeoplseListView
 import com.mvvm_clean.star_wars.features.people_list.presentation.ui.adapter.PeopleListAdapter
+import com.mvvm_clean.star_wars.features.people_list.presentation.ui.registers.CountingIdlingResourceSingleton
 import kotlinx.android.synthetic.main.fragment_people_list.*
 import javax.inject.Inject
 
@@ -34,7 +34,6 @@ class PeopleListFragment : BaseFragment() {
     private lateinit var peopleListViewModel: PeopleListViewModel
 
     override fun layoutId() = R.layout.fragment_people_list
-    val searchQuery = "a"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,44 +76,22 @@ class PeopleListFragment : BaseFragment() {
 
         tv_peopleList_searchField.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                CountingIdlingResourceSingleton.increment()
                 peopleListViewModel.setSearchQueryString(tv_peopleList_searchField.text.toString())
                 return@OnEditorActionListener true
             }
             false
         })
 
-        /*addTextChangedListener(object : TextWatcher {
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-                override fun afterTextChanged(s: Editable) {
-                    filter(s.toString())
-                }
-            })*/
-    }
-
-    fun filter(text: String) {
-        val temp: MutableList<PeopleEntity> = ArrayList()
-        for (d in peopleListAdapter.collection) {
-            if (d.name?.contains(text) == true) {
-                temp.add(d)
-            }
-        }
-        //update recyclerview
-        peopleListAdapter.updateList(temp)
-    }
-
-    private fun loadPeopleList(searchQuery: String) {
-        emptyView.invisible()
-        rv_people_list.visible()
-        showProgress()
-        peopleListViewModel.loadPeopleList(searchQuery)
     }
 
     private fun renderPeopleList(peoplseListView: PeoplseListView?) {
+
         if (peoplseListView?.peopleList != null) {
             peopleListAdapter.collection = peoplseListView.peopleList
         }
         hideProgress()
+        super.handleApiSuccess()
     }
 
 
@@ -124,6 +101,7 @@ class PeopleListFragment : BaseFragment() {
             is ServerError -> renderFailure(R.string.failure_server_error)
             is ListNotAvailable -> renderFailure(R.string.failure_movies_list_unavailable)
         }
+        super.handleApiFailure()
     }
 
     private fun renderFailure(@StringRes message: Int) {
@@ -131,5 +109,6 @@ class PeopleListFragment : BaseFragment() {
         emptyView.visible()
         hideProgress()
         notifyWithAction(message, R.string.action_refresh)
+
     }
 }

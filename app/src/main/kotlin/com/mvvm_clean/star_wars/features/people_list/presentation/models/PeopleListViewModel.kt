@@ -20,7 +20,7 @@ open class PeopleListViewModel
     private val peopleNameMutableLiveData = MutableLiveData<String>()
     private val isProgressLoading = MutableLiveData<Boolean>()
 
-    private val observer = Observer<String> {
+    private val peopleNameSearchObserver = Observer<String> {
         isProgressLoading.value = true
         getPeopleInfo(it) { it.fold(::handlePeopleListFailure, ::handlePeopleList) }
     }
@@ -35,14 +35,12 @@ open class PeopleListViewModel
 
     internal fun setSearchQueryString(userId: String) {
         peopleNameMutableLiveData.postValue(userId)
-        peopleNameMutableLiveData.observeForever(observer)
+        peopleNameMutableLiveData.observeForever(peopleNameSearchObserver)
     }
 
-    @RestrictTo(RestrictTo.Scope.TESTS)
     internal fun loadPeopleList(searchQuery: String) =
         getPeopleInfo(searchQuery) { it.fold(::handlePeopleListFailure, ::handlePeopleList) }
 
-    @RestrictTo(RestrictTo.Scope.TESTS)
     internal fun getProgressLoadingLiveData(): LiveData<Boolean?>? {
         return isProgressLoading
     }
@@ -66,7 +64,7 @@ open class PeopleListViewModel
 
     @RestrictTo(RestrictTo.Scope.TESTS)
     public override fun onCleared() {
-        peopleNameMutableLiveData.removeObserver(observer)
+        peopleNameMutableLiveData.removeObserver(peopleNameSearchObserver)
         super.onCleared()
     }
 
