@@ -33,7 +33,6 @@ open class PeopleListViewModel
     @RestrictTo(RestrictTo.Scope.TESTS)
     internal fun getPeopleNameMutabeLiveData() = peopleNameMutableLiveData
 
-    @RestrictTo(RestrictTo.Scope.TESTS)
     internal fun setSearchQueryString(userId: String) {
         peopleNameMutableLiveData.postValue(userId)
         peopleNameMutableLiveData.observeForever(observer)

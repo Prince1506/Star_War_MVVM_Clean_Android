@@ -15,6 +15,7 @@
         style="@style/ed_searchTheme"
         android:focusable="true"
         android:focusedByDefault="true"
+        android:imeOptions="actionSearch"
         android:textCursorDrawable="@null"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
