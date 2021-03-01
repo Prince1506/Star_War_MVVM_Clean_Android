@@ -7,8 +7,8 @@ import javax.inject.Inject
 
 class GetPlanetsInfo
 @Inject constructor(private val starWarApiRepository: StarWarApiRepository) :
-    UseCase<PlanetListDataModel, String>() {
+    UseCase<PlanetListDataModel, Int>() {
 
-    override suspend fun run(searchQuery: String) =
-        starWarApiRepository.getPlanetsByQuery(searchQuery)
+    override suspend fun run(planetId: Int) =
+        starWarApiRepository.getPlanetsByQuery(planetId)
 }

@@ -51,18 +51,16 @@ class PeopleDetailsViewModel
         }
     }
 
-    fun loadPlanetData(searchQuery: String) {
-        getPlanetsInfo(searchQuery) {
+    fun loadPlanetData(planetId: Int) {
+        getPlanetsInfo(planetId) {
             it.fold(::handleFailure, ::handlePlanetsData)
         }
     }
 
     @RestrictTo(RestrictTo.Scope.TESTS)
     internal fun handlePlanetsData(planetListDataModel: PlanetListDataModel) {
-        val size = planetListDataModel.results?.size
-        if (size != null && size >= 1) {
-            mPeopleDetailsDataModel.population = planetListDataModel.results.get(0).population
-        }
+        mPeopleDetailsDataModel.homeworld = planetListDataModel.name
+        mPeopleDetailsDataModel.population = planetListDataModel.population
         planetsMutableLiveData.postValue(mPeopleDetailsDataModel)
 
         mPeopleDetailMediatorLiveData.addSource(planetsMutableLiveData) {
@@ -98,7 +96,7 @@ class PeopleDetailsViewModel
     internal fun handleSpeciesData(speciesListDataModel: SpeciesDataModel) {
 
         mPeopleDetailsDataModel.let {
-            it.homeworld += speciesListDataModel.homeworld + " <br> "
+//            it.homeworld += speciesListDataModel.homeworld + " <br> "
             it.speciesName += speciesListDataModel.name + " <br> "
             it.languages += speciesListDataModel.language + " <br> "
             speciesMutableLiveData.postValue(it)

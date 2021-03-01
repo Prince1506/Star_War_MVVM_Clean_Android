@@ -15,17 +15,18 @@ internal interface StarWarApi {
         private const val PATH_SPECIES = "species/"
         private const val PATH_PLANETS = "planets/"
         private const val PATH_FILMS = "films/"
-        private const val QUERY_PARAM_SEARCH_KEY = "search"
-
+        private const val PATH_PARAM_PLANETS = "planets"
         private const val PATH_PARAM_FILMS = "films"
         private const val PATH_PARAM_SPECIES = "species"
+        private const val QUERY_PARAM_SEARCH_KEY = "search"
+
     }
 
     @GET(PATH_PEOPLE)
     fun getPeopleListByQuery(@Query(QUERY_PARAM_SEARCH_KEY) searchKey: String): Call<PeopleListResponseEntity>
 
-    @GET(PATH_PLANETS)
-    fun getPlanetListByQuery(@Query(QUERY_PARAM_SEARCH_KEY) searchKey: String): Call<PlanetListResponseEntity>
+    @GET(PATH_PLANETS + "{planets}/")
+    fun getPlanetListByQuery(@Path(PATH_PARAM_PLANETS) planetId: Int): Call<PlanetListResponseEntity>
 
     @GET(PATH_FILMS + "{films}/")
     fun getFilmByQuery(@Path(PATH_PARAM_FILMS) filmId: Int): Call<FilmResponseEntity>

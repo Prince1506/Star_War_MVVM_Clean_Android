@@ -10,4 +10,9 @@
 
     <string name="content_description_empty">No content description.</string>
     <string name="forward_slash">/</string>
+    <string name="peopleDetails_planetName">(Planet Name)</string>
+    <string name="space">" "</string>
+    <string name="film">film</string>
+    <string name="species">species</string>
+    <string name="planets">planets</string>
 </resources>

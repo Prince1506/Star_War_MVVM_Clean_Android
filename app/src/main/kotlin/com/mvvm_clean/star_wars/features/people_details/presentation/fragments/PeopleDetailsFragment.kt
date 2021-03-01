@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_people_details.*
 class PeopleDetailsFragment : BaseFragment() {
     private val filmUrl = "http://swapi.dev/api/films/"
     private val speciesUrl = "http://swapi.dev/api/species/"
-    private val PATH_FILMS = "films/"
+    private val planetUrl = "http://swapi.dev/api/planets/"
 
     companion object {
         const val PARAM_PEOPLE_ENTITY = "param_peopleEntity"
@@ -57,9 +57,14 @@ class PeopleDetailsFragment : BaseFragment() {
         mPeopleDetailsViewModel.updatePeopleDetailWithPeopleInfo(peopleEntity)
 
         showProgress()
-        peopleEntity.name?.let {
-            mPeopleDetailsViewModel.loadPlanetData(it)
+
+        peopleEntity.homeworld?.let { it1 ->
+            getIdFromUrl(it1).apply {
+                if (this != -1)
+                    mPeopleDetailsViewModel.loadPlanetData(this)
+            }
         }
+
 
         peopleEntity.let {
             for (film in it.films!!) {
@@ -81,8 +86,11 @@ class PeopleDetailsFragment : BaseFragment() {
     private fun getIdFromUrl(url: String): Int {
         var urlArrWithId = arrayOf(String.empty(), String.empty())
 
-        if (url.contains("film")) urlArrWithId = url.split(filmUrl).toTypedArray()
-        else if (url.contains("species")) urlArrWithId = url.split(speciesUrl).toTypedArray()
+        if (url.contains(getString(R.string.film))) urlArrWithId = url.split(filmUrl).toTypedArray()
+        else if (url.contains(getString(R.string.species))) urlArrWithId =
+            url.split(speciesUrl).toTypedArray()
+        else if (url.contains(getString(R.string.planets))) urlArrWithId =
+            url.split(planetUrl).toTypedArray()
 
 
         var urlId = -1 // -1 tells that id is not available
@@ -118,7 +126,12 @@ class PeopleDetailsFragment : BaseFragment() {
                     Html.fromHtml(it.openingCrawlNotNull, HtmlCompat.FROM_HTML_MODE_COMPACT)
 
                 tv_peopleDetails_homeworld.text =
-                    Html.fromHtml(it.homeworldNotNull, HtmlCompat.FROM_HTML_MODE_COMPACT)
+                    Html.fromHtml(
+                        it.homeworldNotNull +
+                                getString(R.string.space) +
+                                getString(R.string.peopleDetails_planetName),
+                        HtmlCompat.FROM_HTML_MODE_COMPACT
+                    )
 
                 tv_peopleDetails_language.text =
                     Html.fromHtml(it.languagesNotNull, HtmlCompat.FROM_HTML_MODE_COMPACT)

@@ -27,13 +27,13 @@ android {
     sourceSets {
         map { it.java.srcDir("src/${it.name}/kotlin") }
 
-        //TODO: Remove this when migrating the DI framework
         getByName("main") { java.srcDir("$buildDir/generated/source/kapt/main") }
     }
 }
 
 dependencies {
-    /* Compile time dependencies */
+
+/* Compile time dependencies */
     kapt(Libraries.lifecycleCompiler)
     kapt(Libraries.daggerCompiler)
     compileOnly(Libraries.javaxAnnotation)

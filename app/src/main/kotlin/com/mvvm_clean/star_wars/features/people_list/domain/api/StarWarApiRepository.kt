@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 interface StarWarApiRepository {
     fun getPeopleByQuery(searchQuery: String): Either<Failure, PeopleListDataModel>
-    fun getPlanetsByQuery(searchQuery: String): Either<Failure, PlanetListDataModel>
+    fun getPlanetsByQuery(planetId: Int): Either<Failure, PlanetListDataModel>
     fun getFilmByQuery(filmId: Int): Either<Failure, FilmDataModel>
     fun getSpeciesByQuery(speceisId: Int): Either<Failure, SpeciesDataModel>
 
@@ -41,11 +41,11 @@ interface StarWarApiRepository {
                 false -> Left(NetworkConnection)
             }
 
-        override fun getPlanetsByQuery(searchQuery: String): Either<Failure, PlanetListDataModel> =
+        override fun getPlanetsByQuery(planetId: Int): Either<Failure, PlanetListDataModel> =
 
             when (networkHandler.isNetworkAvailable()) {
                 true -> request(
-                    service.getPlanetListByQuery(searchQuery),
+                    service.getPlanetListByQuery(planetId),
                     { it.toPlanetsDataModel() },
                     PlanetListResponseEntity.empty
                 )

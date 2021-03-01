@@ -16,8 +16,8 @@ class StarWarApiImpl
     override fun getSpeciesByQuery(speciesId: Int) =
         starWarApi.getSpeciesByQuery(speciesId)
 
-    override fun getPlanetListByQuery(searchQuery: String) =
-        starWarApi.getPlanetListByQuery(searchQuery)
+    override fun getPlanetListByQuery(planetId: Int) =
+        starWarApi.getPlanetListByQuery(planetId)
 
     override fun getFilmByQuery(filmId: Int) =
         starWarApi.getFilmByQuery(filmId)

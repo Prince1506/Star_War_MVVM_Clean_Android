@@ -4,15 +4,13 @@ import com.mvvm_clean.star_wars.features.people_details.domain.models.PlanetList
 
 
 data class PlanetListResponseEntity(
-    val count: Int? = null,
-    val next: String? = null,
-    val previous: String? = null,
-    val results: List<PlanetListEntity>? = null,
+    val name: String? = null,
+    val population: String? = null,
 ) {
 
     companion object {
-        val empty = PlanetListResponseEntity(0, null, null, emptyList())
+        val empty = PlanetListResponseEntity(name = null, population = null)
     }
 
-    fun toPlanetsDataModel() = PlanetListDataModel(count, next, previous, results)
+    fun toPlanetsDataModel() = PlanetListDataModel(name = name, population = population)
 }

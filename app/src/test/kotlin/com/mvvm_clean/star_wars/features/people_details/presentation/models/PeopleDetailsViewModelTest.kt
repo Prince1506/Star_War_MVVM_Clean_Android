@@ -23,6 +23,7 @@ import org.junit.Test
 
 class PeopleDetailsViewModelTest : AndroidTest() {
 
+    private val planetId = 15
     private val speciesObserver = Observer<PeopleDetailsDataModel> {
         it!!.speciesName shouldEqualTo speciesName
     }
@@ -74,7 +75,7 @@ class PeopleDetailsViewModelTest : AndroidTest() {
 
         planetEntity = PlanetListEntity(planetName)
         planetEntity.population = population
-        planetListEntity = PlanetListResponseEntity(null, null, null, listOf(planetEntity))
+        planetListEntity = PlanetListResponseEntity(null, null)
 
 
     }
@@ -127,7 +128,7 @@ class PeopleDetailsViewModelTest : AndroidTest() {
             coEvery { getPlanetInfo.run(any()) } returns Either.Right(planetListEntity.toPlanetsDataModel())
 
             // Act
-            runBlocking { peopleDetailsViewModel.loadPlanetData(peopleName) }
+            runBlocking { peopleDetailsViewModel.loadPlanetData(planetId) }
 
             // Verify
             peopleDetailsViewModel.getPlanetsMutableLiveData().observeForever(planetObserver)
