@@ -10,28 +10,28 @@ import com.mvvm_clean.star_wars.core.domain.exception.Failure
 import com.mvvm_clean.star_wars.core.domain.exception.Failure.NetworkConnection
 import com.mvvm_clean.star_wars.core.domain.exception.Failure.ServerError
 import com.mvvm_clean.star_wars.core.domain.extension.*
+import com.mvvm_clean.star_wars.features.common.domain.models.ApiFailure
 import com.mvvm_clean.star_wars.features.people_details.domain.models.PeopleDetailsDataModel
 import com.mvvm_clean.star_wars.features.people_details.presentation.models.PeopleDetailsViewModel
 import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PeopleEntity
-import com.mvvm_clean.star_wars.features.people_list.domain.repo.PeopleListApiFailure.NonExistentMovie
 import kotlinx.android.synthetic.main.fragment_people_details.*
 
 class PeopleDetailsFragment : BaseFragment() {
-    private val filmUrl = "http://swapi.dev/api/films/"
-    private val speciesUrl = "http://swapi.dev/api/species/"
-    private val planetUrl = "http://swapi.dev/api/planets/"
+    private val mFilmUrl = "http://swapi.dev/api/films/"
+    private val mSpeciesUrl = "http://swapi.dev/api/species/"
+    private val mPlanetUrl = "http://swapi.dev/api/planets/"
 
     companion object {
         const val PARAM_PEOPLE_ENTITY = "param_peopleEntity"
 
         fun forPeopleInfo(speciesEntity: PeopleEntity?): PeopleDetailsFragment {
-            val movieDetailsFragment = PeopleDetailsFragment()
+            val peopleDetailsFragment = PeopleDetailsFragment()
             speciesEntity?.let {
                 val arguments = Bundle()
                 arguments.putParcelable(PARAM_PEOPLE_ENTITY, it)
-                movieDetailsFragment.arguments = arguments
+                peopleDetailsFragment.arguments = arguments
             }
-            return movieDetailsFragment
+            return peopleDetailsFragment
         }
     }
 
@@ -86,11 +86,12 @@ class PeopleDetailsFragment : BaseFragment() {
     private fun getIdFromUrl(url: String): Int {
         var urlArrWithId = arrayOf(String.empty(), String.empty())
 
-        if (url.contains(getString(R.string.film))) urlArrWithId = url.split(filmUrl).toTypedArray()
+        if (url.contains(getString(R.string.film))) urlArrWithId =
+            url.split(mFilmUrl).toTypedArray()
         else if (url.contains(getString(R.string.species))) urlArrWithId =
-            url.split(speciesUrl).toTypedArray()
+            url.split(mSpeciesUrl).toTypedArray()
         else if (url.contains(getString(R.string.planets))) urlArrWithId =
-            url.split(planetUrl).toTypedArray()
+            url.split(mPlanetUrl).toTypedArray()
 
 
         var urlId = -1 // -1 tells that id is not available
@@ -164,7 +165,7 @@ class PeopleDetailsFragment : BaseFragment() {
             is ServerError -> {
                 notify(R.string.failure_server_error); close()
             }
-            is NonExistentMovie -> {
+            is ApiFailure.NonExistentMovie -> {
                 notify(R.string.failure_movie_non_existent); close()
             }
         }

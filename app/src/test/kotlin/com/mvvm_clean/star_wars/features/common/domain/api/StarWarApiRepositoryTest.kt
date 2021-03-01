@@ -1,4 +1,4 @@
-package com.mvvm_clean.star_wars.features.people_list.domain.api
+package com.mvvm_clean.star_wars.features.common.domain.api
 
 import com.mvvm_clean.star_wars.UnitTest
 import com.mvvm_clean.star_wars.core.data.NetworkHandler
@@ -7,13 +7,12 @@ import com.mvvm_clean.star_wars.core.domain.exception.Failure.ServerError
 import com.mvvm_clean.star_wars.core.domain.functional.Either
 import com.mvvm_clean.star_wars.core.domain.functional.Either.Right
 import com.mvvm_clean.star_wars.core.domain.functional.onSuccess
+import com.mvvm_clean.star_wars.features.common.domain.api.StarWarApiRepository.Network
 import com.mvvm_clean.star_wars.features.people_details.data.repo.response.FilmResponseEntity
 import com.mvvm_clean.star_wars.features.people_details.data.repo.response.SpeciesResponseEntity
 import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PeopleEntity
 import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PeopleListResponseEntity
-import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PlanetListEntity
 import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PlanetListResponseEntity
-import com.mvvm_clean.star_wars.features.people_list.domain.api.StarWarApiRepository.Network
 import io.mockk.Called
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
@@ -342,7 +341,7 @@ class StarWarApiRepositoryTest : UnitTest() {
         val peopleListResponseEntity = networkRepository.getPlanetsByQuery(peopleName)
 
         peopleListResponseEntity.onSuccess {
-            it.results?.get(0)?.name shouldEqual planetName
+            it.results.get(0).name shouldEqual planetName
         }
 
         verify(exactly = 1) { service.getPlanetListByQuery(peopleName) }

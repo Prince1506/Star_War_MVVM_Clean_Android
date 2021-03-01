@@ -1,6 +1,6 @@
-package com.mvvm_clean.star_wars.features.people_list.domain.api
+package com.mvvm_clean.star_wars.features.common.domain.api
 
-import com.mvvm_clean.star_wars.features.people_list.data.api.StarWarApi
+import com.mvvm_clean.star_wars.features.common.data.api.StarWarApi
 import retrofit2.Retrofit
 import javax.inject.Inject
 import javax.inject.Singleton

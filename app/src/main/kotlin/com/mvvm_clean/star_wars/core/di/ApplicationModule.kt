@@ -3,7 +3,7 @@ package com.mvvm_clean.star_wars.core.di
 import android.content.Context
 import com.mvvm_clean.star_wars.AndroidApplication
 import com.mvvm_clean.star_wars.BuildConfig
-import com.mvvm_clean.star_wars.features.people_list.domain.api.StarWarApiRepository
+import com.mvvm_clean.star_wars.features.common.domain.api.StarWarApiRepository
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient

@@ -1,6 +1,7 @@
 package com.mvvm_clean.star_wars.features.login
 
 import com.mvvm_clean.star_wars.UnitTest
+import com.mvvm_clean.star_wars.features.login.domain.Authenticator
 import org.amshove.kluent.shouldBe
 import org.junit.Test
 

@@ -4,10 +4,10 @@ import androidx.annotation.RestrictTo
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.mvvm_clean.star_wars.core.base.BaseViewModel
-import com.mvvm_clean.star_wars.features.people_details.data.repo.response.SpeciesDataModel
 import com.mvvm_clean.star_wars.features.people_details.domain.models.FilmDataModel
 import com.mvvm_clean.star_wars.features.people_details.domain.models.PeopleDetailsDataModel
 import com.mvvm_clean.star_wars.features.people_details.domain.models.PlanetListDataModel
+import com.mvvm_clean.star_wars.features.people_details.domain.models.SpeciesDataModel
 import com.mvvm_clean.star_wars.features.people_details.domain.use_cases.GetFilmNames
 import com.mvvm_clean.star_wars.features.people_details.domain.use_cases.GetPlanetsInfo
 import com.mvvm_clean.star_wars.features.people_details.domain.use_cases.GetSpeciesInfo
@@ -24,50 +24,43 @@ class PeopleDetailsViewModel
     private val mPeopleDetailsDataModel = PeopleDetailsDataModel()
 
     val mPeopleDetailMediatorLiveData = MediatorLiveData<PeopleDetailsDataModel>()
-    private val speciesMutableLiveData: MutableLiveData<PeopleDetailsDataModel> = MutableLiveData()
-    private val filmDataMutableLiveData: MutableLiveData<PeopleDetailsDataModel> = MutableLiveData()
-    private val planetsMutableLiveData: MutableLiveData<PeopleDetailsDataModel> =
+    private val mSpeciesMutableLiveData: MutableLiveData<PeopleDetailsDataModel> = MutableLiveData()
+    private val mFilmDataMutableLiveData: MutableLiveData<PeopleDetailsDataModel> =
+        MutableLiveData()
+    private val mPlanetsMutableLiveData: MutableLiveData<PeopleDetailsDataModel> =
         MutableLiveData()
 
-    fun getSpeciesMutableLiveData() = speciesMutableLiveData
-    fun getFilmDataMutableLiveData() = filmDataMutableLiveData
-    fun getPlanetsMutableLiveData() = planetsMutableLiveData
+    fun getSpeciesMutableLiveData() = mSpeciesMutableLiveData
+    fun getFilmDataMutableLiveData() = mFilmDataMutableLiveData
+    fun getPlanetsMutableLiveData() = mPlanetsMutableLiveData
 
-    fun updatePeopleDetailWithPeopleInfo(peopleEntity: PeopleEntity) {
-        mPeopleDetailsDataModel.name = peopleEntity.name
-        mPeopleDetailsDataModel.birthYear = peopleEntity.birth_year
-        mPeopleDetailsDataModel.height = peopleEntity.height
-    }
-
-    fun loadFilmData(filmId: Int) {
-        getFilmNames(filmId) {
-            it.fold(::handleFailure, ::handleFilmData)
+    fun updatePeopleDetailWithPeopleInfo(peopleEntity: PeopleEntity) =
+        mPeopleDetailsDataModel.apply {
+            name = peopleEntity.name
+            birthYear = peopleEntity.birth_year
+            height = peopleEntity.height
         }
-    }
 
-    fun loadSpeciesData(speciesId: Int) {
-        getSpeciesInfo(speciesId) {
-            it.fold(::handleFailure, ::handleSpeciesData)
-        }
-    }
 
-    fun loadPlanetData(planetId: Int) {
-        getPlanetsInfo(planetId) {
-            it.fold(::handleFailure, ::handlePlanetsData)
-        }
-    }
+    fun loadFilmData(filmId: Int) =
+        getFilmNames(filmId) { it.fold(::handleFailure, ::handleFilmData) }
+
+    fun loadSpeciesData(speciesId: Int) =
+        getSpeciesInfo(speciesId) { it.fold(::handleFailure, ::handleSpeciesData) }
+
+    fun loadPlanetData(planetId: Int) =
+        getPlanetsInfo(planetId) { it.fold(::handleFailure, ::handlePlanetsData) }
 
     @RestrictTo(RestrictTo.Scope.TESTS)
     internal fun handlePlanetsData(planetListDataModel: PlanetListDataModel) {
-        mPeopleDetailsDataModel.homeworld = planetListDataModel.name
-        mPeopleDetailsDataModel.population = planetListDataModel.population
-        planetsMutableLiveData.postValue(mPeopleDetailsDataModel)
+        mPeopleDetailsDataModel.apply {
+            homeworld = planetListDataModel.name
+            population = planetListDataModel.population
+            mPlanetsMutableLiveData.postValue(this)
+        }
 
-        mPeopleDetailMediatorLiveData.addSource(planetsMutableLiveData) {
+        mPeopleDetailMediatorLiveData.addSource(mPlanetsMutableLiveData) {
             mPeopleDetailMediatorLiveData.value = it
-            if (!mPeopleDetailsDataModel.isEmpty()) {
-                //Hide progress
-            }
         }
     }
 
@@ -75,40 +68,37 @@ class PeopleDetailsViewModel
 
         mPeopleDetailsDataModel.let {
             if (it.film?.isEmpty() == false) {
-                mPeopleDetailsDataModel.film += filmDataModel.title + " <br> "
+                it.film += filmDataModel.title + " <br> "
             } else {
-                mPeopleDetailsDataModel.film = filmDataModel.title
+                it.film = filmDataModel.title
             }
             it.openingCrawl += filmDataModel.title + " : <br> " + filmDataModel.opening_crawl + " <br> <br> "
-            filmDataMutableLiveData.postValue(it)
+            mFilmDataMutableLiveData.postValue(it)
         }
 
-        mPeopleDetailMediatorLiveData.addSource(filmDataMutableLiveData) {
-            mPeopleDetailMediatorLiveData.value = it
-            if (!mPeopleDetailsDataModel.isEmpty()) {
-                //Hide progress
+        mPeopleDetailMediatorLiveData.apply {
+            addSource(mFilmDataMutableLiveData) {
+                value = it
             }
+            removeSource(mFilmDataMutableLiveData)
         }
-        mPeopleDetailMediatorLiveData.removeSource(filmDataMutableLiveData)
     }
 
     @RestrictTo(RestrictTo.Scope.TESTS)
     internal fun handleSpeciesData(speciesListDataModel: SpeciesDataModel) {
 
         mPeopleDetailsDataModel.let {
-//            it.homeworld += speciesListDataModel.homeworld + " <br> "
             it.speciesName += speciesListDataModel.name + " <br> "
             it.languages += speciesListDataModel.language + " <br> "
-            speciesMutableLiveData.postValue(it)
+            mSpeciesMutableLiveData.postValue(it)
         }
 
-        mPeopleDetailMediatorLiveData.addSource(speciesMutableLiveData) {
-            mPeopleDetailMediatorLiveData.value = it
-            if (!mPeopleDetailsDataModel.isEmpty()) {
-                //Hide progress
+        mPeopleDetailMediatorLiveData.apply {
+            addSource(mSpeciesMutableLiveData) {
+                value = it
             }
+            removeSource(mSpeciesMutableLiveData)
         }
-        mPeopleDetailMediatorLiveData.removeSource(speciesMutableLiveData)
     }
 
 }

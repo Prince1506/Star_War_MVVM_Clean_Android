@@ -3,6 +3,9 @@ package com.mvvm_clean.star_wars.features.people_list.data.repo.response
 import com.mvvm_clean.star_wars.core.base.KParcelable
 import kotlinx.android.parcel.Parcelize
 
+/**
+ * Data class variables can come null from API that's they are supporting nullables.
+ */
 @Parcelize
 data class PeopleEntity(
     var name: String? = null,

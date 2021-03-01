@@ -30,7 +30,7 @@
         </activity>
 
         <activity
-            android:name="com.mvvm_clean.star_wars.features.login.LoginActivity"
+            android:name="com.mvvm_clean.star_wars.features.login.presentation.activities.LoginActivity"
             android:label="@string/login_screen_title"/>
 
         <activity

@@ -30,7 +30,7 @@ class PeopleListViewModelTest {
     {
         it shouldEqualTo peopleName
     }
-    private val peopleListObserver = Observer<PeoplseListView> {
+    private val peopleListObserver = Observer<PeopleListView> {
         it!!.peopleList?.size shouldEqualTo 1
         it.peopleList?.get(1)?.name shouldEqualTo peopleName
     }
@@ -95,10 +95,10 @@ class PeopleListViewModelTest {
 
             runBlocking { peopleListViewModel.handlePeopleListFailure(null) }
 
-            peopleListViewModel.getProgressLoadingLiveData()?.observeForever(progressDataObserver)
+            peopleListViewModel.getProgressLoadingLiveData().observeForever(progressDataObserver)
 
         } finally {
-            peopleListViewModel.getProgressLoadingLiveData()?.removeObserver(progressDataObserver)
+            peopleListViewModel.getProgressLoadingLiveData().removeObserver(progressDataObserver)
 
         }
 
@@ -110,9 +110,9 @@ class PeopleListViewModelTest {
 
             runBlocking { peopleListViewModel.handlePeopleList(peopleListEntity.toPeopleList()) }
 
-            peopleListViewModel.getProgressLoadingLiveData()?.observeForever(progressDataObserver)
+            peopleListViewModel.getProgressLoadingLiveData().observeForever(progressDataObserver)
         } finally {
-            peopleListViewModel.getProgressLoadingLiveData()?.removeObserver(progressDataObserver)
+            peopleListViewModel.getProgressLoadingLiveData().removeObserver(progressDataObserver)
 
         }
     }

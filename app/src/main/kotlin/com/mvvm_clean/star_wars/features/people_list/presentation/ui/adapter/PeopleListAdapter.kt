@@ -14,23 +14,19 @@ import kotlin.properties.Delegates
 class PeopleListAdapter
 @Inject constructor() : RecyclerView.Adapter<PeopleListAdapter.ViewHolder>() {
 
-    internal var collection: List<PeopleEntity> by Delegates.observable(emptyList()) { _, _, _ ->
+    internal var mCollection: List<PeopleEntity> by Delegates.observable(emptyList()) { _, _, _ ->
         notifyDataSetChanged()
     }
 
-    internal var clickListener: (PeopleEntity, Navigator.Extras) -> Unit = { _, _ -> }
+    internal var mClickListener: (PeopleEntity, Navigator.Extras) -> Unit = { _, _ -> }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(parent.inflate(R.layout.row_people_info))
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) =
-        viewHolder.bind(collection.get(position), clickListener)
+        viewHolder.bind(mCollection.get(position), mClickListener)
 
-    override fun getItemCount() = collection.size
-    fun updateList(speciesMutable: MutableList<PeopleEntity>) {
-        collection = speciesMutable
-        notifyDataSetChanged()
-    }
+    override fun getItemCount() = mCollection.size
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(

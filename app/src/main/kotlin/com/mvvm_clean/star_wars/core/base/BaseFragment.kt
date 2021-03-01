@@ -28,7 +28,7 @@ abstract class BaseFragment : Fragment() {
     abstract fun layoutId(): Int
 
     val appComponent: ApplicationComponent by lazy(mode = LazyThreadSafetyMode.NONE) {
-        (activity?.application as AndroidApplication).appComponent
+        (activity?.application as AndroidApplication).mAppComponent
     }
 
     @Inject

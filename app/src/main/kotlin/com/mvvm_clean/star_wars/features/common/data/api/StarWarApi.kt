@@ -1,4 +1,4 @@
-package com.mvvm_clean.star_wars.features.people_list.data.api
+package com.mvvm_clean.star_wars.features.common.data.api
 
 import com.mvvm_clean.star_wars.features.people_details.data.repo.response.FilmResponseEntity
 import com.mvvm_clean.star_wars.features.people_details.data.repo.response.SpeciesResponseEntity

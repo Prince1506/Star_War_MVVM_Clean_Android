@@ -2,8 +2,8 @@ package com.mvvm_clean.star_wars.features.people_details.domain.use_cases
 
 import com.mvvm_clean.star_wars.UnitTest
 import com.mvvm_clean.star_wars.core.domain.functional.Either
+import com.mvvm_clean.star_wars.features.common.domain.api.StarWarApiRepository
 import com.mvvm_clean.star_wars.features.people_details.domain.models.FilmDataModel
-import com.mvvm_clean.star_wars.features.people_list.domain.api.StarWarApiRepository
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify

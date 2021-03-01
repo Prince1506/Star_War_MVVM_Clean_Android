@@ -1,4 +1,4 @@
-package com.mvvm_clean.star_wars.features.people_list.domain.api
+package com.mvvm_clean.star_wars.features.common.domain.api
 
 import com.mvvm_clean.star_wars.BuildConfig
 import com.mvvm_clean.star_wars.core.data.NetworkHandler
@@ -9,10 +9,10 @@ import com.mvvm_clean.star_wars.core.domain.functional.Either
 import com.mvvm_clean.star_wars.core.domain.functional.Either.Left
 import com.mvvm_clean.star_wars.core.domain.functional.Either.Right
 import com.mvvm_clean.star_wars.features.people_details.data.repo.response.FilmResponseEntity
-import com.mvvm_clean.star_wars.features.people_details.data.repo.response.SpeciesDataModel
 import com.mvvm_clean.star_wars.features.people_details.data.repo.response.SpeciesResponseEntity
 import com.mvvm_clean.star_wars.features.people_details.domain.models.FilmDataModel
 import com.mvvm_clean.star_wars.features.people_details.domain.models.PlanetListDataModel
+import com.mvvm_clean.star_wars.features.people_details.domain.models.SpeciesDataModel
 import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PeopleListResponseEntity
 import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PlanetListResponseEntity
 import com.mvvm_clean.star_wars.features.people_list.domain.models.PeopleListDataModel

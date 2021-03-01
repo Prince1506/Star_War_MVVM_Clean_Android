@@ -12,7 +12,6 @@ import com.mvvm_clean.star_wars.features.people_details.domain.use_cases.GetPlan
 import com.mvvm_clean.star_wars.features.people_details.domain.use_cases.GetSpeciesInfo
 import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PeopleEntity
 import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PeopleListResponseEntity
-import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PlanetListEntity
 import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PlanetListResponseEntity
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -35,7 +34,7 @@ class PeopleDetailsViewModelTest : AndroidTest() {
     }
 
     private val population = "100"
-    private lateinit var planetEntity: PlanetListEntity
+    private lateinit var planetEntity: PlanetListResponseEntity
     private lateinit var speciesResponseEntity: SpeciesResponseEntity
     private lateinit var planetListEntity: PlanetListResponseEntity
     private lateinit var peopleListEntity: PeopleListResponseEntity

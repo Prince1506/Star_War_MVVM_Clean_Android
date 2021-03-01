@@ -3,8 +3,8 @@ package com.mvvm_clean.star_wars.core.presentation.navigation
 import android.content.Context
 import android.view.View
 import androidx.fragment.app.FragmentActivity
-import com.mvvm_clean.star_wars.features.login.Authenticator
-import com.mvvm_clean.star_wars.features.login.LoginActivity
+import com.mvvm_clean.star_wars.features.login.domain.Authenticator
+import com.mvvm_clean.star_wars.features.login.presentation.activities.LoginActivity
 import com.mvvm_clean.star_wars.features.people_details.presentation.activities.PeopleDetailsActivity
 import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PeopleEntity
 import com.mvvm_clean.star_wars.features.people_list.presentation.ui.activities.PeopleListActivity

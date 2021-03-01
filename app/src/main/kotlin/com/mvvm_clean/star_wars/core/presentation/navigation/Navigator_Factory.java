@@ -1,6 +1,6 @@
 package com.mvvm_clean.star_wars.core.presentation.navigation;
 
-import com.mvvm_clean.star_wars.features.login.Authenticator;
+import com.mvvm_clean.star_wars.features.login.domain.Authenticator;
 
 import javax.annotation.Generated;
 import javax.inject.Provider;

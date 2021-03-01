@@ -7,7 +7,7 @@ import com.mvvm_clean.star_wars.core.di.DaggerApplicationComponent
 
 class AndroidApplication : Application() {
 
-    val appComponent: ApplicationComponent by lazy(mode = LazyThreadSafetyMode.NONE) {
+    val mAppComponent: ApplicationComponent by lazy(mode = LazyThreadSafetyMode.NONE) {
         DaggerApplicationComponent
             .builder()
             .applicationModule(ApplicationModule(this))
@@ -16,8 +16,8 @@ class AndroidApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        this.injectMembers()
+        injectMembers()
     }
 
-    private fun injectMembers() = appComponent.inject(this)
+    private fun injectMembers() = mAppComponent.inject(this)
 }

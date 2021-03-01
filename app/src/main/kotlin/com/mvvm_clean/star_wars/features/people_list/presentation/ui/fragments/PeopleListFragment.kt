@@ -14,9 +14,9 @@ import com.mvvm_clean.star_wars.core.domain.exception.Failure.NetworkConnection
 import com.mvvm_clean.star_wars.core.domain.exception.Failure.ServerError
 import com.mvvm_clean.star_wars.core.domain.extension.*
 import com.mvvm_clean.star_wars.core.presentation.navigation.Navigator
-import com.mvvm_clean.star_wars.features.people_list.domain.repo.PeopleListApiFailure.ListNotAvailable
+import com.mvvm_clean.star_wars.features.common.domain.models.ApiFailure.ListNotAvailable
+import com.mvvm_clean.star_wars.features.people_list.presentation.models.PeopleListView
 import com.mvvm_clean.star_wars.features.people_list.presentation.models.PeopleListViewModel
-import com.mvvm_clean.star_wars.features.people_list.presentation.models.PeoplseListView
 import com.mvvm_clean.star_wars.features.people_list.presentation.ui.adapter.PeopleListAdapter
 import com.mvvm_clean.star_wars.features.people_list.presentation.ui.registers.CountingIdlingResourceSingleton
 import kotlinx.android.synthetic.main.fragment_people_list.*
@@ -44,7 +44,7 @@ class PeopleListFragment : BaseFragment() {
             failure(failure, ::handleFailure)
         }
 
-        peopleListViewModel.getProgressLoadingLiveData()?.observe(
+        peopleListViewModel.getProgressLoadingLiveData().observe(
             this,
             object : Observer<Boolean?> {
                 override fun onChanged(aBoolean: Boolean?) {
@@ -70,7 +70,7 @@ class PeopleListFragment : BaseFragment() {
             StaggeredGridLayoutManager.VERTICAL
         )
         rv_people_list.adapter = peopleListAdapter
-        peopleListAdapter.clickListener = { peopleInfo, navigationExtras ->
+        peopleListAdapter.mClickListener = { peopleInfo, navigationExtras ->
             navigator.showPeopleDetails(activity!!, peopleInfo, navigationExtras)
         }
 
@@ -85,10 +85,10 @@ class PeopleListFragment : BaseFragment() {
 
     }
 
-    private fun renderPeopleList(peoplseListView: PeoplseListView?) {
+    private fun renderPeopleList(peopleListView: PeopleListView?) {
 
-        if (peoplseListView?.peopleList != null) {
-            peopleListAdapter.collection = peoplseListView.peopleList
+        if (peopleListView?.peopleList != null) {
+            peopleListAdapter.mCollection = peopleListView.peopleList
         }
         hideProgress()
         super.handleApiSuccess()
