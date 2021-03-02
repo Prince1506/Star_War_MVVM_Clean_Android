@@ -2,6 +2,7 @@ package com.mvvm_clean.star_wars.features.people_list.presentation.models
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import com.mvvm_clean.star_wars.AndroidTest
 import com.mvvm_clean.star_wars.core.domain.functional.Either
 import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PeopleEntity
 import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PeopleListResponseEntity
@@ -14,13 +15,10 @@ import kotlinx.coroutines.runBlocking
 import org.amshove.kluent.shouldEqualTo
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.junit.MockitoJUnitRunner
 
 private val PEOPLE_NAME = "Chewbacaa"
 
-@RunWith(MockitoJUnitRunner::class)
-class PeopleListViewModelTest {
+class PeopleListViewModelTest : AndroidTest() {
 
     // Field Variables ---------------------
     private val progressDataObserver = Observer<Boolean?> { it shouldEqualTo false }

@@ -10,6 +10,9 @@ import com.mvvm_clean.star_wars.core.domain.extension.isEmptyOrNull
  * All data variables are nullable because API can return null values too.
  * Here variables are initialised by default to empty or dash according to
  * what we need to show on screen when they are null.
+ *
+ * Data models are the class which can contain manipulation according to
+ * business needs.
  */
 data class PeopleDetailsDataModel(
     var speciesName: String? = String.empty(),

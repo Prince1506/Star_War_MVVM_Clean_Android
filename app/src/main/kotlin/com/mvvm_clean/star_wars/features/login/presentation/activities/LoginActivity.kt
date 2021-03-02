@@ -7,6 +7,7 @@ import com.mvvm_clean.star_wars.features.login.presentation.fragments.LoginFragm
 
 // Activity to show login screen.
 class LoginActivity : BaseActivity() {
+
     companion object {
         fun callingIntent(context: Context) = Intent(context, LoginActivity::class.java)
     }

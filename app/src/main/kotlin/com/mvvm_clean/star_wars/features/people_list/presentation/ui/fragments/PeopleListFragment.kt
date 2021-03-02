@@ -5,6 +5,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView.OnEditorActionListener
 import androidx.annotation.StringRes
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.mvvm_clean.star_wars.R
@@ -23,6 +24,10 @@ import kotlinx.android.synthetic.main.fragment_people_list.*
 import javax.inject.Inject
 
 private const val NO_OF_COLUMNS = 1
+
+/**
+ * Fragment to show people list on screen.
+ */
 class PeopleListFragment : BaseFragment() {
 
     @Inject
@@ -96,17 +101,21 @@ class PeopleListFragment : BaseFragment() {
     }
 
     private fun renderPeopleList(peopleListView: PeopleListView?) {
-
-        if (peopleListView?.peopleList != null) {
+        activity?.let { hideKeyboard(it) }
+        if (peopleListView?.peopleList != null && peopleListView.peopleList.isNotEmpty()) {
             peopleListAdapter.mCollection = peopleListView.peopleList
+        } else {
+            renderFailure(R.string.empty_list)
         }
+        rv_people_list.visible()
+        emptyView.invisible()
         hideProgress()
         super.handleApiSuccess()
     }
 
 
     private fun handleFailure(failure: Failure?) {
-
+        activity?.let { hideKeyboard(it) }
         when (failure) {
             is NetworkConnection -> renderFailure(R.string.failure_network_connection)
             is ServerError -> renderFailure(R.string.failure_server_error)
@@ -116,11 +125,32 @@ class PeopleListFragment : BaseFragment() {
     }
 
     private fun renderFailure(@StringRes message: Int) {
-
         rv_people_list.invisible()
         emptyView.visible()
         hideProgress()
         notifyWithAction(message)
+        setPeopleListEmpty()
+    }
 
+    private fun setPeopleListEmpty() {
+        peopleListAdapter.mCollection = emptyList()
+    }
+
+    private fun hideKeyboard(activity: FragmentActivity) {
+
+        //Find the currently focused view, so we can grab the correct window token from it.
+        var view = activity.currentFocus.apply {
+
+            //If no view currently has focus, create a new one, just so we can grab a window token from it
+            if (this == null) {
+                View(activity)
+            }
+        }
+        activity.inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        rv_people_list.adapter = null
     }
 }

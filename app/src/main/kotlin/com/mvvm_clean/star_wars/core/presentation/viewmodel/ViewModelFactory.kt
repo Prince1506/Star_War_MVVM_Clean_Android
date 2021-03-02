@@ -6,6 +6,9 @@ import javax.inject.Inject
 import javax.inject.Provider
 import javax.inject.Singleton
 
+/**
+ * Base View Module Factory class to provide specific view module instances
+ */
 @Singleton
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory

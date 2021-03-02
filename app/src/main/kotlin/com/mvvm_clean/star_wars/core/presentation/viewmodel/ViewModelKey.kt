@@ -4,6 +4,9 @@ import androidx.lifecycle.ViewModel
 import dagger.MapKey
 import kotlin.reflect.KClass
 
+/**
+ * Maintains a Map of all view modules created.
+ */
 @MapKey
 @Target(
     AnnotationTarget.FUNCTION,

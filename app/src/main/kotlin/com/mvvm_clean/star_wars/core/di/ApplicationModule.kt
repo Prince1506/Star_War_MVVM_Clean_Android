@@ -12,7 +12,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-
+/**
+ * This module is resposible to provide global instances related to
+ *  project configuration
+ */
 @Module
 class ApplicationModule(private val application: AndroidApplication) {
 

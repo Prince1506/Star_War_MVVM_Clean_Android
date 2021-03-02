@@ -62,7 +62,7 @@ abstract class BaseFragment : Fragment() {
     internal fun notifyWithAction(
         @StringRes message: Int
     ) {
-        Snackbar.make(viewContainer, message, Snackbar.LENGTH_INDEFINITE).apply {
+        Snackbar.make(viewContainer, message, Snackbar.LENGTH_LONG).apply {
             setActionTextColor(ContextCompat.getColor(appContext, color.colorTextPrimary))
             show()
         }

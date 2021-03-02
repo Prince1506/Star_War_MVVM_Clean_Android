@@ -8,9 +8,13 @@ import com.mvvm_clean.star_wars.features.people_list.presentation.ui.fragments.P
 import dagger.Component
 import javax.inject.Singleton
 
+/**
+ * DI component class responsible to provide instance.
+ */
 @Singleton
 @Component(modules = [ApplicationModule::class, ViewModelModule::class])
 interface ApplicationComponent {
+
     fun inject(application: AndroidApplication)
     fun inject(routeActivity: RouteActivity)
     fun inject(peopleListFragment: PeopleListFragment)

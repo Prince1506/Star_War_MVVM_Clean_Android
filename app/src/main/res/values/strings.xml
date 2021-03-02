@@ -8,4 +8,5 @@
     <string name="content_description_empty">No content description.</string>
     <string name="forward_slash">/</string>
     <string name="space">" "</string>
+    <string name="empty_list">No list found. Please try with different name</string>
 </resources>

@@ -13,6 +13,7 @@ public final class RouteActivity_MembersInjector implements MembersInjector<Rout
     private final Provider<Navigator> navigatorProvider;
 
     public RouteActivity_MembersInjector(Provider<Navigator> navigatorProvider) {
+
         assert navigatorProvider != null;
         this.navigatorProvider = navigatorProvider;
     }

@@ -9,8 +9,13 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
+/**
+ * API interface to handle all API calls
+ */
 internal interface StarWarApi {
+
     companion object {
+
         private const val PATH_PEOPLE = "people/"
         private const val PATH_SPECIES = "species/"
         private const val PATH_PLANETS = "planets/"
@@ -19,7 +24,6 @@ internal interface StarWarApi {
         private const val PATH_PARAM_FILMS = "films"
         private const val PATH_PARAM_SPECIES = "species"
         private const val QUERY_PARAM_SEARCH_KEY = "search"
-
     }
 
     @GET(PATH_PEOPLE)

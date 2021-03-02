@@ -8,6 +8,9 @@ import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 
+/**
+ * Base View Module Factory class to provide specific view module instances
+ */
 @Module
 abstract class ViewModelModule {
     @Binds

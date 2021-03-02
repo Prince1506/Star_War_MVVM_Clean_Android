@@ -3,7 +3,10 @@ package com.mvvm_clean.star_wars.features.people_details.presentation.models
 import androidx.annotation.RestrictTo
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.mvvm_clean.star_wars.core.base.BaseViewModel
+import com.mvvm_clean.star_wars.core.domain.extension.empty
+import com.mvvm_clean.star_wars.core.domain.extension.getForwardSlash
 import com.mvvm_clean.star_wars.core.domain.extension.putNewLine
 import com.mvvm_clean.star_wars.features.people_details.domain.models.FilmDataModel
 import com.mvvm_clean.star_wars.features.people_details.domain.models.PeopleDetailsDataModel
@@ -15,6 +18,15 @@ import com.mvvm_clean.star_wars.features.people_details.domain.use_cases.GetSpec
 import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PeopleEntity
 import javax.inject.Inject
 
+// Constant values for detail screen--------------------------
+const val film = "film"
+const val species = "species"
+const val planets = "planets"
+
+private const val FILM_URL = "http://swapi.dev/api/films/"
+private const val SPECIES_URL = "http://swapi.dev/api/species/"
+private const val PLANET_URL = "http://swapi.dev/api/planets/"
+
 class PeopleDetailsViewModel
 @Inject constructor(
     private val getSpeciesInfo: GetSpeciesInfo,
@@ -25,6 +37,7 @@ class PeopleDetailsViewModel
     // Field Variables-----------------------------------------------
     private val peopleDetailsDataModel = PeopleDetailsDataModel()
     private val peopleDetailMediatorLiveData = MediatorLiveData<PeopleDetailsDataModel>()
+    private val mPeopleEntityMutableLiveData = MutableLiveData<PeopleEntity>()
     private val speciesMutableLiveData: MutableLiveData<PeopleDetailsDataModel> = MutableLiveData()
     private val filmDataMutableLiveData: MutableLiveData<PeopleDetailsDataModel> =
         MutableLiveData()
@@ -36,6 +49,10 @@ class PeopleDetailsViewModel
     fun getFilmDataMutableLiveData() = filmDataMutableLiveData
     fun getPlanetsMutableLiveData() = planetsMutableLiveData
     internal fun getPeopleDetailMediatorLiveData() = peopleDetailMediatorLiveData
+
+    private val peopleEntityObserver = Observer<PeopleEntity> {
+        makeApiCalls(it)
+    }
 
     fun updatePeopleDetailWithPeopleInfo(peopleEntity: PeopleEntity) =
         peopleDetailsDataModel.apply {
@@ -122,6 +139,87 @@ class PeopleDetailsViewModel
             it.languages += speciesListDataModel.language + String.putNewLine()
             speciesMutableLiveData.postValue(it)
         }
+    }
+
+    private fun makeApiCalls(peopleEntity: PeopleEntity) {
+
+        peopleEntity.homeworld?.let { it ->
+            getIdFromUrl(it).apply {
+                if (this != -1)
+                    loadPlanetData(this)
+            }
+        }
+
+
+        peopleEntity.let {
+
+            for (film in it.films!!) {
+                getIdFromUrl(film).apply {
+                    if (this != -1)
+                        loadFilmData(this)
+                }
+            }
+            for (species in it.species!!) {
+                getIdFromUrl(species).apply {
+                    if (this != -1) loadSpeciesData(this)
+                }
+            }
+        }
+    }
+
+    private fun getIdFromUrl(url: String): Int {
+
+        val urlArrWithId =
+            if (url.contains(film)) {
+                url.split(FILM_URL).toTypedArray()
+            } else if (url.contains(species)) {
+                url.split(SPECIES_URL).toTypedArray()
+            } else if (url.contains(planets)) {
+                url.split(PLANET_URL).toTypedArray()
+            } else {
+                arrayOf(String.empty(), String.empty())
+            }
+
+
+        val urlId =
+            if (urlArrWithId.size > 1 && urlArrWithId[1].contains(String.getForwardSlash())) {
+                convertUrlIdFromStrToInt(urlArrWithId)
+            } else {
+                -1 // -1 tells that id is not available
+            }
+
+        return urlId
+    }
+
+    private fun convertUrlIdFromStrToInt(
+        urlArrWithId: Array<String>
+    ): Int {
+
+        var urlId1 = -1
+        val filmIdStr = urlArrWithId[1].split(String.getForwardSlash())[0]
+        try {
+            urlId1 = filmIdStr.toInt()
+        } catch (nfe: NumberFormatException) {
+            nfe.printStackTrace()
+        }
+        return urlId1
+    }
+
+    fun setPeopleEntityObserver(peopleEntity: PeopleEntity) =
+        mPeopleEntityMutableLiveData.apply {
+
+            if (!hasActiveObservers()) {
+                postValue(peopleEntity)
+                observeForever(peopleEntityObserver)
+            }
+
+
+        }
+
+    @RestrictTo(RestrictTo.Scope.TESTS)
+    public override fun onCleared() {
+        mPeopleEntityMutableLiveData.removeObserver(peopleEntityObserver)
+        super.onCleared()
     }
 
 }

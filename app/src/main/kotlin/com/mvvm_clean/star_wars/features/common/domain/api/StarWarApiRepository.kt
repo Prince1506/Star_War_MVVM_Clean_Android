@@ -19,7 +19,11 @@ import com.mvvm_clean.star_wars.features.people_list.domain.models.PeopleListDat
 import retrofit2.Call
 import javax.inject.Inject
 
+/**
+ * Base Repo to handle all Data related operations.
+ */
 interface StarWarApiRepository {
+
     fun getPeopleByQuery(searchQuery: String): Either<Failure, PeopleListDataModel>
     fun getPlanetsByQuery(planetId: Int): Either<Failure, PlanetListDataModel>
     fun getFilmByQuery(filmId: Int): Either<Failure, FilmDataModel>
@@ -32,6 +36,7 @@ interface StarWarApiRepository {
     ) : StarWarApiRepository {
 
         override fun getPeopleByQuery(searchQuery: String): Either<Failure, PeopleListDataModel> =
+
             when (networkHandler.isNetworkAvailable()) {
                 true -> request(
                     service.getPeopleListByQuery(searchQuery),
@@ -80,7 +85,9 @@ interface StarWarApiRepository {
             transform: (T) -> R,
             default: T
         ): Either<Failure, R> {
+
             return try {
+
                 val response = call.execute()
                 when (response.isSuccessful) {
                     true -> Right(transform((response.body() ?: default)))
@@ -88,9 +95,7 @@ interface StarWarApiRepository {
                 }
             } catch (exception: Throwable) {
 
-                if (BuildConfig.DEBUG)
-                    exception.printStackTrace()
-
+                if (BuildConfig.DEBUG) exception.printStackTrace()
                 Left(ServerError)
             }
         }

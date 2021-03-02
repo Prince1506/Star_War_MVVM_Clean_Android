@@ -5,6 +5,9 @@ import android.content.Intent
 import com.mvvm_clean.star_wars.core.base.BaseActivity
 import com.mvvm_clean.star_wars.features.people_list.presentation.ui.fragments.PeopleListFragment
 
+/**
+ * Activity responsible to show people list on screen.
+ */
 class PeopleListActivity : BaseActivity() {
 
     companion object {

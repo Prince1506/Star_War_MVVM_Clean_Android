@@ -21,6 +21,7 @@ open class PeopleListViewModel
     private val mIsProgressLoading = MutableLiveData<Boolean>()
 
     private val peopleNameSearchObserver = Observer<String> {
+
         mIsProgressLoading.value = true
         getPeopleInfo(it) { it.fold(::handlePeopleListFailure, ::handlePeopleList) }
     }
@@ -34,7 +35,9 @@ open class PeopleListViewModel
     internal fun getPeopleNameMutabeLiveData() = mPeopleNameMutableLiveData
 
     internal fun setSearchQueryString(userId: String) =
+
         mPeopleNameMutableLiveData.apply {
+
             postValue(userId)
             observeForever(peopleNameSearchObserver)
         }

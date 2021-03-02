@@ -14,13 +14,13 @@ import kotlinx.android.synthetic.main.toolbar.*
  */
 abstract class BaseActivity : AppCompatActivity() {
 
-//  Override Methods--------------------------------------
-override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.base_activity_layout)
-    setSupportActionBar(toolbar)
-    addFragment(savedInstanceState)
-}
+    //  Override Methods--------------------------------------
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.base_activity_layout)
+        setSupportActionBar(toolbar)
+        addFragment(savedInstanceState)
+    }
 
     override fun onBackPressed() {
         (supportFragmentManager.findFragmentById(R.id.fragmentContainer) as BaseFragment).onBackPressed()

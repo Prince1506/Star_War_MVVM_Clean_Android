@@ -10,7 +10,9 @@ import com.mvvm_clean.star_wars.features.people_list.presentation.ui.activities.
 import javax.inject.Inject
 import javax.inject.Singleton
 
-
+/**
+ * To navigate from screen 1 to screen 2 we write logic here
+ */
 @Singleton
 class Navigator
 @Inject constructor(private val authenticator: Authenticator) {
@@ -22,7 +24,9 @@ class Navigator
     )
 
     fun navigateToScreens(context: Context) {
+
         when (authenticator.userLoggedIn()) {
+
             true -> showPeopleList(context)
             false -> showLogin(context)
         }
@@ -35,6 +39,7 @@ class Navigator
         activity: FragmentActivity,
         peopleEntity: PeopleEntity
     ) {
+
         val intent = PeopleDetailsActivity.callingIntent(activity, peopleEntity)
         activity.startActivity(intent)
     }

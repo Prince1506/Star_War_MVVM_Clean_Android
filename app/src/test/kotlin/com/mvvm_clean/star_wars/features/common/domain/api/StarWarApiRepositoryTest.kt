@@ -27,6 +27,7 @@ import retrofit2.Response
 private const val PLANET_ID = 1
 private const val FILM_NAME = "filmName"
 private const val PLANET_NAME = "planetName"
+private const val POPULATION = "22"
 private const val SPECIES_NAME = "speciesName"
 private const val PEOPLE_NAME = "Chewbacaa"
 private const val FILM_ID = 2
@@ -85,7 +86,7 @@ class StarWarApiRepositoryTest : UnitTest() {
 
         filmResponseEntity = FilmResponseEntity(FILM_NAME)
 
-        planetListEntity = PlanetListResponseEntity(null, null)
+        planetListEntity = PlanetListResponseEntity(PLANET_NAME, POPULATION)
     }
 
     // Test Cases---------------------------------------------

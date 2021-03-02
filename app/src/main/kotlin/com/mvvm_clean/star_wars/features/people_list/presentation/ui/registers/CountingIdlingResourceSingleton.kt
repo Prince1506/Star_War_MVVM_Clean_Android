@@ -2,6 +2,9 @@ package com.mvvm_clean.star_wars.features.people_list.presentation.ui.registers
 
 import androidx.test.espresso.idling.CountingIdlingResource
 
+/**
+ * This class is used by espresso to wait for API to finish.
+ */
 object CountingIdlingResourceSingleton {
 
     private const val RESOURCE = "GLOBAL"
