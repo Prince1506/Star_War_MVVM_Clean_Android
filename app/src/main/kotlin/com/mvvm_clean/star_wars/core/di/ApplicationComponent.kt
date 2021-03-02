@@ -13,7 +13,6 @@ import javax.inject.Singleton
 interface ApplicationComponent {
     fun inject(application: AndroidApplication)
     fun inject(routeActivity: RouteActivity)
-
     fun inject(peopleListFragment: PeopleListFragment)
     fun inject(peopleDetailsFragment: PeopleDetailsFragment)
 }

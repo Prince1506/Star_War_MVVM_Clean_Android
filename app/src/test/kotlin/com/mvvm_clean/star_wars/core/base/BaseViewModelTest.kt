@@ -15,8 +15,8 @@ class BaseViewModelTest : AndroidTest() {
             //Act
             handleError(Failure.NetworkConnection)
             //Verify
-            failure shouldBeInstanceOf MutableLiveData::class.java
-            failure.value shouldBeInstanceOf Failure.NetworkConnection::class.java
+            failureLiveData shouldBeInstanceOf MutableLiveData::class.java
+            failureLiveData.value shouldBeInstanceOf Failure.NetworkConnection::class.java
         }
 
     }

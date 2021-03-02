@@ -99,7 +99,6 @@
     </style>
 
     <style name="peopleList_progressTheme">
-        <item name="android:layout_gravity">center</item>
         <item name="android:indeterminateOnly">true</item>
         <item name="android:indeterminateTint">@color/white</item>
     </style>

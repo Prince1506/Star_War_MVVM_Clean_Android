@@ -33,11 +33,13 @@ class PeopleListAdapter
             peopleEntity: PeopleEntity,
             clickListener: (PeopleEntity, Navigator.Extras) -> Unit
         ) {
+
             peopleEntity.name?.let { itemView.tv_people_name.text = it }
+
             itemView.setOnClickListener {
                 clickListener(
                     peopleEntity,
-                    Navigator.Extras(itemView.tv_people_name)
+                    Navigator.Extras()
                 )
             }
         }

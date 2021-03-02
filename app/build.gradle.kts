@@ -26,8 +26,12 @@ android {
 
     sourceSets {
         map { it.java.srcDir("src/${it.name}/kotlin") }
-
         getByName("main") { java.srcDir("$buildDir/generated/source/kapt/main") }
+    }
+
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
     }
 }
 
@@ -38,7 +42,7 @@ dependencies {
     kapt(Libraries.daggerCompiler)
     compileOnly(Libraries.javaxAnnotation)
     compileOnly(Libraries.javaxInject)
-
+    kapt("com.android.databinding:compiler:6.6.1")
 /*Application dependencies*/
 
     // Kotlin
@@ -46,6 +50,7 @@ dependencies {
     implementation(Libraries.kotlinCoroutines)
     implementation(Libraries.kotlinCoroutinesAndroid)
     implementation(Libraries.ktxCore)
+
 
     // Design related libraries
     implementation(Libraries.appCompat)

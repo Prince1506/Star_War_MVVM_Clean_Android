@@ -1,7 +1,6 @@
 package com.mvvm_clean.star_wars.core.presentation.navigation
 
 import android.content.Context
-import android.view.View
 import androidx.fragment.app.FragmentActivity
 import com.mvvm_clean.star_wars.features.login.domain.Authenticator
 import com.mvvm_clean.star_wars.features.login.presentation.activities.LoginActivity
@@ -34,21 +33,13 @@ class Navigator
 
     fun showPeopleDetails(
         activity: FragmentActivity,
-        peopleEntity: PeopleEntity,
-        navigationExtras: Extras
+        peopleEntity: PeopleEntity
     ) {
         val intent = PeopleDetailsActivity.callingIntent(activity, peopleEntity)
-//        val sharedView = navigationExtras.transitionSharedElement as TextView
-//        val activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
-//                    activity,
-//                    sharedView,
-//                    sharedView.transitionName
-//                )
-
         activity.startActivity(intent)
     }
 
-    class Extras(val transitionSharedElement: View)
+    class Extras
 }
 
 

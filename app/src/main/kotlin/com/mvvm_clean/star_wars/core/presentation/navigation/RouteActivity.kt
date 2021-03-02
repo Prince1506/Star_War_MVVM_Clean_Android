@@ -7,14 +7,16 @@ import com.mvvm_clean.star_wars.core.di.ApplicationComponent
 import javax.inject.Inject
 
 class RouteActivity : AppCompatActivity() {
-
+    // Field Variables ---------------------
     private val appComponent: ApplicationComponent by lazy(mode = LazyThreadSafetyMode.NONE) {
         (application as AndroidApplication).mAppComponent
     }
 
+    // Annotations Variables -----------------
     @Inject
     internal lateinit var navigator: Navigator
 
+    //  Override Methods--------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         appComponent.inject(this)

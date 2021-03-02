@@ -3,6 +3,11 @@ package com.mvvm_clean.star_wars.features.login.domain
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Although this app doesn't has login screen, but mostly all production
+ * application has authentication screen. So this logic is included inside
+ * the architecture for unit testing purpose if user needs to authenticate.
+ */
 @Singleton
 class Authenticator
 @Inject constructor() {

@@ -25,22 +25,30 @@ import javax.inject.Inject
  */
 abstract class BaseFragment : Fragment() {
 
+    //  Abstract Methods----------------------
     abstract fun layoutId(): Int
 
+    // Field Variables ---------------------
     val appComponent: ApplicationComponent by lazy(mode = LazyThreadSafetyMode.NONE) {
         (activity?.application as AndroidApplication).mAppComponent
     }
 
+    // Annotations Variables -----------------
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
-            inflater.inflate(layoutId(), container, false)
+    //  Override Methods--------------------------------------
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View =
+        inflater.inflate(layoutId(), container, false)
 
+    // Non Final methods-----------------------------------------
     open fun onBackPressed() {}
 
-    internal fun firstTimeCreated(savedInstanceState: Bundle?) = savedInstanceState == null
-
+    //  Helper Methods-----------------------------------------
     internal fun showProgress() = progressStatus(View.VISIBLE)
 
     internal fun hideProgress() = progressStatus(View.GONE)
@@ -52,19 +60,14 @@ abstract class BaseFragment : Fragment() {
         Snackbar.make(viewContainer, message, Snackbar.LENGTH_SHORT).show()
 
     internal fun notifyWithAction(
-        @StringRes message: Int,
-        @StringRes actionText: Int
+        @StringRes message: Int
     ) {
-        val snackBar = Snackbar.make(viewContainer, message, Snackbar.LENGTH_INDEFINITE)
-        snackBar.setActionTextColor(ContextCompat.getColor(appContext, color.colorTextPrimary))
-        snackBar.show()
+        Snackbar.make(viewContainer, message, Snackbar.LENGTH_INDEFINITE).apply {
+            setActionTextColor(ContextCompat.getColor(appContext, color.colorTextPrimary))
+            show()
+        }
     }
 
-    fun handleApiSuccess() {
-        CountingIdlingResourceSingleton.decrement()
-    }
-
-    fun handleApiFailure() {
-        CountingIdlingResourceSingleton.decrement()
-    }
+    internal fun handleApiSuccess() = CountingIdlingResourceSingleton.decrement()
+    internal fun handleApiFailure() = CountingIdlingResourceSingleton.decrement()
 }

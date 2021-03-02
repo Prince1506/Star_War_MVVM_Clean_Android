@@ -8,8 +8,6 @@ import java.math.BigDecimal
 import java.math.BigInteger
 import java.util.*
 
-//Interesting article about Parcelable and Kotlin:
-//https://medium.com/@BladeCoder/reducing-parcelable-boilerplate-code-using-kotlin-741c3124a49a
 interface KParcelable : Parcelable {
     override fun describeContents() = 0
     override fun writeToParcel(dest: Parcel, flags: Int)
@@ -32,8 +30,8 @@ inline fun <reified T> parcelableClassLoaderCreator(crossinline create: (Parcel,
         override fun newArray(size: Int) = arrayOfNulls<T>(size)
     }
 
-// Parcel extensions
 
+// Parcel extensions
 inline fun Parcel.readBoolean() = readInt() != 0
 
 inline fun Parcel.writeBoolean(value: Boolean) = writeInt(if (value) 1 else 0)

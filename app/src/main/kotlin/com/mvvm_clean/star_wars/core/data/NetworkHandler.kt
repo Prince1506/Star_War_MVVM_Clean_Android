@@ -10,13 +10,17 @@ import javax.inject.Singleton
 /**
  * Injectable class which returns information about the network connection state.
  */
+@Suppress("DEPRECATION")
 @Singleton
 class NetworkHandler
 @Inject constructor(private val context: Context) {
+
+    //  Helper Methods-----------------------------------------
     fun isNetworkAvailable(): Boolean {
         val connectivityManager = context.connectivityManager
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
             val network = connectivityManager.activeNetwork ?: return false
             val activeNetwork =
                 connectivityManager.getNetworkCapabilities(network) ?: return false
@@ -29,9 +33,8 @@ class NetworkHandler
                 else -> false
             }
         } else {
-            @Suppress("DEPRECATION") val networkInfo =
-                connectivityManager.activeNetworkInfo ?: return false
-            @Suppress("DEPRECATION")
+
+            val networkInfo = connectivityManager.activeNetworkInfo ?: return false
             return networkInfo.isConnected
         }
     }

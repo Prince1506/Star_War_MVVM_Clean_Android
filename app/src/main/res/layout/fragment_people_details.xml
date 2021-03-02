@@ -1,228 +1,238 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/translucentBackground">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbar"
+    <data>
+
+        <variable
+            name="peopleDetailsDataModel"
+            type="com.mvvm_clean.star_wars.features.people_details.domain.models.PeopleDetailsDataModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true">
+        android:layout_height="match_parent"
+        android:background="@color/translucentBackground">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsing_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginStart="@dimen/activity_horizontal_margin"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_peopleDetail_content"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/black"
-            android:orientation="vertical"
-            android:paddingTop="25dp"
-            android:paddingBottom="25dp"
-            android:visibility="visible">
+            android:fitsSystemWindows="true">
 
-            <TextView
-                android:id="@+id/tv_peopleDetail_summary"
-                style="@style/PeopleDetailsTitleHeading"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:text="@string/peopleDetails_summary" />
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                app:contentScrim="?attr/colorPrimary"
+                app:expandedTitleMarginStart="@dimen/activity_horizontal_margin"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
-            <View
-                android:id="@+id/v_peopleDetails_summary"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="@dimen/margin_5"
-                android:layout_marginRight="@dimen/margin_80"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_peopleDetail_summary"
-                style="@style/v_color_white_heading" />
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
-            <TextView
-                android:id="@+id/tv_peopleDetail_name"
-                style="@style/PeopleDetailsTitle"
-                android:text="@string/peopleDetails_name"
-                android:layout_marginTop="@dimen/margin_5"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/v_peopleDetails_summary" />
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <TextView
-                android:id="@+id/tv_peopleDetails_name"
-                style="@style/PeopleDetailsText"
-                android:text="Prince soni"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_peopleDetail_name" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_peopleDetail_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/black"
+                android:orientation="vertical"
+                android:paddingTop="25dp"
+                android:paddingBottom="25dp"
+                android:visibility="visible">
 
-            <TextView
-                android:id="@+id/textView3"
-                style="@style/PeopleDetailsTitle"
-                android:text="@string/peopleDetails_birthYear"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_name" />
+                <TextView
+                    android:id="@+id/tv_peopleDetail_summary"
+                    style="@style/PeopleDetailsTitleHeading"
+                    android:text="@string/peopleDetails_summary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tv_peopleDetails_birth_year"
-                style="@style/PeopleDetailsText"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView3"
-                android:text="@string/peopleDetails_birthYear" />
+                <View
+                    android:id="@+id/v_peopleDetails_summary"
+                    style="@style/v_color_white_heading"
+                    android:layout_marginTop="@dimen/margin_5"
+                    android:layout_marginRight="@dimen/margin_80"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetail_summary" />
 
-            <TextView
-                android:id="@+id/textView4"
-                style="@style/PeopleDetailsTitle"
-                android:text="@string/peopleDetails_height"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_birth_year" />
+                <TextView
+                    android:id="@+id/tv_peopleDetail_name"
+                    style="@style/PeopleDetailsTitle"
+                    android:layout_marginTop="@dimen/margin_5"
+                    android:text="@string/peopleDetails_name"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/v_peopleDetails_summary" />
 
-            <TextView
-                android:id="@+id/tv_peopleDetails_height"
-                style="@style/PeopleDetailsText"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView4"
-                android:text="@string/peopleDetails_height" />
+                <TextView
+                    android:id="@+id/tv_peopleDetails_name"
+                    style="@style/PeopleDetailsText"
+                    android:text="@{peopleDetailsDataModel.nameNotNull}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetail_name" />
 
-            <TextView
-                android:id="@+id/tv_peopleDetails_speciesLbl"
-                style="@style/PeopleDetailsTitleHeading"
-                android:layout_marginTop="@dimen/margin_10"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_height"
-                android:text="@string/peopleDetails_species" />
+                <TextView
+                    android:id="@+id/tv_peopleDetails_BirthYr_lbl"
+                    style="@style/PeopleDetailsTitle"
+                    android:text="@{peopleDetailsDataModel.birthYearNotNull}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_name" />
 
-            <View
-                android:id="@+id/v_peopleDetails_species"
-                style="@style/v_color_white_heading"
-                android:layout_marginTop="@dimen/margin_5"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginRight="@dimen/margin_80"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_speciesLbl" />
+                <TextView
+                    android:id="@+id/tv_peopleDetails_birth_year"
+                    style="@style/PeopleDetailsText"
+                    android:text="@string/peopleDetails_birthYear"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_BirthYr_lbl" />
 
+                <TextView
+                    android:id="@+id/tv_peopleDetails_height_lbl"
+                    style="@style/PeopleDetailsTitle"
+                    android:text="@string/peopleDetails_height"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_birth_year" />
 
-            <TextView
-                android:id="@+id/textView6"
-                style="@style/PeopleDetailsTitle"
-                android:text="@string/peopleDetails_name"
-                android:layout_marginTop="@dimen/margin_5"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/v_peopleDetails_species" />
+                <TextView
+                    android:id="@+id/tv_peopleDetails_height"
+                    style="@style/PeopleDetailsText"
+                    android:text="@{peopleDetailsDataModel.heightNotNull}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_height_lbl" />
 
-            <TextView
-                android:id="@+id/tv_peopleDetails_speciesName"
-                style="@style/PeopleDetailsText"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView6"
-                android:text="@string/peopleDetails_name" />
+                <TextView
+                    android:id="@+id/tv_peopleDetails_speciesLbl"
+                    style="@style/PeopleDetailsTitleHeading"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:text="@string/peopleDetails_species"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_height" />
 
-            <TextView
-                android:id="@+id/textView7"
-                style="@style/PeopleDetailsTitle"
-                android:text="@string/peopleDetails_language"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_speciesName" />
-
-            <TextView
-                android:id="@+id/tv_peopleDetails_language"
-                style="@style/PeopleDetailsText"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView7"
-                android:text="@string/peopleDetails_language" />
-
-            <TextView
-                android:id="@+id/textView8"
-                style="@style/PeopleDetailsTitle"
-                android:text="@string/peopleDetails_homeworld"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_language" />
-
-            <TextView
-                android:id="@+id/tv_peopleDetails_homeworld"
-                style="@style/PeopleDetailsText"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView8"
-                android:text="@string/peopleDetails_homeworld" />
-
-            <TextView
-                android:id="@+id/textView9"
-                style="@style/PeopleDetailsTitle"
-                android:text="@string/peopleDetails_population"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_homeworld" />
-
-            <TextView
-                android:id="@+id/tv_peopleDetails_population"
-                style="@style/PeopleDetailsText"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView9"
-                android:text="@string/peopleDetails_population" />
-
-            <TextView
-                android:id="@+id/tv_peopleDetails_filmsLbl"
-                style="@style/PeopleDetailsTitle"
-                android:text="@string/peopleDetails_films"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_population" />
-
-            <TextView
-                android:id="@+id/tv_peopleDetails_films"
-                style="@style/PeopleDetailsText"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_filmsLbl"
-                android:text="@string/peopleDetails_films" />
-
-            <TextView
-                android:id="@+id/tv_peopleDetails_openingCrawlingLbl"
-                style="@style/PeopleDetailsTitle"
-                android:text="@string/peopleDetails_openingCrawl"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_films" />
-
-            <TextView
-                android:id="@+id/tv_peopleDetails_opening_crawl"
-                style="@style/PeopleDetailsText"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_openingCrawlingLbl"
-                android:text="@string/peopleDetails_openingCrawl" />
+                <View
+                    android:id="@+id/v_peopleDetails_species"
+                    style="@style/v_color_white_heading"
+                    android:layout_marginTop="@dimen/margin_5"
+                    android:layout_marginRight="@dimen/margin_80"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_speciesLbl" />
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+                <TextView
+                    android:id="@+id/tv_peopleDetails_speciesName_lbl"
+                    style="@style/PeopleDetailsTitle"
+                    android:layout_marginTop="@dimen/margin_5"
+                    android:text="@string/peopleDetails_name"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/v_peopleDetails_species" />
+
+                <TextView
+                    android:id="@+id/tv_peopleDetails_speciesName"
+                    style="@style/PeopleDetailsText"
+                    android:text="@{peopleDetailsDataModel.speciesNameNotNull}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_speciesName_lbl" />
+
+                <TextView
+                    android:id="@+id/tv_peopleDetails_language_lbl"
+                    style="@style/PeopleDetailsTitle"
+                    android:text="@string/peopleDetails_language"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_speciesName" />
+
+                <TextView
+                    android:id="@+id/tv_peopleDetails_language"
+                    style="@style/PeopleDetailsText"
+                    android:text="@{peopleDetailsDataModel.languagesNotNull}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_language_lbl" />
+
+                <TextView
+                    android:id="@+id/tv_peopleDetails_homeWorld_lbl"
+                    style="@style/PeopleDetailsTitle"
+                    android:text="@string/peopleDetails_homeworld"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_language" />
+
+                <TextView
+                    android:id="@+id/tv_peopleDetails_homeworld"
+                    style="@style/PeopleDetailsText"
+                    android:text="@{peopleDetailsDataModel.homeworldNotNull}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_homeWorld_lbl" />
+
+                <TextView
+                    android:id="@+id/tv_peopleDetails_population_lbl"
+                    style="@style/PeopleDetailsTitle"
+                    android:text="@string/peopleDetails_population"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_homeworld" />
+
+                <TextView
+                    android:id="@+id/tv_peopleDetails_population"
+                    style="@style/PeopleDetailsText"
+                    android:text="@{peopleDetailsDataModel.populationNotNull}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_population_lbl" />
+
+                <TextView
+                    android:id="@+id/tv_peopleDetails_filmsLbl"
+                    style="@style/PeopleDetailsTitle"
+                    android:text="@string/peopleDetails_films"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_population" />
+
+                <TextView
+                    android:id="@+id/tv_peopleDetails_films"
+                    style="@style/PeopleDetailsText"
+                    android:text="@{peopleDetailsDataModel.filmNotNull}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_filmsLbl" />
+
+                <TextView
+                    android:id="@+id/tv_peopleDetails_openingCrawlingLbl"
+                    style="@style/PeopleDetailsTitle"
+                    android:text="@string/peopleDetails_openingCrawl"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_films" />
+
+                <TextView
+                    android:id="@+id/tv_peopleDetails_opening_crawl"
+                    style="@style/PeopleDetailsText"
+                    android:text="@{peopleDetailsDataModel.openingCrawlNotNull}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_openingCrawlingLbl" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

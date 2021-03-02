@@ -41,7 +41,7 @@ class PeopleListFragment : BaseFragment() {
 
         peopleListViewModel = viewModel(viewModelFactory) {
             observe(getPeopleListLiveData(), ::renderPeopleList)
-            failure(failure, ::handleFailure)
+            failure(failureLiveData, ::handleFailure)
         }
 
         peopleListViewModel.getProgressLoadingLiveData().observe(
@@ -71,7 +71,7 @@ class PeopleListFragment : BaseFragment() {
         )
         rv_people_list.adapter = peopleListAdapter
         peopleListAdapter.mClickListener = { peopleInfo, navigationExtras ->
-            navigator.showPeopleDetails(activity!!, peopleInfo, navigationExtras)
+            navigator.showPeopleDetails(activity!!, peopleInfo)
         }
 
         tv_peopleList_searchField.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
@@ -108,7 +108,7 @@ class PeopleListFragment : BaseFragment() {
         rv_people_list.invisible()
         emptyView.visible()
         hideProgress()
-        notifyWithAction(message, R.string.action_refresh)
+        notifyWithAction(message)
 
     }
 }
