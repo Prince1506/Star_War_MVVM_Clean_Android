@@ -9,4 +9,6 @@
     <string name="forward_slash">/</string>
     <string name="space">" "</string>
     <string name="empty_list">No list found. Please try with different name</string>
+    <string name="ok">Ok</string>
+    <string name="try_again_later">Please try again later.</string>
 </resources>

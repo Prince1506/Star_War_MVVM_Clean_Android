@@ -35,10 +35,6 @@
             android:name=".features.people_list.presentation.ui.activities.PeopleListActivity"
             android:label="@string/people_list_screen_title"/>
 
-        <activity
-            android:name=".features.people_details.presentation.activities.PeopleDetailsActivity"
-            android:theme="@style/AppTheme.Translucent"/>
-
     </application>
 
 </manifest>

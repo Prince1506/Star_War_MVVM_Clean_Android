@@ -26,7 +26,7 @@ const val planets = "planets"
 private const val FILM_URL = "http://swapi.dev/api/films/"
 private const val SPECIES_URL = "http://swapi.dev/api/species/"
 private const val PLANET_URL = "http://swapi.dev/api/planets/"
-
+private const val PLANET_NAME = "(Planet Name)"
 class PeopleDetailsViewModel
 @Inject constructor(
     private val getSpeciesInfo: GetSpeciesInfo,
@@ -74,7 +74,7 @@ class PeopleDetailsViewModel
     @RestrictTo(RestrictTo.Scope.TESTS)
     internal fun handlePlanetsData(planetListDataModel: PlanetListDataModel) {
         peopleDetailsDataModel.apply {
-            homeworld = planetListDataModel.name
+            homeworld = planetListDataModel.name + PLANET_NAME
             population = planetListDataModel.population
             planetsMutableLiveData.postValue(this)
         }

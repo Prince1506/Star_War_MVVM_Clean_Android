@@ -13,6 +13,7 @@ import com.mvvm_clean.star_wars.AndroidApplication
 import com.mvvm_clean.star_wars.R.color
 import com.mvvm_clean.star_wars.core.di.ApplicationComponent
 import com.mvvm_clean.star_wars.core.domain.extension.appContext
+import com.mvvm_clean.star_wars.core.domain.extension.isVisible
 import com.mvvm_clean.star_wars.core.domain.extension.viewContainer
 import com.mvvm_clean.star_wars.features.people_list.presentation.ui.registers.CountingIdlingResourceSingleton
 import kotlinx.android.synthetic.main.base_activity_layout.*
@@ -46,11 +47,13 @@ abstract class BaseFragment : Fragment() {
         inflater.inflate(layoutId(), container, false)
 
     // Non Final methods-----------------------------------------
-    open fun onBackPressed() {}
+    open fun onBackPressed() {
+    }
+
 
     //  Helper Methods-----------------------------------------
     internal fun showProgress() = progressStatus(View.VISIBLE)
-
+    private fun isProgressVisible() = pb_fact_list.isVisible()
     internal fun hideProgress() = progressStatus(View.GONE)
 
     private fun progressStatus(viewStatus: Int) =
@@ -66,6 +69,10 @@ abstract class BaseFragment : Fragment() {
             setActionTextColor(ContextCompat.getColor(appContext, color.colorTextPrimary))
             show()
         }
+    }
+
+    protected fun changeActionBarTitle(title: String) {
+        (activity as BaseActivity).changeActionBarTitle(title)
     }
 
     internal fun handleApiSuccess() = CountingIdlingResourceSingleton.decrement()

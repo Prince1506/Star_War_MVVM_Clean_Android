@@ -18,6 +18,7 @@ import com.mvvm_clean.star_wars.core.presentation.navigation.Navigator
 import com.mvvm_clean.star_wars.features.common.domain.models.ApiFailure.ListNotAvailable
 import com.mvvm_clean.star_wars.features.people_list.presentation.models.PeopleListView
 import com.mvvm_clean.star_wars.features.people_list.presentation.models.PeopleListViewModel
+import com.mvvm_clean.star_wars.features.people_list.presentation.ui.activities.PeopleListActivity
 import com.mvvm_clean.star_wars.features.people_list.presentation.ui.adapter.PeopleListAdapter
 import com.mvvm_clean.star_wars.features.people_list.presentation.ui.registers.CountingIdlingResourceSingleton
 import kotlinx.android.synthetic.main.fragment_people_list.*
@@ -96,7 +97,7 @@ class PeopleListFragment : BaseFragment() {
         )
         rv_people_list.adapter = peopleListAdapter
         peopleListAdapter.mClickListener = { peopleInfo, navigationExtras ->
-            navigator.showPeopleDetails(activity!!, peopleInfo)
+            navigator.showPeopleDetails(activity as PeopleListActivity, peopleInfo)
         }
     }
 
@@ -107,14 +108,24 @@ class PeopleListFragment : BaseFragment() {
         } else {
             renderFailure(R.string.empty_list)
         }
-        rv_people_list.visible()
-        emptyView.invisible()
+        showPeopleList(true)
         hideProgress()
         super.handleApiSuccess()
     }
 
+    private fun showPeopleList(shouldShowList: Boolean) {
+        if (shouldShowList) {
+            rv_people_list.visible()
+        } else {
+            rv_people_list.gone()
+            setPeopleListEmpty()
+        }
+        hideProgress()
+    }
+
 
     private fun handleFailure(failure: Failure?) {
+        showPeopleList(false)
         activity?.let { hideKeyboard(it) }
         when (failure) {
             is NetworkConnection -> renderFailure(R.string.failure_network_connection)
@@ -125,12 +136,9 @@ class PeopleListFragment : BaseFragment() {
     }
 
     private fun renderFailure(@StringRes message: Int) {
-        rv_people_list.invisible()
-        emptyView.visible()
-        hideProgress()
         notifyWithAction(message)
-        setPeopleListEmpty()
     }
+
 
     private fun setPeopleListEmpty() {
         peopleListAdapter.mCollection = emptyList()

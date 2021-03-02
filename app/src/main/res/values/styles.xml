@@ -110,4 +110,7 @@
         <item name="cardElevation">@dimen/card_elevation</item>
     </style>
 
+    <style name="peopleDetail_dialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowNoTitle">true</item>
+    </style>
 </resources>
