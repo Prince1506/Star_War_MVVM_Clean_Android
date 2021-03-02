@@ -13,9 +13,10 @@ import com.mvvm_clean.star_wars.core.domain.exception.Failure
 abstract class BaseViewModel : ViewModel() {
     // Field Variables ---------------------
     private val failureMutableLiveData: MutableLiveData<Failure> = MutableLiveData()
-    val failureLiveData: LiveData<Failure> = failureMutableLiveData
+    private val failureLiveData: LiveData<Failure> = failureMutableLiveData
 
     //  Helper Methods-----------------------------------------
+    internal fun getFailureLiveData() = failureLiveData
     protected fun handleFailure(failure: Failure) {
         failureMutableLiveData.value = failure
     }

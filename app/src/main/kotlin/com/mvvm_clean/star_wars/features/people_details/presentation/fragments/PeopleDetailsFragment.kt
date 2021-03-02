@@ -50,8 +50,8 @@ class PeopleDetailsFragment : BaseFragment() {
         appComponent.inject(this)
 
         mPeopleDetailsViewModel = viewModel(viewModelFactory) {
-            observe(mPeopleDetailMediatorLiveData, ::renderPeopleDetails)
-            failure(failureLiveData, ::handleApiFailure)
+            observe(getPeopleDetailMediatorLiveData(), ::renderPeopleDetails)
+            failure(getFailureLiveData(), ::handleApiFailure)
         }
 
     }
@@ -159,6 +159,9 @@ class PeopleDetailsFragment : BaseFragment() {
             }
             is ApiFailure.NonExistentPeopleList -> {
                 notify(R.string.failure_people_non_existent); close()
+            }
+            else -> {
+                notify(R.string.failure_server_error); close()
             }
         }
     }

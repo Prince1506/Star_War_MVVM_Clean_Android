@@ -22,7 +22,7 @@ import com.mvvm_clean.star_wars.features.people_list.presentation.ui.registers.C
 import kotlinx.android.synthetic.main.fragment_people_list.*
 import javax.inject.Inject
 
-
+private const val NO_OF_COLUMNS = 1
 class PeopleListFragment : BaseFragment() {
 
     @Inject
@@ -41,7 +41,7 @@ class PeopleListFragment : BaseFragment() {
 
         peopleListViewModel = viewModel(viewModelFactory) {
             observe(getPeopleListLiveData(), ::renderPeopleList)
-            failure(failureLiveData, ::handleFailure)
+            failure(getFailureLiveData(), ::handleFailure)
         }
 
         peopleListViewModel.getProgressLoadingLiveData().observe(
@@ -65,14 +65,13 @@ class PeopleListFragment : BaseFragment() {
 
 
     private fun initializeView() {
-        rv_people_list.layoutManager = StaggeredGridLayoutManager(
-            1,
-            StaggeredGridLayoutManager.VERTICAL
-        )
-        rv_people_list.adapter = peopleListAdapter
-        peopleListAdapter.mClickListener = { peopleInfo, navigationExtras ->
-            navigator.showPeopleDetails(activity!!, peopleInfo)
-        }
+
+        initRecycleViewForPeopleList()
+        initSearchPeopleNameListener()
+
+    }
+
+    private fun initSearchPeopleNameListener() {
 
         tv_peopleList_searchField.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -82,7 +81,18 @@ class PeopleListFragment : BaseFragment() {
             }
             false
         })
+    }
 
+    private fun initRecycleViewForPeopleList() {
+
+        rv_people_list.layoutManager = StaggeredGridLayoutManager(
+            NO_OF_COLUMNS,
+            StaggeredGridLayoutManager.VERTICAL
+        )
+        rv_people_list.adapter = peopleListAdapter
+        peopleListAdapter.mClickListener = { peopleInfo, navigationExtras ->
+            navigator.showPeopleDetails(activity!!, peopleInfo)
+        }
     }
 
     private fun renderPeopleList(peopleListView: PeopleListView?) {
@@ -96,6 +106,7 @@ class PeopleListFragment : BaseFragment() {
 
 
     private fun handleFailure(failure: Failure?) {
+
         when (failure) {
             is NetworkConnection -> renderFailure(R.string.failure_network_connection)
             is ServerError -> renderFailure(R.string.failure_server_error)
@@ -105,6 +116,7 @@ class PeopleListFragment : BaseFragment() {
     }
 
     private fun renderFailure(@StringRes message: Int) {
+
         rv_people_list.invisible()
         emptyView.visible()
         hideProgress()

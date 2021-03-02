@@ -4,6 +4,7 @@ import androidx.annotation.RestrictTo
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.mvvm_clean.star_wars.core.base.BaseViewModel
+import com.mvvm_clean.star_wars.core.domain.extension.putNewLine
 import com.mvvm_clean.star_wars.features.people_details.domain.models.FilmDataModel
 import com.mvvm_clean.star_wars.features.people_details.domain.models.PeopleDetailsDataModel
 import com.mvvm_clean.star_wars.features.people_details.domain.models.PlanetListDataModel
@@ -21,21 +22,23 @@ class PeopleDetailsViewModel
     private val getFilmNames: GetFilmNames
 ) : BaseViewModel() {
 
-    private val mPeopleDetailsDataModel = PeopleDetailsDataModel()
-
-    val mPeopleDetailMediatorLiveData = MediatorLiveData<PeopleDetailsDataModel>()
-    private val mSpeciesMutableLiveData: MutableLiveData<PeopleDetailsDataModel> = MutableLiveData()
-    private val mFilmDataMutableLiveData: MutableLiveData<PeopleDetailsDataModel> =
+    // Field Variables-----------------------------------------------
+    private val peopleDetailsDataModel = PeopleDetailsDataModel()
+    private val peopleDetailMediatorLiveData = MediatorLiveData<PeopleDetailsDataModel>()
+    private val speciesMutableLiveData: MutableLiveData<PeopleDetailsDataModel> = MutableLiveData()
+    private val filmDataMutableLiveData: MutableLiveData<PeopleDetailsDataModel> =
         MutableLiveData()
-    private val mPlanetsMutableLiveData: MutableLiveData<PeopleDetailsDataModel> =
+    private val planetsMutableLiveData: MutableLiveData<PeopleDetailsDataModel> =
         MutableLiveData()
 
-    fun getSpeciesMutableLiveData() = mSpeciesMutableLiveData
-    fun getFilmDataMutableLiveData() = mFilmDataMutableLiveData
-    fun getPlanetsMutableLiveData() = mPlanetsMutableLiveData
+    //  Helper Methods-----------------------------------------
+    fun getSpeciesMutableLiveData() = speciesMutableLiveData
+    fun getFilmDataMutableLiveData() = filmDataMutableLiveData
+    fun getPlanetsMutableLiveData() = planetsMutableLiveData
+    internal fun getPeopleDetailMediatorLiveData() = peopleDetailMediatorLiveData
 
     fun updatePeopleDetailWithPeopleInfo(peopleEntity: PeopleEntity) =
-        mPeopleDetailsDataModel.apply {
+        peopleDetailsDataModel.apply {
             name = peopleEntity.name
             birthYear = peopleEntity.birth_year
             height = peopleEntity.height
@@ -53,51 +56,71 @@ class PeopleDetailsViewModel
 
     @RestrictTo(RestrictTo.Scope.TESTS)
     internal fun handlePlanetsData(planetListDataModel: PlanetListDataModel) {
-        mPeopleDetailsDataModel.apply {
+        peopleDetailsDataModel.apply {
             homeworld = planetListDataModel.name
             population = planetListDataModel.population
-            mPlanetsMutableLiveData.postValue(this)
+            planetsMutableLiveData.postValue(this)
         }
 
-        mPeopleDetailMediatorLiveData.addSource(mPlanetsMutableLiveData) {
-            mPeopleDetailMediatorLiveData.value = it
+        peopleDetailMediatorLiveData.addSource(planetsMutableLiveData) {
+            peopleDetailMediatorLiveData.value = it
         }
     }
 
     fun handleFilmData(filmDataModel: FilmDataModel) {
 
-        mPeopleDetailsDataModel.let {
+        updatePeopleDetailWithFilmData(filmDataModel)
+        addFilmLiveDataToPeopleMediatorLiveData()
+    }
+
+    private fun addFilmLiveDataToPeopleMediatorLiveData() {
+        peopleDetailMediatorLiveData.apply {
+            addSource(filmDataMutableLiveData) {
+                value = it
+            }
+            removeSource(filmDataMutableLiveData)
+        }
+    }
+
+    private fun updatePeopleDetailWithFilmData(filmDataModel: FilmDataModel) {
+
+        peopleDetailsDataModel.let {
             if (it.film?.isEmpty() == false) {
-                it.film += filmDataModel.title + " <br> "
+                it.film += filmDataModel.title + String.putNewLine()
             } else {
                 it.film = filmDataModel.title
             }
-            it.openingCrawl += filmDataModel.title + " : <br> " + filmDataModel.opening_crawl + " <br> <br> "
-            mFilmDataMutableLiveData.postValue(it)
-        }
+            it.openingCrawl += filmDataModel.title +
+                    String.putNewLine() +
+                    filmDataModel.opening_crawl +
+                    String.putNewLine() +
+                    String.putNewLine()
 
-        mPeopleDetailMediatorLiveData.apply {
-            addSource(mFilmDataMutableLiveData) {
-                value = it
-            }
-            removeSource(mFilmDataMutableLiveData)
+            filmDataMutableLiveData.postValue(it)
         }
     }
 
     @RestrictTo(RestrictTo.Scope.TESTS)
     internal fun handleSpeciesData(speciesListDataModel: SpeciesDataModel) {
 
-        mPeopleDetailsDataModel.let {
-            it.speciesName += speciesListDataModel.name + " <br> "
-            it.languages += speciesListDataModel.language + " <br> "
-            mSpeciesMutableLiveData.postValue(it)
-        }
+        updatePeopleDataWithSpeciesData(speciesListDataModel)
+        addSpeciesLiveDataToPeopleMediatorLiveData()
+    }
 
-        mPeopleDetailMediatorLiveData.apply {
-            addSource(mSpeciesMutableLiveData) {
+    private fun addSpeciesLiveDataToPeopleMediatorLiveData() {
+        peopleDetailMediatorLiveData.apply {
+            addSource(speciesMutableLiveData) {
                 value = it
             }
-            removeSource(mSpeciesMutableLiveData)
+            removeSource(speciesMutableLiveData)
+        }
+    }
+
+    private fun updatePeopleDataWithSpeciesData(speciesListDataModel: SpeciesDataModel) {
+        peopleDetailsDataModel.let {
+            it.speciesName += speciesListDataModel.name + String.putNewLine()
+            it.languages += speciesListDataModel.language + String.putNewLine()
+            speciesMutableLiveData.postValue(it)
         }
     }
 

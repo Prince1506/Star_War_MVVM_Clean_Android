@@ -29,13 +29,13 @@ class PeopleListAdapter
     override fun getItemCount() = mCollection.size
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
         fun bind(
             peopleEntity: PeopleEntity,
             clickListener: (PeopleEntity, Navigator.Extras) -> Unit
         ) {
 
             peopleEntity.name?.let { itemView.tv_people_name.text = it }
-
             itemView.setOnClickListener {
                 clickListener(
                     peopleEntity,
