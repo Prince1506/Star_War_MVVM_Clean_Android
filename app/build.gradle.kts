@@ -39,7 +39,7 @@ dependencies {
     compileOnly(Libraries.javaxAnnotation)
     compileOnly(Libraries.javaxInject)
 
-    /*Application dependencies*/
+/*Application dependencies*/
 
     // Kotlin
     implementation(Libraries.kotlinStdLib)
@@ -78,14 +78,13 @@ dependencies {
     testImplementation(TestLibraries.mockk)
     testImplementation(TestLibraries.kluent)
     testImplementation(TestLibraries.robolectric)
-    testImplementation("org.mockito:mockito-core:2.+")
 
     // Acceptance tests dependencies
     androidTestImplementation(TestLibraries.testRunner)
-    androidTestImplementation("androidx.test:core:1.1.0")
+    androidTestImplementation(TestLibraries.testCore)
     androidTestImplementation(TestLibraries.espressoCore)
-    implementation("androidx.test.espresso:espresso-idling-resource:3.2.0")
-    androidTestImplementation("com.android.support.test.espresso:espresso-contrib:3.2.0")
+    implementation(TestLibraries.espressoIdlings)
+    androidTestImplementation(TestLibraries.espressoContrib)
     androidTestImplementation(TestLibraries.testExtJunit)
     androidTestImplementation(TestLibraries.testRules)
     androidTestImplementation(TestLibraries.espressoIntents)

@@ -46,7 +46,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:text="@string/people_details_summary" />
+                android:text="@string/peopleDetails_summary" />
 
             <View
                 android:id="@+id/v_peopleDetails_summary"
@@ -60,7 +60,7 @@
             <TextView
                 android:id="@+id/tv_peopleDetail_name"
                 style="@style/PeopleDetailsTitle"
-                android:text="@string/people_details_name"
+                android:text="@string/peopleDetails_name"
                 android:layout_marginTop="@dimen/margin_5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -77,7 +77,7 @@
             <TextView
                 android:id="@+id/textView3"
                 style="@style/PeopleDetailsTitle"
-                android:text="@string/people_details_birth_year"
+                android:text="@string/peopleDetails_birthYear"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_name" />
@@ -88,12 +88,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView3"
-                android:text="@string/people_details_birth_year" />
+                android:text="@string/peopleDetails_birthYear" />
 
             <TextView
                 android:id="@+id/textView4"
                 style="@style/PeopleDetailsTitle"
-                android:text="@string/people_details_height"
+                android:text="@string/peopleDetails_height"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_birth_year" />
@@ -104,7 +104,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView4"
-                android:text="@string/people_details_height" />
+                android:text="@string/peopleDetails_height" />
 
             <TextView
                 android:id="@+id/tv_peopleDetails_speciesLbl"
@@ -113,7 +113,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_height"
-                android:text="@string/people_details_species" />
+                android:text="@string/peopleDetails_species" />
 
             <View
                 android:id="@+id/v_peopleDetails_species"
@@ -128,7 +128,7 @@
             <TextView
                 android:id="@+id/textView6"
                 style="@style/PeopleDetailsTitle"
-                android:text="@string/people_details_name"
+                android:text="@string/peopleDetails_name"
                 android:layout_marginTop="@dimen/margin_5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -140,12 +140,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView6"
-                android:text="@string/people_details_name" />
+                android:text="@string/peopleDetails_name" />
 
             <TextView
                 android:id="@+id/textView7"
                 style="@style/PeopleDetailsTitle"
-                android:text="@string/people_details_language"
+                android:text="@string/peopleDetails_language"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_speciesName" />
@@ -156,12 +156,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView7"
-                android:text="@string/people_details_language" />
+                android:text="@string/peopleDetails_language" />
 
             <TextView
                 android:id="@+id/textView8"
                 style="@style/PeopleDetailsTitle"
-                android:text="@string/people_details_homeworld"
+                android:text="@string/peopleDetails_homeworld"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_language" />
@@ -172,12 +172,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView8"
-                android:text="@string/people_details_homeworld" />
+                android:text="@string/peopleDetails_homeworld" />
 
             <TextView
                 android:id="@+id/textView9"
                 style="@style/PeopleDetailsTitle"
-                android:text="@string/people_details_population"
+                android:text="@string/peopleDetails_population"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_homeworld" />
@@ -188,12 +188,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView9"
-                android:text="@string/people_details_population" />
+                android:text="@string/peopleDetails_population" />
 
             <TextView
                 android:id="@+id/tv_peopleDetails_filmsLbl"
                 style="@style/PeopleDetailsTitle"
-                android:text="@string/people_details_films"
+                android:text="@string/peopleDetails_films"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_population" />
@@ -204,12 +204,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_filmsLbl"
-                android:text="@string/people_details_films" />
+                android:text="@string/peopleDetails_films" />
 
             <TextView
                 android:id="@+id/tv_peopleDetails_openingCrawlingLbl"
                 style="@style/PeopleDetailsTitle"
-                android:text="@string/people_details_opening_crawl"
+                android:text="@string/peopleDetails_openingCrawl"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_films" />
@@ -220,7 +220,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_openingCrawlingLbl"
-                android:text="@string/people_details_opening_crawl" />
+                android:text="@string/peopleDetails_openingCrawl" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

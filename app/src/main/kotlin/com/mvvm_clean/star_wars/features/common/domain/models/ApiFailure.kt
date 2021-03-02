@@ -4,6 +4,6 @@ import com.mvvm_clean.star_wars.core.domain.exception.Failure.FeatureFailure
 
 class ApiFailure {
     class ListNotAvailable : FeatureFailure()
-    class NonExistentMovie : FeatureFailure()
+    class NonExistentPeopleList : FeatureFailure()
 }
 

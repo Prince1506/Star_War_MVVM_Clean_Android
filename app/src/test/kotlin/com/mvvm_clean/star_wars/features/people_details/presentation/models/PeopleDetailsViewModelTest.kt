@@ -1,6 +1,5 @@
 package com.mvvm_clean.star_wars.features.people_details.presentation.models
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.mvvm_clean.star_wars.AndroidTest
 import com.mvvm_clean.star_wars.core.domain.functional.Either
@@ -20,102 +19,98 @@ import org.amshove.kluent.shouldEqualTo
 import org.junit.Before
 import org.junit.Test
 
+/**
+ * As per Kotlin documentation in kotlin we need to define constants
+ * outside of class
+ * https://developer.android.com/kotlin/style-guide#specific_constructs
+ */
+
+// Constants
+private const val FILM_NAME = "filmName"
+private const val SPECIES_NAME = "speciesName"
+private const val PEOPLE_NAME = "Chewbacaa"
+private const val FILM_ID = 2
+private const val SPECIES_ID = 1
+private const val POPULATION = "100"
+private const val PLANET_ID = 15
+
 class PeopleDetailsViewModelTest : AndroidTest() {
 
-    private val planetId = 15
-    private val speciesObserver = Observer<PeopleDetailsDataModel> {
-        it!!.speciesName shouldEqualTo speciesName
-    }
-    private val filmObserver = Observer<PeopleDetailsDataModel> {
-        it!!.film shouldEqualTo filmName
-    }
-    private val planetObserver = Observer<PeopleDetailsDataModel> {
-        it!!.population shouldEqualTo population
-    }
+    // Late int Variables -----------------
+    private lateinit var mSpeciesResponseEntity: SpeciesResponseEntity
+    private lateinit var mPlanetListEntity: PlanetListResponseEntity
+    private lateinit var mPeopleListEntity: PeopleListResponseEntity
+    private lateinit var mFilmResponseEntity: FilmResponseEntity
+    private lateinit var mPeopleDetailsViewModel: PeopleDetailsViewModel
+    private lateinit var mPeopleEntity: PeopleEntity
 
-    private val population = "100"
-    private lateinit var planetEntity: PlanetListResponseEntity
-    private lateinit var speciesResponseEntity: SpeciesResponseEntity
-    private lateinit var planetListEntity: PlanetListResponseEntity
-    private lateinit var peopleListEntity: PeopleListResponseEntity
-    private lateinit var filmResponseEntity: FilmResponseEntity
-
-    private val filmName = "filmName"
-    private val planetName = "planetName"
-    private val speciesName = "speciesName"
-    private val peopleName = "Chewbacaa"
-    private val filmId = 2
-    private val speciesId = 1
-
-    private lateinit var peopleDetailsViewModel: PeopleDetailsViewModel
-    private lateinit var peopleEntity: PeopleEntity
+    // Annotations Variables -----------------
+    @MockK
+    private lateinit var mGetSpeciesInfo: GetSpeciesInfo
 
     @MockK
-    private lateinit var getSpeciesInfo: GetSpeciesInfo
+    private lateinit var mGetFilmNames: GetFilmNames
 
     @MockK
-    private lateinit var getFilmNames: GetFilmNames
+    private lateinit var mGetPlanetInfo: GetPlanetsInfo
 
-    @MockK
-    private lateinit var getPlanetInfo: GetPlanetsInfo
+    // Field Variables ---------------------
+    private val mSpeciesObserver = Observer<PeopleDetailsDataModel> {
+        it!!.speciesName shouldEqualTo SPECIES_NAME
+    }
+    private val mFilmObserver = Observer<PeopleDetailsDataModel> {
+        it!!.film shouldEqualTo FILM_NAME
+    }
+    private val mPlanetObserver = Observer<PeopleDetailsDataModel> {
+        it!!.population shouldEqualTo POPULATION
+    }
 
-
+    // Override Methods--------------------------------------
     @Before
     fun setUp() {
-        peopleEntity = PeopleEntity(peopleName)
-        peopleDetailsViewModel = PeopleDetailsViewModel(getSpeciesInfo, getPlanetInfo, getFilmNames)
-
-        speciesResponseEntity = SpeciesResponseEntity(speciesName)
-
-        peopleEntity = PeopleEntity(peopleName)
-        peopleListEntity = PeopleListResponseEntity(null, null, null, listOf(peopleEntity))
-
-        filmResponseEntity = FilmResponseEntity(filmName)
-
-        planetEntity = PlanetListEntity(planetName)
-        planetEntity.population = population
-        planetListEntity = PlanetListResponseEntity(null, null)
-
-
+        mPeopleEntity = PeopleEntity(PEOPLE_NAME)
+        mPeopleDetailsViewModel = PeopleDetailsViewModel(
+            mGetSpeciesInfo,
+            mGetPlanetInfo,
+            mGetFilmNames
+        )
+        mSpeciesResponseEntity = SpeciesResponseEntity(SPECIES_NAME)
+        mPeopleListEntity = PeopleListResponseEntity(null, null, null, listOf(mPeopleEntity))
+        mFilmResponseEntity = FilmResponseEntity(FILM_NAME)
+        mPlanetListEntity = PlanetListResponseEntity(null, null)
     }
 
-    /**
-     * Observes a [LiveData] until the `block` is done executing.
-     */
-    fun <T> LiveData<T>.observeForTesting(block: () -> Unit): Observer<T> {
-        val observer = Observer<T> { }
-        try {
-            observeForever(observer)
-            block()
-        } finally {
-            removeObserver(observer)
-        }
-        return observer
-    }
-
+    // Test Cases---------------------------------------------
     @Test
     fun `loading species list should update live data`() {
         try {
-            coEvery { getSpeciesInfo.run(any()) } returns Either.Right(speciesResponseEntity.toSpeciesDataModel())
+            //Assert
+            coEvery { mGetSpeciesInfo.run(any()) } returns Either.Right(mSpeciesResponseEntity.toSpeciesDataModel())
 
-            runBlocking { peopleDetailsViewModel.loadSpeciesData(speciesId) }
+            //Act
+            runBlocking { mPeopleDetailsViewModel.loadSpeciesData(SPECIES_ID) }
 
-            peopleDetailsViewModel.getSpeciesMutableLiveData().observeForever(speciesObserver)
+            //Verify
+            mPeopleDetailsViewModel.getSpeciesMutableLiveData().observeForever(mSpeciesObserver)
 
         } finally {
-            peopleDetailsViewModel.getSpeciesMutableLiveData().removeObserver(speciesObserver)
+            mPeopleDetailsViewModel.getSpeciesMutableLiveData().removeObserver(mSpeciesObserver)
         }
     }
 
     @Test
     fun `loading film list should update live data`() {
         try {
-            coEvery { getFilmNames.run(any()) } returns Either.Right(filmResponseEntity.toFilmsDataModel())
+            //Assert
+            coEvery { mGetFilmNames.run(any()) } returns Either.Right(mFilmResponseEntity.toFilmsDataModel())
 
-            runBlocking { peopleDetailsViewModel.loadFilmData(filmId) }
-            peopleDetailsViewModel.getFilmDataMutableLiveData().observeForever(filmObserver)
+            //Act
+            runBlocking { mPeopleDetailsViewModel.loadFilmData(FILM_ID) }
+
+            //Verify
+            mPeopleDetailsViewModel.getFilmDataMutableLiveData().observeForever(mFilmObserver)
         } finally {
-            peopleDetailsViewModel.getFilmDataMutableLiveData().removeObserver(filmObserver)
+            mPeopleDetailsViewModel.getFilmDataMutableLiveData().removeObserver(mFilmObserver)
         }
     }
 
@@ -124,15 +119,15 @@ class PeopleDetailsViewModelTest : AndroidTest() {
         try {
 
             // Assert
-            coEvery { getPlanetInfo.run(any()) } returns Either.Right(planetListEntity.toPlanetsDataModel())
+            coEvery { mGetPlanetInfo.run(any()) } returns Either.Right(mPlanetListEntity.toPlanetsDataModel())
 
             // Act
-            runBlocking { peopleDetailsViewModel.loadPlanetData(planetId) }
+            runBlocking { mPeopleDetailsViewModel.loadPlanetData(PLANET_ID) }
 
             // Verify
-            peopleDetailsViewModel.getPlanetsMutableLiveData().observeForever(planetObserver)
+            mPeopleDetailsViewModel.getPlanetsMutableLiveData().observeForever(mPlanetObserver)
         } finally {
-            peopleDetailsViewModel.getPlanetsMutableLiveData().removeObserver(planetObserver)
+            mPeopleDetailsViewModel.getPlanetsMutableLiveData().removeObserver(mPlanetObserver)
         }
 
     }
@@ -143,12 +138,12 @@ class PeopleDetailsViewModelTest : AndroidTest() {
             //Assert
 
             //Act
-            runBlocking { peopleDetailsViewModel.handleFilmData(filmResponseEntity.toFilmsDataModel()) }
+            runBlocking { mPeopleDetailsViewModel.handleFilmData(mFilmResponseEntity.toFilmsDataModel()) }
 
-            //Verifiy
-            peopleDetailsViewModel.getFilmDataMutableLiveData().observeForever(filmObserver)
+            //Verify
+            mPeopleDetailsViewModel.getFilmDataMutableLiveData().observeForever(mFilmObserver)
         } finally {
-            peopleDetailsViewModel.getFilmDataMutableLiveData().removeObserver(filmObserver)
+            mPeopleDetailsViewModel.getFilmDataMutableLiveData().removeObserver(mFilmObserver)
         }
     }
 
@@ -158,12 +153,12 @@ class PeopleDetailsViewModelTest : AndroidTest() {
             //Assert
 
             //Act
-            runBlocking { peopleDetailsViewModel.handlePlanetsData(planetListEntity.toPlanetsDataModel()) }
+            runBlocking { mPeopleDetailsViewModel.handlePlanetsData(mPlanetListEntity.toPlanetsDataModel()) }
 
-            //Verifiy
-            peopleDetailsViewModel.getPlanetsMutableLiveData().observeForever(planetObserver)
+            //Verify
+            mPeopleDetailsViewModel.getPlanetsMutableLiveData().observeForever(mPlanetObserver)
         } finally {
-            peopleDetailsViewModel.getPlanetsMutableLiveData().removeObserver(planetObserver)
+            mPeopleDetailsViewModel.getPlanetsMutableLiveData().removeObserver(mPlanetObserver)
         }
     }
 
@@ -174,12 +169,12 @@ class PeopleDetailsViewModelTest : AndroidTest() {
             //Assert
 
             //Act
-            runBlocking { peopleDetailsViewModel.handleSpeciesData(speciesResponseEntity.toSpeciesDataModel()) }
+            runBlocking { mPeopleDetailsViewModel.handleSpeciesData(mSpeciesResponseEntity.toSpeciesDataModel()) }
 
-            //Verifiy
-            peopleDetailsViewModel.getSpeciesMutableLiveData().observeForever(speciesObserver)
+            //Verify
+            mPeopleDetailsViewModel.getSpeciesMutableLiveData().observeForever(mSpeciesObserver)
         } finally {
-            peopleDetailsViewModel.getSpeciesMutableLiveData().removeObserver(speciesObserver)
+            mPeopleDetailsViewModel.getSpeciesMutableLiveData().removeObserver(mSpeciesObserver)
         }
     }
 }

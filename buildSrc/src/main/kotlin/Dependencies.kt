@@ -118,6 +118,10 @@ object TestLibraries {
         const val testRules = "1.1.0"
     }
 
+    val espressoContrib =
+        "com.android.support.test.espresso:espresso-contrib:${Versions.espressoCore}"
+    val espressoIdlings = "androidx.test.espresso:espresso-idling-resource:${Versions.espressoCore}"
+    val testCore = "androidx.test:core:${Versions.testRules}"
     const val junit4 = "junit:junit:${Versions.junit4}"
     const val mockk = "io.mockk:mockk:${Versions.mockk}"
     const val robolectric = "org.robolectric:robolectric:${Versions.robolectric}"

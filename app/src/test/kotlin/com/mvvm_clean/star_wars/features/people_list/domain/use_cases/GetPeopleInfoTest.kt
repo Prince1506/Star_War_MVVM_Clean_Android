@@ -11,21 +11,28 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 
+
+private const val PEOPLE_NAME = "peopleName"
+
 class GetPeopleInfoTest : UnitTest() {
-    private val peopleName = "peopleName"
+
+    // Late int Variables -----------------
     private lateinit var getPeopleInfo: GetPeopleInfo
 
+    // Annotations Variables -----------------
     @MockK
     private lateinit var starWarApiRepository: StarWarApiRepository
 
+    // Override Methods--------------------------------------
     @Before
     fun setUp() {
         getPeopleInfo = GetPeopleInfo(starWarApiRepository)
-        every { starWarApiRepository.getPeopleByQuery(peopleName) } returns Either.Right(
+        every { starWarApiRepository.getPeopleByQuery(PEOPLE_NAME) } returns Either.Right(
             PeopleListDataModel.empty
         )
     }
 
+    // Test Cases---------------------------------------------
     /**
      * Check that API method is called once to get fact list
      */
@@ -33,9 +40,9 @@ class GetPeopleInfoTest : UnitTest() {
     fun `should get data from repository`() {
 
         // Act
-        runBlocking { getPeopleInfo.run(peopleName) }
+        runBlocking { getPeopleInfo.run(PEOPLE_NAME) }
 
         // Verify
-        verify(exactly = 1) { starWarApiRepository.getPeopleByQuery(peopleName) }
+        verify(exactly = 1) { starWarApiRepository.getPeopleByQuery(PEOPLE_NAME) }
     }
 }

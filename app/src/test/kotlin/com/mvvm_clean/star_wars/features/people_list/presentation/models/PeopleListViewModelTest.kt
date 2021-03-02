@@ -12,77 +12,63 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.runBlocking
 import org.amshove.kluent.shouldEqualTo
-import org.junit.After
 import org.junit.Before
-import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 
+private val PEOPLE_NAME = "Chewbacaa"
+
 @RunWith(MockitoJUnitRunner::class)
 class PeopleListViewModelTest {
 
-    private val progressDataObserver = Observer<Boolean?> {
-        it shouldEqualTo false
-    }
-
-    private val peopleNameObserver = Observer<String>
-    {
-        it shouldEqualTo peopleName
-    }
+    // Field Variables ---------------------
+    private val progressDataObserver = Observer<Boolean?> { it shouldEqualTo false }
+    private val peopleNameObserver = Observer<String> { it shouldEqualTo PEOPLE_NAME }
     private val peopleListObserver = Observer<PeopleListView> {
         it!!.peopleList?.size shouldEqualTo 1
-        it.peopleList?.get(1)?.name shouldEqualTo peopleName
+        it.peopleList?.get(1)?.name shouldEqualTo PEOPLE_NAME
     }
 
+    // Annotations Variables -----------------
     @RelaxedMockK
     private lateinit var peopleListViewModel: PeopleListViewModel
-
-
-    private lateinit var peopleEntity: PeopleEntity
-    private val peopleName = "Chewbacaa"
-    private lateinit var peopleListEntity: PeopleListResponseEntity
 
     @MockK
     private lateinit var getPeopleInfo: GetPeopleInfo
 
+    // Late int Variables -----------------
+    private lateinit var peopleEntity: PeopleEntity
+    private lateinit var peopleListEntity: PeopleListResponseEntity
 
-    companion object {
-
-        @BeforeClass
-        fun setupBeforeClass() {
-
-        }
-
-    }
-
+    // Override Methods--------------------------------------
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        peopleEntity = PeopleEntity(peopleName)
+        peopleEntity = PeopleEntity(PEOPLE_NAME)
         peopleListEntity = PeopleListResponseEntity(null, null, null, listOf(peopleEntity))
     }
 
-    @After
-    fun method() {
-    }
-
-
+    // Test Cases---------------------------------------------
     @Test
     fun `loading people list should update live data`() {
         try {
+
+            //Assert
             val peopleListDataModel = PeopleListDataModel(
                 0,
                 null,
                 null,
                 listOf(peopleEntity)
             )
+            coEvery { getPeopleInfo.run(PEOPLE_NAME) } returns Either.Right(peopleListDataModel)
 
-            coEvery { getPeopleInfo.run(peopleName) } returns Either.Right(peopleListDataModel)
+            //Act
+            runBlocking { peopleListViewModel.loadPeopleList(PEOPLE_NAME) }
 
+            //Verify
             peopleListViewModel.getPeopleListLiveData().observeForever(peopleListObserver)
 
-            runBlocking { peopleListViewModel.loadPeopleList(peopleName) }
         } finally {
             peopleListViewModel.getPeopleListLiveData().removeObserver(peopleListObserver)
         }
@@ -91,10 +77,13 @@ class PeopleListViewModelTest {
     @Test
     fun `For API failure progress live data should reset`() {
         try {
+            //Assert
             every { peopleListViewModel.getProgressLoadingMutableLiveData() } returns MutableLiveData<Boolean>()
 
+            //Act
             runBlocking { peopleListViewModel.handlePeopleListFailure(null) }
 
+            //Verify
             peopleListViewModel.getProgressLoadingLiveData().observeForever(progressDataObserver)
 
         } finally {
@@ -108,8 +97,10 @@ class PeopleListViewModelTest {
     fun `For API success progress live data should reset`() {
         try {
 
+            //Act
             runBlocking { peopleListViewModel.handlePeopleList(peopleListEntity.toPeopleList()) }
 
+            //Verify
             peopleListViewModel.getProgressLoadingLiveData().observeForever(progressDataObserver)
         } finally {
             peopleListViewModel.getProgressLoadingLiveData().removeObserver(progressDataObserver)
@@ -121,13 +112,15 @@ class PeopleListViewModelTest {
     @Test
     fun `Whenever user name searched it should be observed forever`() {
         try {
-
+            //Assert
             every {
                 peopleListViewModel.getPeopleNameMutabeLiveData()
             } returns MutableLiveData<String>()
 
-            runBlocking { peopleListViewModel.setSearchQueryString(peopleName) }
+            //Act
+            runBlocking { peopleListViewModel.setSearchQueryString(PEOPLE_NAME) }
 
+            //Verify
             peopleListViewModel.getPeopleNameMutabeLiveData().observeForever(peopleNameObserver)
         } finally {
             peopleListViewModel.getPeopleNameMutabeLiveData().removeObserver(peopleNameObserver)
@@ -137,6 +130,7 @@ class PeopleListViewModelTest {
 
     @Test
     fun `User Name observing forever should get cleared`() {
+        //Assert
         every {
             peopleListViewModel.getPeopleNameMutabeLiveData()
         } returns MutableLiveData<String>()
@@ -145,8 +139,11 @@ class PeopleListViewModelTest {
             peopleListViewModel.getPeopleNameMutabeLiveData().removeObserver(any())
         } returns Unit
 
+
+        //Act
         peopleListViewModel.onCleared()
 
+        //Verify
         verify(exactly = 1) {
             peopleListViewModel.onCleared()
         }

@@ -11,19 +11,22 @@ import org.junit.Test
 import shouldNavigateTo
 
 class NavigatorTest : AndroidTest() {
-
+    // Late int Variables -----------------
     private lateinit var navigator: Navigator
 
+    // Annotations Variables -----------------
     @MockK
     private lateinit var authenticator: Authenticator
 
+    // Override Methods--------------------------------------
     @Before
     fun setup() {
         navigator = Navigator(authenticator)
     }
 
+    // Test Cases---------------------------------------------
     @Test
-    fun `should forward user to canada Fact screen`() {
+    fun `should forward user to people list screen`() {
         every { authenticator.userLoggedIn() } returns true
 
         navigator.navigateToScreens(context())

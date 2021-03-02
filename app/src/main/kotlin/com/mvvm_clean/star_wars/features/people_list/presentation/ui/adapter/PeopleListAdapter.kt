@@ -7,7 +7,7 @@ import com.mvvm_clean.star_wars.R
 import com.mvvm_clean.star_wars.core.domain.extension.inflate
 import com.mvvm_clean.star_wars.core.presentation.navigation.Navigator
 import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PeopleEntity
-import kotlinx.android.synthetic.main.row_people_info.view.*
+import kotlinx.android.synthetic.main.people_list_item.view.*
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -21,7 +21,7 @@ class PeopleListAdapter
     internal var mClickListener: (PeopleEntity, Navigator.Extras) -> Unit = { _, _ -> }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ViewHolder(parent.inflate(R.layout.row_people_info))
+        ViewHolder(parent.inflate(R.layout.people_list_item))
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) =
         viewHolder.bind(mCollection.get(position), mClickListener)

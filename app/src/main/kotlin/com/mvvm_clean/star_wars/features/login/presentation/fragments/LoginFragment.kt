@@ -5,5 +5,5 @@ import com.mvvm_clean.star_wars.core.base.BaseFragment
 
 // Fragment corresponding to login screen.
 class LoginFragment : BaseFragment() {
-    override fun layoutId() = R.layout.fragment_login
+    override fun layoutId() = R.layout.login_fragment
 }

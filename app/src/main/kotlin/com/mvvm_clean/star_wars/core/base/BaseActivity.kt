@@ -16,7 +16,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_layout)
+        setContentView(R.layout.base_activity_layout)
         setSupportActionBar(toolbar)
         addFragment(savedInstanceState)
     }

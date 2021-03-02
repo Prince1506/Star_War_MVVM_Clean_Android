@@ -1,6 +1,0 @@
-<resources>
-    <string name="people_list_screen_title">People List</string>
-
-    <!-- Animations -->
-    <string name="people_transition_poster">peopleTextTransition</string>
-</resources>

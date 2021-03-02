@@ -86,11 +86,11 @@ class PeopleDetailsFragment : BaseFragment() {
     private fun getIdFromUrl(url: String): Int {
         var urlArrWithId = arrayOf(String.empty(), String.empty())
 
-        if (url.contains(getString(R.string.film))) urlArrWithId =
+        if (url.contains(getString(R.string.peopleDetails_urlPart_film))) urlArrWithId =
             url.split(mFilmUrl).toTypedArray()
-        else if (url.contains(getString(R.string.species))) urlArrWithId =
+        else if (url.contains(getString(R.string.peopleDetails_urlPart_species))) urlArrWithId =
             url.split(mSpeciesUrl).toTypedArray()
-        else if (url.contains(getString(R.string.planets))) urlArrWithId =
+        else if (url.contains(getString(R.string.peopleDetails_urlPart_planets))) urlArrWithId =
             url.split(mPlanetUrl).toTypedArray()
 
 
@@ -165,8 +165,8 @@ class PeopleDetailsFragment : BaseFragment() {
             is ServerError -> {
                 notify(R.string.failure_server_error); close()
             }
-            is ApiFailure.NonExistentMovie -> {
-                notify(R.string.failure_movie_non_existent); close()
+            is ApiFailure.NonExistentPeopleList -> {
+                notify(R.string.failure_people_non_existent); close()
             }
         }
     }

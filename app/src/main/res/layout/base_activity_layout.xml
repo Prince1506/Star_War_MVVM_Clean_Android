@@ -15,10 +15,8 @@
     <ProgressBar
         android:id="@+id/pb_fact_list"
         android:layout_width="100dp"
-        android:layout_height="99dp"
-        android:layout_gravity="center"
         android:visibility="gone"
-        android:indeterminateOnly="true"
-        android:indeterminateTint="@color/white" />
+        android:layout_height="100dp"
+        android:theme="@style/peopleList_progressTheme" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

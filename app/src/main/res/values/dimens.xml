@@ -4,13 +4,14 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <!--Generic for texts-->
-    <dimen name="text_30">30sp</dimen>
-    <dimen name="text_20">20sp</dimen>
-    <dimen name="text_15">15sp</dimen>
+
     <dimen name="text_10">10sp</dimen>
     <dimen name="text_12">12sp</dimen>
+    <dimen name="text_15">15sp</dimen>
     <dimen name="text_18">18sp</dimen>
     <dimen name="text_25">25sp</dimen>
+    <dimen name="text_20">20sp</dimen>
+    <dimen name="text_30">30sp</dimen>
 
     <!--Generic for margins-->
     <dimen name="margin_5">5dp</dimen>

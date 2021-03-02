@@ -99,7 +99,7 @@ class PeopleListFragment : BaseFragment() {
         when (failure) {
             is NetworkConnection -> renderFailure(R.string.failure_network_connection)
             is ServerError -> renderFailure(R.string.failure_server_error)
-            is ListNotAvailable -> renderFailure(R.string.failure_movies_list_unavailable)
+            is ListNotAvailable -> renderFailure(R.string.failure_people_list_unavailable)
         }
         super.handleApiFailure()
     }

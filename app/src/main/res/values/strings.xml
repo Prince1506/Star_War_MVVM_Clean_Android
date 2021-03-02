@@ -1,18 +1,11 @@
 <resources>
     <string name="app_name">Star War People Details</string>
-
     <string name="action_refresh">Refresh</string>
-
     <string name="failure_network_connection">No Network Connection.</string>
-    <string name="failure_server_error">Server Error</string>
-    <string name="failure_movies_list_unavailable">People List Unavailable.</string>
-    <string name="failure_movie_non_existent">People List Not Existent.</string>
-
+    <string name="failure_server_error">Server Error.</string>
+    <string name="failure_people_list_unavailable">People List Unavailable.</string>
+    <string name="failure_people_non_existent">People List Not Existent.</string>
     <string name="content_description_empty">No content description.</string>
     <string name="forward_slash">/</string>
-    <string name="peopleDetails_planetName">(Planet Name)</string>
     <string name="space">" "</string>
-    <string name="film">film</string>
-    <string name="species">species</string>
-    <string name="planets">planets</string>
 </resources>

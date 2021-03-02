@@ -9,18 +9,16 @@
 
     <!--Application-->
     <application
-        android:name="com.mvvm_clean.star_wars.AndroidApplication"
-        android:allowBackup="true"
+        android:name=".AndroidApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:debuggable="true"
         tools:ignore="GoogleAppIndexingWarning">
 
         <!--Activities-->
         <activity
-            android:name="com.mvvm_clean.star_wars.core.presentation.navigation.RouteActivity"
+            android:name=".core.presentation.navigation.RouteActivity"
             android:noHistory="true"
             android:theme="@style/AppTheme.Translucent">
             <intent-filter>
@@ -30,16 +28,15 @@
         </activity>
 
         <activity
-            android:name="com.mvvm_clean.star_wars.features.login.presentation.activities.LoginActivity"
+            android:name=".features.login.presentation.activities.LoginActivity"
             android:label="@string/login_screen_title"/>
 
         <activity
-            android:name="com.mvvm_clean.star_wars.features.people_list.presentation.ui.activities.PeopleListActivity"
+            android:name=".features.people_list.presentation.ui.activities.PeopleListActivity"
             android:label="@string/people_list_screen_title"/>
 
         <activity
-            android:name="com.mvvm_clean.star_wars.features.people_details.presentation.activities.PeopleDetailsActivity"
-            android:label="@string/people_details_screen_title"
+            android:name=".features.people_details.presentation.activities.PeopleDetailsActivity"
             android:theme="@style/AppTheme.Translucent"/>
 
     </application>

@@ -42,5 +42,6 @@ class ApplicationModule(private val application: AndroidApplication) {
 
     @Provides
     @Singleton
-    fun provideMoviesRepository(dataSource: StarWarApiRepository.Network): StarWarApiRepository = dataSource
+    fun provideStarWarRepository(dataSource: StarWarApiRepository.Network): StarWarApiRepository =
+        dataSource
 }

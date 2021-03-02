@@ -16,10 +16,10 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(PeopleListViewModel::class)
-    abstract fun bindsMoviesViewModel(peopleListViewModel: PeopleListViewModel): ViewModel
+    abstract fun bindsPeopleListViewModel(peopleListViewModel: PeopleListViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(PeopleDetailsViewModel::class)
-    abstract fun bindsMovieDetailsViewModel(peopleDetailsViewModel: PeopleDetailsViewModel): ViewModel
+    abstract fun bindsPeopleDetailsViewModel(peopleDetailsViewModel: PeopleDetailsViewModel): ViewModel
 }

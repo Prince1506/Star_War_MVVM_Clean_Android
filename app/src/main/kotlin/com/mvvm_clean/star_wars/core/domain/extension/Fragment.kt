@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.mvvm_clean.star_wars.core.base.BaseActivity
 import com.mvvm_clean.star_wars.core.base.BaseFragment
-import kotlinx.android.synthetic.main.activity_layout.*
+import kotlinx.android.synthetic.main.base_activity_layout.*
 
 inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> FragmentTransaction) =
     beginTransaction().func().commit()

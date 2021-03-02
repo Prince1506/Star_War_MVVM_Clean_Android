@@ -24,24 +24,25 @@ import org.junit.Test
 import retrofit2.Call
 import retrofit2.Response
 
+private const val PLANET_ID = 1
+private const val FILM_NAME = "filmName"
+private const val PLANET_NAME = "planetName"
+private const val SPECIES_NAME = "speciesName"
+private const val PEOPLE_NAME = "Chewbacaa"
+private const val FILM_ID = 2
+private const val SPECIES_ID = 1
+
 class StarWarApiRepositoryTest : UnitTest() {
 
-    private lateinit var planetEntity: PlanetListEntity
+    // Late int Variables -----------------
     private lateinit var speciesResponseEntity: SpeciesResponseEntity
     private lateinit var planetListEntity: PlanetListResponseEntity
     private lateinit var peopleListEntity: PeopleListResponseEntity
     private lateinit var peopleEntity: PeopleEntity
     private lateinit var filmResponseEntity: FilmResponseEntity
+    private lateinit var networkRepository: Network
 
-    private val filmName = "filmName"
-    private val planetName = "planetName"
-    private val speciesName = "speciesName"
-    private val peopleName = "Chewbacaa"
-    private val filmId = 2
-    private val speciesId = 1
-
-    private lateinit var networkRepository: StarWarApiRepository.Network
-
+    // Annotations Variables -----------------
     @RelaxedMockK
     private lateinit var networkHandler: NetworkHandler
 
@@ -72,85 +73,99 @@ class StarWarApiRepositoryTest : UnitTest() {
     @RelaxedMockK
     private lateinit var peopleListResponse: Response<PeopleListResponseEntity>
 
-
+    // Override Methods--------------------------------------
     @Before
     fun setUp() {
         networkRepository = Network(networkHandler, service)
 
-        speciesResponseEntity = SpeciesResponseEntity(speciesName)
+        speciesResponseEntity = SpeciesResponseEntity(SPECIES_NAME)
 
-        peopleEntity = PeopleEntity(peopleName)
+        peopleEntity = PeopleEntity(PEOPLE_NAME)
         peopleListEntity = PeopleListResponseEntity(null, null, null, listOf(peopleEntity))
 
-        filmResponseEntity = FilmResponseEntity(filmName)
+        filmResponseEntity = FilmResponseEntity(FILM_NAME)
 
-        planetEntity = PlanetListEntity(planetName)
-        planetListEntity = PlanetListResponseEntity(null, null, null, listOf(planetEntity))
+        planetListEntity = PlanetListResponseEntity(null, null)
     }
 
+    // Test Cases---------------------------------------------
     @Test
     fun `should return empty people list by default`() {
+        //Assert
         every { networkHandler.isNetworkAvailable() } returns true
         every { peopleListResponse.body() } returns peopleListEntity
         every { peopleListResponse.isSuccessful } returns true
         every { peopleListResponseCall.execute() } returns peopleListResponse
-        every { service.getPeopleListByQuery(peopleName) } returns peopleListResponseCall
+        every { service.getPeopleListByQuery(PEOPLE_NAME) } returns peopleListResponseCall
 
-        val peopleEntity = networkRepository.getPeopleByQuery(peopleName)
+        //Act
+        val peopleEntity = networkRepository.getPeopleByQuery(PEOPLE_NAME)
 
+        //Verify
         peopleEntity shouldEqual Right(peopleListEntity.toPeopleList())
-        verify(exactly = 1) { service.getPeopleListByQuery(peopleName) }
+        verify(exactly = 1) { service.getPeopleListByQuery(PEOPLE_NAME) }
     }
 
     @Test
     fun `should return empty planet list by default`() {
+        //Assert
         every { networkHandler.isNetworkAvailable() } returns true
         every { planetListResponse.body() } returns planetListEntity
         every { planetListResponse.isSuccessful } returns true
         every { planetListResponseCall.execute() } returns planetListResponse
-        every { service.getPlanetListByQuery(peopleName) } returns planetListResponseCall
+        every { service.getPlanetListByQuery(PLANET_ID) } returns planetListResponseCall
 
-        val planetEntity = networkRepository.getPlanetsByQuery(peopleName)
+        //Act
+        val planetEntity = networkRepository.getPlanetsByQuery(PLANET_ID)
 
+        //Verify
         planetEntity shouldEqual Right(planetListEntity.toPlanetsDataModel())
-        verify(exactly = 1) { service.getPlanetListByQuery(peopleName) }
+        verify(exactly = 1) { service.getPlanetListByQuery(PLANET_ID) }
     }
 
     @Test
     fun `should return empty film list by default`() {
+        //Assert
         every { networkHandler.isNetworkAvailable() } returns true
         every { filmResponse.body() } returns filmResponseEntity
         every { filmResponse.isSuccessful } returns true
         every { filmResponseCall.execute() } returns filmResponse
-        every { service.getFilmByQuery(filmId) } returns filmResponseCall
+        every { service.getFilmByQuery(FILM_ID) } returns filmResponseCall
 
-        val planetEntity = networkRepository.getFilmByQuery(filmId)
+        //Act
+        val planetEntity = networkRepository.getFilmByQuery(FILM_ID)
 
+        //Verify
         planetEntity shouldEqual Right(filmResponseEntity.toFilmsDataModel())
-        verify(exactly = 1) { service.getFilmByQuery(filmId) }
+        verify(exactly = 1) { service.getFilmByQuery(FILM_ID) }
     }
 
     @Test
     fun `should return empty species list by default`() {
+        //Assert
         every { networkHandler.isNetworkAvailable() } returns true
         every { speciesResponse.body() } returns speciesResponseEntity
         every { speciesResponse.isSuccessful } returns true
         every { speciesResponseCall.execute() } returns speciesResponse
-        every { service.getSpeciesByQuery(speciesId) } returns speciesResponseCall
+        every { service.getSpeciesByQuery(SPECIES_ID) } returns speciesResponseCall
 
-        val speciesEntity = networkRepository.getSpeciesByQuery(speciesId)
+        //Act
+        val speciesEntity = networkRepository.getSpeciesByQuery(SPECIES_ID)
 
+        //Verify
         speciesEntity shouldEqual Right(speciesResponseEntity.toSpeciesDataModel())
-        verify(exactly = 1) { service.getSpeciesByQuery(speciesId) }
+        verify(exactly = 1) { service.getSpeciesByQuery(SPECIES_ID) }
     }
 
 
     @Test
     fun `people list api should return network failure when no connection`() {
+        //Assert
         every { networkHandler.isNetworkAvailable() } returns false
 
-        val peopleEntity = networkRepository.getPeopleByQuery(peopleName)
-
+        //Act
+        val peopleEntity = networkRepository.getPeopleByQuery(PEOPLE_NAME)
+        //Verify
         peopleEntity shouldBeInstanceOf Either::class.java
         peopleEntity.isLeft shouldEqual true
         peopleEntity.fold(
@@ -161,25 +176,30 @@ class StarWarApiRepositoryTest : UnitTest() {
 
     @Test
     fun `species list api should return network failure when no connection`() {
+        //Assert
         every { networkHandler.isNetworkAvailable() } returns false
 
-        val speciesEntity = networkRepository.getSpeciesByQuery(speciesId)
+        //Act
+        val speciesEntity = networkRepository.getSpeciesByQuery(SPECIES_ID)
 
+        //Verify
         speciesEntity shouldBeInstanceOf Either::class.java
         speciesEntity.isLeft shouldEqual true
         speciesEntity.fold(
             { failure -> failure shouldBeInstanceOf NetworkConnection::class.java },
-            {})
+            {}
+        )
 
         verify { service wasNot Called }
     }
 
     @Test
     fun `planet api should return network failure when no connection`() {
+        //Assert
         every { networkHandler.isNetworkAvailable() } returns false
-
-        val planetEntity = networkRepository.getPlanetsByQuery(peopleName)
-
+        //Act
+        val planetEntity = networkRepository.getPlanetsByQuery(PLANET_ID)
+        //Verify
         planetEntity shouldBeInstanceOf Either::class.java
         planetEntity.isLeft shouldEqual true
         planetEntity.fold(
@@ -190,13 +210,14 @@ class StarWarApiRepositoryTest : UnitTest() {
 
     @Test
     fun `film api should return network failure when no connection`() {
+        //Assert
         every { networkHandler.isNetworkAvailable() } returns false
-
-        val filmEnitity = networkRepository.getFilmByQuery(filmId)
-
-        filmEnitity shouldBeInstanceOf Either::class.java
-        filmEnitity.isLeft shouldEqual true
-        filmEnitity.fold(
+        //Act
+        val filmEntity = networkRepository.getFilmByQuery(FILM_ID)
+        //Verify
+        filmEntity shouldBeInstanceOf Either::class.java
+        filmEntity.isLeft shouldEqual true
+        filmEntity.fold(
             { failure -> failure shouldBeInstanceOf NetworkConnection::class.java },
             {})
         verify { service wasNot Called }
@@ -204,111 +225,119 @@ class StarWarApiRepositoryTest : UnitTest() {
 
     @Test
     fun `people list api should return server error if no successful response`() {
+        //Assert
         every { networkHandler.isNetworkAvailable() } returns true
         every { peopleListResponse.isSuccessful } returns false
         every { peopleListResponseCall.execute() } returns peopleListResponse
-        every { service.getPeopleListByQuery(peopleName) } returns peopleListResponseCall
-
-        val movies = networkRepository.getPeopleByQuery(peopleName)
-
-        movies shouldBeInstanceOf Either::class.java
-        movies.isLeft shouldEqual true
-        movies.fold({ failure -> failure shouldBeInstanceOf ServerError::class.java }, {})
+        every { service.getPeopleListByQuery(PEOPLE_NAME) } returns peopleListResponseCall
+        //Act
+        val people = networkRepository.getPeopleByQuery(PEOPLE_NAME)
+        //Verify
+        people shouldBeInstanceOf Either::class.java
+        people.isLeft shouldEqual true
+        people.fold({ failure -> failure shouldBeInstanceOf ServerError::class.java }, {})
     }
 
     @Test
     fun `species list api should return server error if no successful response`() {
+        //Assert
         every { networkHandler.isNetworkAvailable() } returns true
         every { speciesResponse.isSuccessful } returns false
         every { speciesResponseCall.execute() } returns speciesResponse
-        every { service.getSpeciesByQuery(speciesId) } returns speciesResponseCall
-
-        val movies = networkRepository.getSpeciesByQuery(speciesId)
-
-        movies shouldBeInstanceOf Either::class.java
-        movies.isLeft shouldEqual true
-        movies.fold({ failure -> failure shouldBeInstanceOf ServerError::class.java }, {})
+        every { service.getSpeciesByQuery(SPECIES_ID) } returns speciesResponseCall
+        //Act
+        val species = networkRepository.getSpeciesByQuery(SPECIES_ID)
+        //Verify
+        species shouldBeInstanceOf Either::class.java
+        species.isLeft shouldEqual true
+        species.fold({ failure -> failure shouldBeInstanceOf ServerError::class.java }, {})
     }
 
     @Test
     fun `film list api should return server error if no successful response`() {
+        //Assert
         every { networkHandler.isNetworkAvailable() } returns true
         every { filmResponse.isSuccessful } returns false
         every { filmResponseCall.execute() } returns filmResponse
-        every { service.getFilmByQuery(filmId) } returns filmResponseCall
-
-        val movies = networkRepository.getFilmByQuery(filmId)
-
-        movies shouldBeInstanceOf Either::class.java
-        movies.isLeft shouldEqual true
-        movies.fold({ failure -> failure shouldBeInstanceOf ServerError::class.java }, {})
+        every { service.getFilmByQuery(FILM_ID) } returns filmResponseCall
+        //Act
+        val films = networkRepository.getFilmByQuery(FILM_ID)
+        //Verify
+        films shouldBeInstanceOf Either::class.java
+        films.isLeft shouldEqual true
+        films.fold({ failure -> failure shouldBeInstanceOf ServerError::class.java }, {})
     }
 
     @Test
     fun `planet list api should return server error if no successful response`() {
+        //Assert
         every { networkHandler.isNetworkAvailable() } returns true
         every { planetListResponse.isSuccessful } returns false
         every { planetListResponseCall.execute() } returns planetListResponse
-        every { service.getPlanetListByQuery(peopleName) } returns planetListResponseCall
-
-        val movies = networkRepository.getPlanetsByQuery(peopleName)
-
-        movies shouldBeInstanceOf Either::class.java
-        movies.isLeft shouldEqual true
-        movies.fold({ failure -> failure shouldBeInstanceOf ServerError::class.java }, {})
+        every { service.getPlanetListByQuery(PLANET_ID) } returns planetListResponseCall
+        //Act
+        val planets = networkRepository.getPlanetsByQuery(PLANET_ID)
+        //Verify
+        planets shouldBeInstanceOf Either::class.java
+        planets.isLeft shouldEqual true
+        planets.fold({ failure -> failure shouldBeInstanceOf ServerError::class.java }, {})
     }
 
 
     @Test
     fun `people api request should catch exceptions`() {
+        //Assert
         every { networkHandler.isNetworkAvailable() } returns true
         every { peopleListResponseCall.execute() } returns peopleListResponse
-        every { service.getPeopleListByQuery(peopleName) } returns peopleListResponseCall
-
-        val movies = networkRepository.getPeopleByQuery(peopleName)
-
-        movies shouldBeInstanceOf Either::class.java
-        movies.isLeft shouldEqual true
-        movies.fold({ failure -> failure shouldBeInstanceOf ServerError::class.java }, {})
+        every { service.getPeopleListByQuery(PEOPLE_NAME) } returns peopleListResponseCall
+        //Act
+        val peopleList = networkRepository.getPeopleByQuery(PEOPLE_NAME)
+        //Verify
+        peopleList shouldBeInstanceOf Either::class.java
+        peopleList.isLeft shouldEqual true
+        peopleList.fold({ failure -> failure shouldBeInstanceOf ServerError::class.java }, {})
     }
 
     @Test
     fun `planet api request should catch exceptions`() {
+        //Assert
         every { networkHandler.isNetworkAvailable() } returns true
         every { planetListResponseCall.execute() } returns planetListResponse
-        every { service.getPlanetListByQuery(peopleName) } returns planetListResponseCall
-
-        val movies = networkRepository.getPlanetsByQuery(peopleName)
-
-        movies shouldBeInstanceOf Either::class.java
-        movies.isLeft shouldEqual true
-        movies.fold({ failure -> failure shouldBeInstanceOf ServerError::class.java }, {})
+        every { service.getPlanetListByQuery(PLANET_ID) } returns planetListResponseCall
+        //Act
+        val planets = networkRepository.getPlanetsByQuery(PLANET_ID)
+        //Verify
+        planets shouldBeInstanceOf Either::class.java
+        planets.isLeft shouldEqual true
+        planets.fold({ failure -> failure shouldBeInstanceOf ServerError::class.java }, {})
     }
 
     @Test
     fun `film api request should catch exceptions`() {
+        //Assert
         every { networkHandler.isNetworkAvailable() } returns true
         every { filmResponseCall.execute() } returns filmResponse
-        every { service.getFilmByQuery(filmId) } returns filmResponseCall
-
-        val movies = networkRepository.getFilmByQuery(filmId)
-
-        movies shouldBeInstanceOf Either::class.java
-        movies.isLeft shouldEqual true
-        movies.fold({ failure -> failure shouldBeInstanceOf ServerError::class.java }, {})
+        every { service.getFilmByQuery(FILM_ID) } returns filmResponseCall
+        //Act
+        val films = networkRepository.getFilmByQuery(FILM_ID)
+        //Verify
+        films shouldBeInstanceOf Either::class.java
+        films.isLeft shouldEqual true
+        films.fold({ failure -> failure shouldBeInstanceOf ServerError::class.java }, {})
     }
 
     @Test
     fun `species api request should catch exceptions`() {
+        //Assert
         every { networkHandler.isNetworkAvailable() } returns true
         every { speciesResponseCall.execute() } returns speciesResponse
-        every { service.getSpeciesByQuery(speciesId) } returns speciesResponseCall
-
-        val movies = networkRepository.getSpeciesByQuery(speciesId)
-
-        movies shouldBeInstanceOf Either::class.java
-        movies.isLeft shouldEqual true
-        movies.fold({ failure -> failure shouldBeInstanceOf ServerError::class.java }, {})
+        every { service.getSpeciesByQuery(SPECIES_ID) } returns speciesResponseCall
+        //Act
+        val species = networkRepository.getSpeciesByQuery(SPECIES_ID)
+        //Verify
+        species shouldBeInstanceOf Either::class.java
+        species.isLeft shouldEqual true
+        species.fold({ failure -> failure shouldBeInstanceOf ServerError::class.java }, {})
     }
 
 
@@ -319,67 +348,71 @@ class StarWarApiRepositoryTest : UnitTest() {
         every { speciesResponse.body() } returns speciesResponseEntity
         every { speciesResponse.isSuccessful } returns true
         every { speciesResponseCall.execute() } returns speciesResponse
-        every { service.getSpeciesByQuery(speciesId) } returns speciesResponseCall
+        every { service.getSpeciesByQuery(SPECIES_ID) } returns speciesResponseCall
 
         // Act
-        val speciesResponseEntity = networkRepository.getSpeciesByQuery(speciesId)
+        val speciesResponseEntity = networkRepository.getSpeciesByQuery(SPECIES_ID)
 
         //Verify
-        speciesResponseEntity.onSuccess { it.name shouldEqual speciesName }
-        verify(exactly = 1) { service.getSpeciesByQuery(speciesId) }
+        speciesResponseEntity.onSuccess { it.name shouldEqual SPECIES_NAME }
+        verify(exactly = 1) { service.getSpeciesByQuery(SPECIES_ID) }
     }
 
 
     @Test
     fun `should get planet list from api`() {
+        //Assert
         every { networkHandler.isNetworkAvailable() } returns true
         every { planetListResponse.body() } returns planetListEntity
         every { planetListResponse.isSuccessful } returns true
         every { planetListResponseCall.execute() } returns planetListResponse
-        every { service.getPlanetListByQuery(peopleName) } returns planetListResponseCall
-
-        val peopleListResponseEntity = networkRepository.getPlanetsByQuery(peopleName)
-
+        every { service.getPlanetListByQuery(PLANET_ID) } returns planetListResponseCall
+        //Act
+        val peopleListResponseEntity = networkRepository.getPlanetsByQuery(PLANET_ID)
+        //Verify
         peopleListResponseEntity.onSuccess {
-            it.results.get(0).name shouldEqual planetName
+            it.name shouldEqual PLANET_NAME
         }
 
-        verify(exactly = 1) { service.getPlanetListByQuery(peopleName) }
+        verify(exactly = 1) { service.getPlanetListByQuery(PLANET_ID) }
     }
 
 
     @Test
     fun `should get people list from api`() {
+        //Assert
         every { networkHandler.isNetworkAvailable() } returns true
         every { peopleListResponse.body() } returns peopleListEntity
         every { peopleListResponse.isSuccessful } returns true
         every { peopleListResponseCall.execute() } returns peopleListResponse
-        every { service.getPeopleListByQuery(peopleName) } returns peopleListResponseCall
-
-        val peopleListResponseEntity = networkRepository.getPeopleByQuery(peopleName)
-
+        every { service.getPeopleListByQuery(PEOPLE_NAME) } returns peopleListResponseCall
+        //Act
+        val peopleListResponseEntity = networkRepository.getPeopleByQuery(PEOPLE_NAME)
+        //Verify
         peopleListResponseEntity.onSuccess {
-            it.people?.get(0)?.name shouldEqual peopleName
+            it.people?.get(0)?.name shouldEqual PEOPLE_NAME
         }
 
-        verify(exactly = 1) { service.getPeopleListByQuery(peopleName) }
+        verify(exactly = 1) { service.getPeopleListByQuery(PEOPLE_NAME) }
     }
 
 
     @Test
     fun `should get film list from api`() {
+        //Assert
         every { networkHandler.isNetworkAvailable() } returns true
         every { filmResponse.body() } returns filmResponseEntity
         every { filmResponse.isSuccessful } returns true
         every { filmResponseCall.execute() } returns filmResponse
-        every { service.getFilmByQuery(filmId) } returns filmResponseCall
+        every { service.getFilmByQuery(FILM_ID) } returns filmResponseCall
 
-        val filmResponseEntity = networkRepository.getFilmByQuery(filmId)
-
+        //Act
+        val filmResponseEntity = networkRepository.getFilmByQuery(FILM_ID)
+        //Verify
         filmResponseEntity.onSuccess {
-            it.title shouldEqual filmName
+            it.title shouldEqual FILM_NAME
         }
-        verify(exactly = 1) { service.getFilmByQuery(filmId) }
+        verify(exactly = 1) { service.getFilmByQuery(FILM_ID) }
     }
 
 }

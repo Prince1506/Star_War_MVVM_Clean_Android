@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="people_details_screen_title">People Details</string>
-    <string name="people_details_summary">Summary</string>
-    <string name="people_details_name">Name:</string>
-    <string name="people_details_birth_year">Birth Year:</string>
-    <string name="people_details_height">Height:</string>
-    <string name="people_details_species">Species</string>
-    <string name="people_details_language">Languages:</string>
-    <string name="people_details_homeworld">Home World:</string>
-    <string name="people_details_population">Population:</string>
-    <string name="people_details_films">Films:</string>
-    <string name="people_details_opening_crawl">Opening Crawl:</string>
+    <string name="peopleDetails_screenTitle">People Details</string>
+    <string name="peopleDetails_summary">Summary</string>
+    <string name="peopleDetails_name">Name:</string>
+    <string name="peopleDetails_birthYear">Birth Year:</string>
+    <string name="peopleDetails_height">Height:</string>
+    <string name="peopleDetails_species">Species</string>
+    <string name="peopleDetails_language">Languages:</string>
+    <string name="peopleDetails_homeworld">Home World:</string>
+    <string name="peopleDetails_population">Population:</string>
+    <string name="peopleDetails_films">Films:</string>
+    <string name="peopleDetails_openingCrawl">Opening Crawl:</string>
+    <string name="peopleDetails_planetName">(Planet Name)</string>
+    <string name="peopleDetails_urlPart_film">film</string>
+    <string name="peopleDetails_urlPart_species">species</string>
+    <string name="peopleDetails_urlPart_planets">planets</string>
 </resources>

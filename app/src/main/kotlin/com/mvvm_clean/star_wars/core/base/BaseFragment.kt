@@ -15,7 +15,7 @@ import com.mvvm_clean.star_wars.core.di.ApplicationComponent
 import com.mvvm_clean.star_wars.core.domain.extension.appContext
 import com.mvvm_clean.star_wars.core.domain.extension.viewContainer
 import com.mvvm_clean.star_wars.features.people_list.presentation.ui.registers.CountingIdlingResourceSingleton
-import kotlinx.android.synthetic.main.activity_layout.*
+import kotlinx.android.synthetic.main.base_activity_layout.*
 import javax.inject.Inject
 
 /**
