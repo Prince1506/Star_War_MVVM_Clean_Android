@@ -1,10 +1,12 @@
 package com.mvvm_clean.star_wars.features.people_list.data.repo.response
 
+import androidx.annotation.Keep
 import com.mvvm_clean.star_wars.features.people_list.domain.models.PeopleListDataModel
 
 /**
  * Data class variables can come null from API that's they are supporting nullables.
  */
+@Keep
 data class PeopleListResponseEntity(
     val count: Int? = null,
     val next: String? = null,

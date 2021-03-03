@@ -14,6 +14,12 @@ plugins {
 android {
     compileSdkVersion(AndroidSdk.compile)
 
+    lintOptions {
+        isCheckReleaseBuilds = false
+        //If you want to continue even if errors found use following line
+        isAbortOnError = false
+    }
+
     defaultConfig {
         minSdkVersion(AndroidSdk.min)
         targetSdkVersion(AndroidSdk.target)
@@ -23,7 +29,6 @@ android {
         versionName = AndroidClient.versionName
         testInstrumentationRunner = AndroidClient.testRunner
     }
-
     sourceSets {
         map { it.java.srcDir("src/${it.name}/kotlin") }
         getByName("main") { java.srcDir("$buildDir/generated/source/kapt/main") }
@@ -42,7 +47,7 @@ dependencies {
     kapt(Libraries.daggerCompiler)
     compileOnly(Libraries.javaxAnnotation)
     compileOnly(Libraries.javaxInject)
-    kapt("com.android.databinding:compiler:6.6.1")
+    kapt(Libraries.databinding)
 /*Application dependencies*/
 
     // Kotlin

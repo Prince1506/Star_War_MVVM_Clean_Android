@@ -4,6 +4,7 @@ import android.text.Html
 import androidx.core.text.HtmlCompat
 import com.mvvm_clean.star_wars.core.domain.extension.dash
 import com.mvvm_clean.star_wars.core.domain.extension.empty
+import com.mvvm_clean.star_wars.core.domain.extension.getUnitCM
 import com.mvvm_clean.star_wars.core.domain.extension.isEmptyOrNull
 
 /**
@@ -66,7 +67,7 @@ data class PeopleDetailsDataModel(
             if (String.isEmptyOrNull(height))
                 parseHtmlFromStr(String.dash())
             else
-                parseHtmlFromStr(height)
+                parseHtmlFromStr(height + String.getUnitCM())
 
     val homeworldNotNull: String?
         get() =

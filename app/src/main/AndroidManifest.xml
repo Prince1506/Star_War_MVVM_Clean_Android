@@ -44,8 +44,8 @@
         <activity
             android:name=".features.people_details.presentation.activities.PeopleDetailsActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Translucent" />
+            android:label="@string/peopleDetails_screenTitle"
+            android:screenOrientation="portrait" />
 
     </application>
 

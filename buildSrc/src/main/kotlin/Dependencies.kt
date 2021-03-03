@@ -41,6 +41,7 @@ object ScriptPlugins {
 
 object Libraries {
     private object Versions {
+        val dataBinding = "6.6.1"
         const val appCompat = "1.2.0"
         const val constraintLayout = "2.0.2"
         const val recyclerView = "1.1.0"
@@ -59,6 +60,8 @@ object Libraries {
         const val javaxAnnotations = "1.0"
         const val javaxInject = "1"
     }
+
+    val databinding = "com.android.databinding:compiler:${Versions.dataBinding}"
 
     // Kotlin
     const val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Kotlin.standardLibrary}"

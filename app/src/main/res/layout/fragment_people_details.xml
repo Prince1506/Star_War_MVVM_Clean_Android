@@ -201,11 +201,28 @@
 
                 <TextView
                     android:id="@+id/tv_peopleDetails_filmsLbl"
-                    style="@style/PeopleDetailsTitle"
+                    style="@style/PeopleDetailsTitleHeading"
                     android:text="@string/peopleDetails_films"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_population" />
+
+                <View
+                    android:id="@+id/v_peopleDetails_film"
+                    style="@style/v_color_white_heading"
+                    android:layout_marginTop="@dimen/margin_5"
+                    android:layout_marginRight="@dimen/margin_80"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_filmsLbl" />
+
+                <TextView
+                    android:id="@+id/tv_peopleDetails_filmsName"
+                    style="@style/PeopleDetailsTitle"
+                    android:text="@string/peopleDetails_name"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/v_peopleDetails_film" />
 
                 <TextView
                     android:id="@+id/tv_peopleDetails_films"
@@ -213,7 +230,7 @@
                     android:text="@{peopleDetailsDataModel.filmNotNull}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_filmsLbl" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_filmsName" />
 
                 <TextView
                     android:id="@+id/tv_peopleDetails_openingCrawlingLbl"
