@@ -20,6 +20,8 @@
         <activity
             android:name=".core.presentation.navigation.RouteActivity"
             android:noHistory="true"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Translucent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,11 +31,21 @@
 
         <activity
             android:name=".features.login.presentation.activities.LoginActivity"
-            android:label="@string/login_screen_title"/>
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/login_screen_title"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".features.people_list.presentation.ui.activities.PeopleListActivity"
-            android:label="@string/people_list_screen_title"/>
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/people_list_screen_title"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".features.people_details.presentation.activities.PeopleDetailsActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Translucent" />
 
     </application>
 

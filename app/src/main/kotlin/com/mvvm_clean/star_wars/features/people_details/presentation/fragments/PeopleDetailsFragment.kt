@@ -9,17 +9,16 @@ import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import com.mvvm_clean.star_wars.R
 import com.mvvm_clean.star_wars.core.base.BaseFragment
-import com.mvvm_clean.star_wars.core.constants.KeyConstants.INTENT_EXTRA_PARAM_PEOPLE
 import com.mvvm_clean.star_wars.core.domain.exception.Failure
 import com.mvvm_clean.star_wars.core.domain.exception.Failure.NetworkConnection
 import com.mvvm_clean.star_wars.core.domain.exception.Failure.ServerError
-import com.mvvm_clean.star_wars.core.domain.extension.close
 import com.mvvm_clean.star_wars.core.domain.extension.failure
 import com.mvvm_clean.star_wars.core.domain.extension.observe
 import com.mvvm_clean.star_wars.core.domain.extension.viewModel
 import com.mvvm_clean.star_wars.databinding.FragmentPeopleDetailsBinding
 import com.mvvm_clean.star_wars.features.common.domain.models.ApiFailure
 import com.mvvm_clean.star_wars.features.people_details.domain.models.PeopleDetailsDataModel
+import com.mvvm_clean.star_wars.features.people_details.presentation.activities.PeopleDetailsActivity
 import com.mvvm_clean.star_wars.features.people_details.presentation.models.PeopleDetailsViewModel
 import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PeopleEntity
 
@@ -29,8 +28,22 @@ import com.mvvm_clean.star_wars.features.people_list.data.repo.response.PeopleEn
  */
 class PeopleDetailsFragment : BaseFragment() {
 
+    // Static-------------------------------------
+    companion object {
+        const val PARAM_PEOPLE_ENTITY = "param_peopleEntity"
 
-    private var peopleEntity: PeopleEntity? = null
+        fun forPeopleInfo(speciesEntity: PeopleEntity?): PeopleDetailsFragment {
+
+            val peopleDetailsFragment = PeopleDetailsFragment()
+            speciesEntity?.let {
+                val arguments = Bundle()
+                arguments.putParcelable(PARAM_PEOPLE_ENTITY, it)
+                peopleDetailsFragment.arguments = arguments
+            }
+            return peopleDetailsFragment
+        }
+    }
+
 
     //  Late in variables----------------------------------------------
     private lateinit var alertDialog: AlertDialog
@@ -42,7 +55,6 @@ class PeopleDetailsFragment : BaseFragment() {
 
         super.onCreate(savedInstanceState)
         appComponent.inject(this)
-        peopleEntity = arguments?.getParcelable(INTENT_EXTRA_PARAM_PEOPLE)
         mPeopleDetailsViewModel = viewModel(viewModelFactory) {
             observe(getPeopleDetailMediatorLiveData(), ::renderPeopleDetails)
             failure(getFailureLiveData(), ::handleApiFailure)
@@ -64,7 +76,6 @@ class PeopleDetailsFragment : BaseFragment() {
             DataBindingUtil.inflate(inflater, R.layout.fragment_people_details, container, false)
                     as FragmentPeopleDetailsBinding
 
-
         return peopleDetailsBinding.root
 
     }
@@ -72,13 +83,10 @@ class PeopleDetailsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onViewCreated(view, savedInstanceState)
-        val peopleEntity = peopleEntity
-        if (peopleEntity != null) {
-            mPeopleDetailsViewModel.setPeopleEntityObserver(peopleEntity)
-            mPeopleDetailsViewModel.updatePeopleDetailWithPeopleInfo(peopleEntity)
-            showProgress()
-        }
-        changeActionBarTitle(getString(R.string.peopleDetails_screenTitle))
+        val peopleEntity = (arguments?.get(PARAM_PEOPLE_ENTITY) as PeopleEntity)
+        mPeopleDetailsViewModel.updatePeopleDetailWithPeopleInfo(peopleEntity)
+        showProgress()
+        mPeopleDetailsViewModel.setPeopleEntityObserver(peopleEntity)
     }
 
 
@@ -88,6 +96,7 @@ class PeopleDetailsFragment : BaseFragment() {
         hideProgress()
         peopleDetailsBinding.peopleDetailsDataModel = peopleDetailsDataModel
     }
+
 
     private fun handleApiFailure(failure: Failure?) {
 
@@ -120,13 +129,14 @@ class PeopleDetailsFragment : BaseFragment() {
                 .setMessage(getString(R.string.try_again_later))
                 .setPositiveButton(getString(R.string.ok)) { dialogInterface, which ->
                     dialogInterface.dismiss()
-                    this@PeopleDetailsFragment.close()
+                    (activity as PeopleDetailsActivity).finishAfterTransition()
                 }
             if (!::alertDialog.isInitialized) {
                 alertDialog = alertDialogBuilder.create()
                 if (!alertDialog.isShowing) {
                     alertDialog.show()
                 }
+
             }
 
         }

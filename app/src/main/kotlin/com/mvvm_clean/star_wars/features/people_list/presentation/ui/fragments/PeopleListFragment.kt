@@ -18,7 +18,6 @@ import com.mvvm_clean.star_wars.core.presentation.navigation.Navigator
 import com.mvvm_clean.star_wars.features.common.domain.models.ApiFailure.ListNotAvailable
 import com.mvvm_clean.star_wars.features.people_list.presentation.models.PeopleListView
 import com.mvvm_clean.star_wars.features.people_list.presentation.models.PeopleListViewModel
-import com.mvvm_clean.star_wars.features.people_list.presentation.ui.activities.PeopleListActivity
 import com.mvvm_clean.star_wars.features.people_list.presentation.ui.adapter.PeopleListAdapter
 import com.mvvm_clean.star_wars.features.people_list.presentation.ui.registers.CountingIdlingResourceSingleton
 import kotlinx.android.synthetic.main.fragment_people_list.*
@@ -30,6 +29,7 @@ private const val NO_OF_COLUMNS = 1
  * Fragment to show people list on screen.
  */
 class PeopleListFragment : BaseFragment() {
+
 
     @Inject
     lateinit var navigator: Navigator
@@ -97,7 +97,7 @@ class PeopleListFragment : BaseFragment() {
         )
         rv_people_list.adapter = peopleListAdapter
         peopleListAdapter.mClickListener = { peopleInfo, navigationExtras ->
-            navigator.showPeopleDetails(activity as PeopleListActivity, peopleInfo)
+            navigator.showPeopleDetails(activity!!, peopleInfo)
         }
     }
 
@@ -108,37 +108,30 @@ class PeopleListFragment : BaseFragment() {
         } else {
             renderFailure(R.string.empty_list)
         }
-        showPeopleList(true)
+        rv_people_list.visible()
         hideProgress()
         super.handleApiSuccess()
     }
 
-    private fun showPeopleList(shouldShowList: Boolean) {
-        if (shouldShowList) {
-            rv_people_list.visible()
-        } else {
-            rv_people_list.gone()
-            setPeopleListEmpty()
-        }
-        hideProgress()
-    }
-
 
     private fun handleFailure(failure: Failure?) {
-        showPeopleList(false)
+        peopleListAdapter.mCollection = emptyList()
         activity?.let { hideKeyboard(it) }
         when (failure) {
             is NetworkConnection -> renderFailure(R.string.failure_network_connection)
             is ServerError -> renderFailure(R.string.failure_server_error)
             is ListNotAvailable -> renderFailure(R.string.failure_people_list_unavailable)
+            else -> renderFailure(R.string.failure_people_list_unavailable)
         }
         super.handleApiFailure()
     }
 
     private fun renderFailure(@StringRes message: Int) {
+        rv_people_list.gone()
+        hideProgress()
         notifyWithAction(message)
+        setPeopleListEmpty()
     }
-
 
     private fun setPeopleListEmpty() {
         peopleListAdapter.mCollection = emptyList()
