@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
-            name="peopleDetailsDataModel"
-            type="com.mvvm_clean.user_details.features.people_details.domain.models.PeopleDetailsDataModel" />
+            name="datumDataModel"
+            type="com.mvvm_clean.user_details.features.people_list.data.repo.response.Datum" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -52,7 +53,7 @@
                 <TextView
                     android:id="@+id/tv_peopleDetail_summary"
                     style="@style/PeopleDetailsTitleHeading"
-                    android:text="@string/peopleDetails_summary"
+                    android:text="@string/peopleDetails_details"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -66,187 +67,54 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_peopleDetail_summary" />
 
+
+                <ImageView
+                    android:id="@+id/civ_peopleDetails_logo"
+                    android:layout_width="87dp"
+                    android:layout_height="90dp"
+                    android:layout_marginLeft="@dimen/margin_30"
+                    android:layout_marginTop="@dimen/margin_20"
+                    android:background="@drawable/profile_pic_default"
+                    android:elevation="6dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/v_peopleDetails_summary"
+                    app:profileImage="@{datumDataModel.avatar}"
+                    tools:targetApi="lollipop" />
+
                 <TextView
                     android:id="@+id/tv_peopleDetail_name"
                     style="@style/PeopleDetailsTitle"
-                    android:layout_marginTop="@dimen/margin_5"
+                    android:layout_marginLeft="@dimen/margin_30"
+                    android:layout_marginTop="@dimen/margin_20"
                     android:text="@string/peopleDetails_name"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/v_peopleDetails_summary" />
+                    app:layout_constraintTop_toBottomOf="@id/civ_peopleDetails_logo" />
 
                 <TextView
                     android:id="@+id/tv_peopleDetails_name"
                     style="@style/PeopleDetailsText"
-                    android:text="@{peopleDetailsDataModel.nameNotNull}"
+                    android:text="@{datumDataModel.fullName}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_peopleDetail_name" />
 
                 <TextView
-                    android:id="@+id/tv_peopleDetails_BirthYr_lbl"
+                    android:id="@+id/tv_peopleDetails_email_lbl"
                     style="@style/PeopleDetailsTitle"
-                    android:text="@string/peopleDetails_birthYear"
+                    android:layout_marginLeft="@dimen/margin_30"
+                    android:text="@string/email"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_name" />
 
                 <TextView
-                    android:id="@+id/tv_peopleDetails_birth_year"
+                    android:id="@+id/tv_peopleDetails_email"
                     style="@style/PeopleDetailsText"
-                    android:text="@{peopleDetailsDataModel.birthYearNotNull}"
+                    android:text="@{datumDataModel.email}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_BirthYr_lbl" />
-
-                <TextView
-                    android:id="@+id/tv_peopleDetails_height_lbl"
-                    style="@style/PeopleDetailsTitle"
-                    android:text="@string/peopleDetails_height"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_birth_year" />
-
-                <TextView
-                    android:id="@+id/tv_peopleDetails_height"
-                    style="@style/PeopleDetailsText"
-                    android:text="@{peopleDetailsDataModel.heightNotNull}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_height_lbl" />
-
-                <TextView
-                    android:id="@+id/tv_peopleDetails_speciesLbl"
-                    style="@style/PeopleDetailsTitleHeading"
-                    android:layout_marginTop="@dimen/margin_10"
-                    android:text="@string/peopleDetails_species"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_height" />
-
-                <View
-                    android:id="@+id/v_peopleDetails_species"
-                    style="@style/v_color_white_heading"
-                    android:layout_marginTop="@dimen/margin_5"
-                    android:layout_marginRight="@dimen/margin_80"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_speciesLbl" />
-
-
-                <TextView
-                    android:id="@+id/tv_peopleDetails_speciesName_lbl"
-                    style="@style/PeopleDetailsTitle"
-                    android:layout_marginTop="@dimen/margin_5"
-                    android:text="@string/peopleDetails_name"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/v_peopleDetails_species" />
-
-                <TextView
-                    android:id="@+id/tv_peopleDetails_speciesName"
-                    style="@style/PeopleDetailsText"
-                    android:text="@{peopleDetailsDataModel.speciesNameNotNull}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_speciesName_lbl" />
-
-                <TextView
-                    android:id="@+id/tv_peopleDetails_language_lbl"
-                    style="@style/PeopleDetailsTitle"
-                    android:text="@string/peopleDetails_language"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_speciesName" />
-
-                <TextView
-                    android:id="@+id/tv_peopleDetails_language"
-                    style="@style/PeopleDetailsText"
-                    android:text="@{peopleDetailsDataModel.languagesNotNull}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_language_lbl" />
-
-                <TextView
-                    android:id="@+id/tv_peopleDetails_homeWorld_lbl"
-                    style="@style/PeopleDetailsTitle"
-                    android:text="@string/peopleDetails_homeworld"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_language" />
-
-                <TextView
-                    android:id="@+id/tv_peopleDetails_homeworld"
-                    style="@style/PeopleDetailsText"
-                    android:text="@{peopleDetailsDataModel.homeworldNotNull}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_homeWorld_lbl" />
-
-                <TextView
-                    android:id="@+id/tv_peopleDetails_population_lbl"
-                    style="@style/PeopleDetailsTitle"
-                    android:text="@string/peopleDetails_population"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_homeworld" />
-
-                <TextView
-                    android:id="@+id/tv_peopleDetails_population"
-                    style="@style/PeopleDetailsText"
-                    android:text="@{peopleDetailsDataModel.populationNotNull}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_population_lbl" />
-
-                <TextView
-                    android:id="@+id/tv_peopleDetails_filmsLbl"
-                    style="@style/PeopleDetailsTitleHeading"
-                    android:text="@string/peopleDetails_films"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_population" />
-
-                <View
-                    android:id="@+id/v_peopleDetails_film"
-                    style="@style/v_color_white_heading"
-                    android:layout_marginTop="@dimen/margin_5"
-                    android:layout_marginRight="@dimen/margin_80"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_filmsLbl" />
-
-                <TextView
-                    android:id="@+id/tv_peopleDetails_filmsName"
-                    style="@style/PeopleDetailsTitle"
-                    android:text="@string/peopleDetails_name"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/v_peopleDetails_film" />
-
-                <TextView
-                    android:id="@+id/tv_peopleDetails_films"
-                    style="@style/PeopleDetailsText"
-                    android:text="@{peopleDetailsDataModel.filmNotNull}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_filmsName" />
-
-                <TextView
-                    android:id="@+id/tv_peopleDetails_openingCrawlingLbl"
-                    style="@style/PeopleDetailsTitle"
-                    android:text="@string/peopleDetails_openingCrawl"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_films" />
-
-                <TextView
-                    android:id="@+id/tv_peopleDetails_opening_crawl"
-                    style="@style/PeopleDetailsText"
-                    android:text="@{peopleDetailsDataModel.openingCrawlNotNull}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_openingCrawlingLbl" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_peopleDetails_email_lbl" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

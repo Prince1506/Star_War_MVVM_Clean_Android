@@ -1,0 +1,458 @@
+Index: app/src/main/kotlin/com/mvvm_clean/user_details/features/login/presentation/fragments/LoginFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/kotlin/com/mvvm_clean/user_details/features/login/presentation/fragments/LoginFragment.kt	(revision 310349fbf491b81c8f87c70749199dabf3fc6b06)
++++ app/src/main/kotlin/com/mvvm_clean/user_details/features/login/presentation/fragments/LoginFragment.kt	(date 1615528938080)
+@@ -65,7 +65,7 @@
+ }
+ 
+ fun renderLoginInfoData(doesUserExist: Boolean?) {
+-    if (doesUserExist != null && doesUserExist == true) {
++    if (doesUserExist != null) {
+         val authenticator = Authenticator()
+         authenticator.setUserLoggedIn(doesUserExist)
+         if (::mContext.isInitialized) {
+Index: app/src/main/kotlin/com/mvvm_clean/user_details/features/people_list/presentation/models/PeopleListViewModel.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/kotlin/com/mvvm_clean/user_details/features/people_list/presentation/models/PeopleListViewModel.kt	(revision 310349fbf491b81c8f87c70749199dabf3fc6b06)
++++ app/src/main/kotlin/com/mvvm_clean/user_details/features/people_list/presentation/models/PeopleListViewModel.kt	(date 1615528938040)
+@@ -1,68 +1,43 @@
+ package com.mvvm_clean.user_details.features.people_list.presentation.models
+ 
++import androidx.annotation.RestrictTo
++import androidx.lifecycle.LiveData
++import androidx.lifecycle.MutableLiveData
+ import com.mvvm_clean.user_details.core.base.BaseViewModel
++import com.mvvm_clean.user_details.core.domain.exception.Failure
++import com.mvvm_clean.user_details.core.domain.interactor.UseCase
++import com.mvvm_clean.user_details.features.people_list.domain.models.PeopleListDataModel
+ import com.mvvm_clean.user_details.features.people_list.domain.use_cases.GetPeopleInfo
+ import javax.inject.Inject
+ 
+ 
+ open class PeopleListViewModel
+ @Inject constructor(private val getPeopleInfo: GetPeopleInfo) : BaseViewModel() {
+-//
+-//
+-//    private val mPeopleListMutableLiveData: MutableLiveData<PeopleListView> = MutableLiveData()
+-//    private val mPeopleListLiveData: LiveData<PeopleListView> = mPeopleListMutableLiveData
+-//    private val mPeopleNameMutableLiveData = MutableLiveData<String>()
+-//    private val mIsProgressLoading = MutableLiveData<Boolean>()
+-//
+-//    private val peopleNameSearchObserver = Observer<String> {
+-//
+-//        mIsProgressLoading.value = true
+-//        getPeopleInfo(it) { it.fold(::handlePeopleListFailure, ::handlePeopleList) }
+-//    }
+-//
+-//    internal fun getPeopleListLiveData() = mPeopleListLiveData
+-//
+-//    @RestrictTo(RestrictTo.Scope.TESTS)
+-//    internal fun getProgressLoadingMutableLiveData() = mIsProgressLoading
+-//
+-//    @RestrictTo(RestrictTo.Scope.TESTS)
+-//    internal fun getPeopleNameMutabeLiveData() = mPeopleNameMutableLiveData
+-//
+-//    internal fun setSearchQueryString(userId: String) =
+-//
+-//        mPeopleNameMutableLiveData.apply {
+-//
+-//            postValue(userId)
+-//            observeForever(peopleNameSearchObserver)
+-//        }
+-//
+-//    internal fun loadPeopleList(searchQuery: String) =
+-//        getPeopleInfo(searchQuery) { it.fold(::handlePeopleListFailure, ::handlePeopleList) }
+-//
+-//    internal fun getProgressLoadingLiveData() = mIsProgressLoading
+-//
+-//    @RestrictTo(RestrictTo.Scope.TESTS)
+-//    internal fun handlePeopleListFailure(failure: Failure?) {
+-//        failure?.let { super.handleFailure(it) }
+-//        mIsProgressLoading.value = false
+-//    }
+-//
+-//    @RestrictTo(RestrictTo.Scope.TESTS)
+-//    internal fun handlePeopleList(peopleListDataModel: PeopleListDataModel) {
+-//        mIsProgressLoading.value = false
+-//
+-//        peopleListDataModel.apply {
+-//
+-//            mPeopleListMutableLiveData.value =
+-//                PeopleListView(count, next, previous, people)
+-//        }
+-//
+-//    }
+-//
+-//    @RestrictTo(RestrictTo.Scope.TESTS)
+-//    public override fun onCleared() {
+-//        mPeopleNameMutableLiveData.removeObserver(peopleNameSearchObserver)
+-//        super.onCleared()
+-//    }
++
++
++    private val mPeopleListMutableLiveData: MutableLiveData<PeopleListDataModel> = MutableLiveData()
++    private val mPeopleListLiveData: LiveData<PeopleListDataModel> = mPeopleListMutableLiveData
++
++
++    internal fun getPeopleListLiveData() = mPeopleListLiveData
++
++    internal fun loadPeopleList() =
++        getPeopleInfo(UseCase.None()) { it.fold(::handlePeopleListFailure, ::handlePeopleList) }
++
++
++    @RestrictTo(RestrictTo.Scope.TESTS)
++    internal fun handlePeopleListFailure(failure: Failure?) {
++        failure?.let { super.handleFailure(it) }
++    }
++
++    @RestrictTo(RestrictTo.Scope.TESTS)
++    internal fun handlePeopleList(peopleListDataModel: PeopleListDataModel) {
++        mPeopleListMutableLiveData.value = peopleListDataModel
++    }
++
++    @RestrictTo(RestrictTo.Scope.TESTS)
++    public override fun onCleared() {
++        super.onCleared()
++    }
+ 
+ }
+\ No newline at end of file
+Index: app/src/main/kotlin/com/mvvm_clean/user_details/features/common/data/api/StarWarApi.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/kotlin/com/mvvm_clean/user_details/features/common/data/api/StarWarApi.kt	(revision 310349fbf491b81c8f87c70749199dabf3fc6b06)
++++ app/src/main/kotlin/com/mvvm_clean/user_details/features/common/data/api/StarWarApi.kt	(date 1615529485197)
+@@ -12,7 +12,7 @@
+ 
+     companion object {
+ 
+-        private const val PATH_PEOPLE = "people/"
++        private const val PATH_PEOPLE = "users/"
+         private const val PATH_LOGIN = "login/"
+     }
+ 
+Index: app/src/main/res/layout/fragment_people_list.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_people_list.xml	(revision 310349fbf491b81c8f87c70749199dabf3fc6b06)
++++ app/src/main/res/layout/fragment_people_list.xml	(date 1615529583381)
+@@ -10,16 +10,6 @@
+     android:paddingRight="@dimen/activity_horizontal_margin"
+     android:paddingBottom="@dimen/activity_vertical_margin">
+ 
+-    <EditText
+-        android:id="@+id/tv_peopleList_searchField"
+-        style="@style/ed_searchTheme"
+-        android:focusable="true"
+-        android:focusedByDefault="true"
+-        android:imeOptions="actionSearch"
+-        android:textCursorDrawable="@null"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toTopOf="parent" />
+ 
+     <androidx.recyclerview.widget.RecyclerView
+         android:id="@+id/rv_people_list"
+@@ -29,7 +19,7 @@
+         app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toBottomOf="@+id/tv_peopleList_searchField" />
++        app:layout_constraintTop_toTopOf="parent" />
+ 
+ 
+ </androidx.constraintlayout.widget.ConstraintLayout>
+Index: app/src/main/kotlin/com/mvvm_clean/user_details/core/di/ApplicationComponent.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/kotlin/com/mvvm_clean/user_details/core/di/ApplicationComponent.kt	(revision 310349fbf491b81c8f87c70749199dabf3fc6b06)
++++ app/src/main/kotlin/com/mvvm_clean/user_details/core/di/ApplicationComponent.kt	(date 1615528710101)
+@@ -4,6 +4,7 @@
+ import com.mvvm_clean.user_details.core.presentation.navigation.RouteActivity
+ import com.mvvm_clean.user_details.core.presentation.viewmodel.ViewModelModule
+ import com.mvvm_clean.user_details.features.login.presentation.fragments.LoginFragment
++import com.mvvm_clean.user_details.features.people_list.presentation.ui.fragments.PeopleListFragment
+ import dagger.Component
+ import javax.inject.Singleton
+ 
+@@ -17,7 +18,7 @@
+     fun inject(application: AndroidApplication)
+     fun inject(routeActivity: RouteActivity)
+ 
+-    //    fun inject(peopleListFragment: PeopleListFragment)
++    fun inject(peopleListFragment: PeopleListFragment)
+     fun inject(loginFragment: LoginFragment)
+ //    fun inject(peopleDetailsFragment: PeopleDetailsFragment)
+ }
+Index: app/src/main/kotlin/com/mvvm_clean/user_details/features/people_list/presentation/ui/adapter/PeopleListAdapter.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/kotlin/com/mvvm_clean/user_details/features/people_list/presentation/ui/adapter/PeopleListAdapter.kt	(revision 310349fbf491b81c8f87c70749199dabf3fc6b06)
++++ app/src/main/kotlin/com/mvvm_clean/user_details/features/people_list/presentation/ui/adapter/PeopleListAdapter.kt	(date 1615529184947)
+@@ -1,36 +1,47 @@
+ package com.mvvm_clean.user_details.features.people_list.presentation.ui.adapter
+ 
+-//class PeopleListAdapter
+-//@Inject constructor() : RecyclerView.Adapter<PeopleListAdapter.ViewHolder>() {
+-//
+-//    internal var mCollection: List<PeopleEntity> by Delegates.observable(emptyList()) { _, _, _ ->
+-//        notifyDataSetChanged()
+-//    }
+-//
+-//    internal var mClickListener: (PeopleEntity, Navigator.Extras) -> Unit = { _, _ -> }
+-//
+-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+-//        ViewHolder(parent.inflate(R.layout.people_list_item))
+-//
+-//    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) =
+-//        viewHolder.bind(mCollection.get(position), mClickListener)
+-//
+-//    override fun getItemCount() = mCollection.size
+-//
+-//    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+-//
+-//        fun bind(
+-//            peopleEntity: PeopleEntity,
+-//            clickListener: (PeopleEntity, Navigator.Extras) -> Unit
+-//        ) {
+-//
+-//            peopleEntity.name?.let { itemView.tv_people_name.text = it }
+-//            itemView.setOnClickListener {
+-//                clickListener(
+-//                    peopleEntity,
+-//                    Navigator.Extras()
+-//                )
+-//            }
+-//        }
+-//    }
+-//}
++import android.view.View
++import android.view.ViewGroup
++import androidx.recyclerview.widget.RecyclerView
++import com.mvvm_clean.user_details.R
++import com.mvvm_clean.user_details.core.domain.extension.inflate
++import com.mvvm_clean.user_details.core.presentation.navigation.Navigator
++import com.mvvm_clean.user_details.features.people_list.data.repo.response.Datum
++import kotlinx.android.synthetic.main.people_list_item.view.*
++import javax.inject.Inject
++import kotlin.properties.Delegates
++
++class PeopleListAdapter
++@Inject constructor() : RecyclerView.Adapter<PeopleListAdapter.ViewHolder>() {
++
++    internal var mCollection: List<Datum> by Delegates.observable(emptyList()) { _, _, _ ->
++        notifyDataSetChanged()
++    }
++
++    internal var mClickListener: (Datum, Navigator.Extras) -> Unit = { _, _ -> }
++
++    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
++        ViewHolder(parent.inflate(R.layout.people_list_item))
++
++    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) =
++        viewHolder.bind(mCollection.get(position), mClickListener)
++
++    override fun getItemCount() = mCollection.size
++
++    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
++
++        fun bind(
++            datum: Datum,
++            clickListener: (Datum, Navigator.Extras) -> Unit
++        ) {
++
++            datum.email?.let { itemView.tv_people_name.text = it }
++            itemView.setOnClickListener {
++                clickListener(
++                    datum,
++                    Navigator.Extras()
++                )
++            }
++        }
++    }
++}
+Index: app/src/main/kotlin/com/mvvm_clean/user_details/features/people_list/presentation/ui/fragments/PeopleListFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/kotlin/com/mvvm_clean/user_details/features/people_list/presentation/ui/fragments/PeopleListFragment.kt	(revision 310349fbf491b81c8f87c70749199dabf3fc6b06)
++++ app/src/main/kotlin/com/mvvm_clean/user_details/features/people_list/presentation/ui/fragments/PeopleListFragment.kt	(date 1615529366184)
+@@ -1,12 +1,19 @@
+ package com.mvvm_clean.user_details.features.people_list.presentation.ui.fragments
+ 
++import android.os.Bundle
+ import android.view.View
++import androidx.annotation.StringRes
+ import androidx.fragment.app.FragmentActivity
++import androidx.recyclerview.widget.LinearLayoutManager
+ import com.mvvm_clean.user_details.R
+ import com.mvvm_clean.user_details.core.base.BaseFragment
+-import com.mvvm_clean.user_details.core.domain.extension.inputMethodManager
++import com.mvvm_clean.user_details.core.domain.exception.Failure
++import com.mvvm_clean.user_details.core.domain.extension.*
+ import com.mvvm_clean.user_details.core.presentation.navigation.Navigator
++import com.mvvm_clean.user_details.features.login.presentation.fragments.mContext
++import com.mvvm_clean.user_details.features.people_list.domain.models.PeopleListDataModel
+ import com.mvvm_clean.user_details.features.people_list.presentation.models.PeopleListViewModel
++import com.mvvm_clean.user_details.features.people_list.presentation.ui.adapter.PeopleListAdapter
+ import kotlinx.android.synthetic.main.fragment_people_list.*
+ import javax.inject.Inject
+ 
+@@ -21,77 +28,86 @@
+     @Inject
+     lateinit var navigator: Navigator
+ 
+-//    @Inject
+-//    lateinit var peopleListAdapter: PeopleListAdapter
++    @Inject
++    lateinit var peopleListAdapter: PeopleListAdapter
+ 
+     private lateinit var peopleListViewModel: PeopleListViewModel
+ 
+     override fun layoutId() = R.layout.fragment_people_list
+ 
+-    //    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+-//        super.onViewCreated(view, savedInstanceState)
+-//        initializeView()
+-//    }
++    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
++        super.onViewCreated(view, savedInstanceState)
++        initializeView()
+ 
++        showProgress()
++        peopleListViewModel.loadPeopleList()
++    }
+ 
+-//    private fun initializeView() {
+-//
+-//        initRecycleViewForPeopleList()
+-//        initSearchPeopleNameListener()
+-//
+-//    }
+ 
+-    private fun initSearchPeopleNameListener() {
++    override fun onCreate(savedInstanceState: Bundle?) {
++        super.onCreate(savedInstanceState)
++        appComponent.inject(this)
++        peopleListViewModel = viewModel(viewModelFactory) {
+ 
+-    }
++            observe(getPeopleListLiveData(), ::renderPeopleListFragment)
++            failure(getFailureLiveData(), ::handleFailure)
++        }
++        mContext = activity!!
+ 
+-//    private fun initRecycleViewForPeopleList() {
+-//
+-//        rv_people_list.layoutManager = StaggeredGridLayoutManager(
+-//            NO_OF_COLUMNS,
+-//            StaggeredGridLayoutManager.VERTICAL
+-//        )
+-//        rv_people_list.adapter = peopleListAdapter
+-//        peopleListAdapter.mClickListener = { peopleInfo, navigationExtras ->
+-//            navigator.showPeopleDetails(activity!!, peopleInfo)
+-//        }
+-//    }
++    }
+ 
+-//    private fun renderPeopleList(peopleListView: PeopleListView?) {
+-//        activity?.let { hideKeyboard(it) }
+-//        if (peopleListView?.peopleList != null && peopleListView.peopleList.isNotEmpty()) {
+-//            peopleListAdapter.mCollection = peopleListView.peopleList
+-//        } else {
+-//            renderFailure(R.string.empty_list)
+-//        }
+-//        rv_people_list.visible()
+-//        hideProgress()
+-//        super.handleApiSuccess()
+-//    }
+ 
++    private fun initializeView() {
+ 
+-//    private fun handleFailure(failure: Failure?) {
+-//        peopleListAdapter.mCollection = emptyList()
+-//        activity?.let { hideKeyboard(it) }
+-//        when (failure) {
+-//            is NetworkConnection -> renderFailure(R.string.failure_network_connection)
+-//            is ServerError -> renderFailure(R.string.failure_server_error)
+-//            is ListNotAvailable -> renderFailure(R.string.failure_people_list_unavailable)
+-//            else -> renderFailure(R.string.failure_people_list_unavailable)
+-//        }
+-//        super.handleApiFailure()
+-//    }
++        initRecycleViewForPeopleList()
++    }
+ 
+-//    private fun renderFailure(@StringRes message: Int) {
+-//        rv_people_list.gone()
+-//        hideProgress()
+-//        notifyWithAction(message)
+-//        setPeopleListEmpty()
+-//    }
++    private fun initRecycleViewForPeopleList() {
+ 
+-//    private fun setPeopleListEmpty() {
+-//        peopleListAdapter.mCollection = emptyList()
+-//    }
++        rv_people_list.layoutManager = LinearLayoutManager(activity)
++        rv_people_list.adapter = peopleListAdapter
++        peopleListAdapter.mClickListener = { peopleInfo, navigationExtras ->
++            navigator.showPeopleDetails(activity!!, peopleInfo)
++        }
++    }
++
++    private fun renderPeopleList(peopleListView: PeopleListDataModel?) {
++        activity?.let { hideKeyboard(it) }
++        if (peopleListView?.data != null && peopleListView.data!!.isNotEmpty()) {
++            peopleListAdapter.mCollection = peopleListView.data!!
++        } else {
++            renderFailure(R.string.empty_list)
++        }
++        rv_people_list.visible()
++        hideProgress()
++        super.handleApiSuccess()
++    }
++
++    private fun renderPeopleListFragment(peopleListDataModel: PeopleListDataModel?) {
++        renderPeopleList(peopleListDataModel)
++    }
++
++    private fun handleFailure(failure: Failure?) {
++        peopleListAdapter.mCollection = emptyList()
++        activity?.let { hideKeyboard(it) }
++        when (failure) {
++            is Failure.NetworkConnection -> renderFailure(R.string.failure_network_connection)
++            is Failure.ServerError -> renderFailure(R.string.failure_server_error)
++            else -> renderFailure(R.string.failure_people_list_unavailable)
++        }
++        super.handleApiFailure()
++    }
++
++    private fun renderFailure(@StringRes message: Int) {
++        rv_people_list.gone()
++        hideProgress()
++        notifyWithAction(message)
++        setPeopleListEmpty()
++    }
++
++    private fun setPeopleListEmpty() {
++        peopleListAdapter.mCollection = emptyList()
++    }
+ 
+     private fun hideKeyboard(activity: FragmentActivity) {
+ 

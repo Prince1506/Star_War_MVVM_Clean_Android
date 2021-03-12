@@ -63,6 +63,7 @@ dependencies {
     implementation(Libraries.cardView)
     implementation(Libraries.recyclerView)
     implementation(Libraries.material)
+    implementation(Libraries.circularImageView)
 
     // MVVM Libraries
     implementation(Libraries.viewModel)
@@ -98,6 +99,7 @@ dependencies {
     androidTestImplementation(TestLibraries.testExtJunit)
     androidTestImplementation(TestLibraries.testRules)
     androidTestImplementation(TestLibraries.espressoIntents)
+    annotationProcessor("com.github.bumptech.glide:compiler:4.8.0")
 
     // Development dependencies
     debugImplementation(DevLibraries.leakCanary)

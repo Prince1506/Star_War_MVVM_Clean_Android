@@ -54,6 +54,7 @@ object Libraries {
         const val glide = "4.11.0"
         const val retrofit = "2.9.0"
         const val okHttpLoggingInterceptor = "4.9.0"
+        const val circularImageView = "2.2.0"
 
         //TODO: Legacy -> WIP -> Try Hilt?
         const val dagger = "2.11"
@@ -78,6 +79,7 @@ object Libraries {
     const val cardView = "androidx.cardview:cardview:${Versions.cardView}"
     const val recyclerView = "androidx.recyclerview:recyclerview:${Versions.recyclerView}"
     const val material = "com.google.android.material:material:${Versions.material}"
+    const val circularImageView = "de.hdodenhof:circleimageview:${Versions.circularImageView}"
 
     // MVVM Libraries
     const val lifecycleCompiler = "androidx.lifecycle:lifecycle-compiler:${Versions.lifecycle}"
