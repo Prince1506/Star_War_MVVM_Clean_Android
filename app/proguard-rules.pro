@@ -16,7 +16,7 @@
 #   public *;
 #}
 
--keep  class com.mvvm_clean.star_wars.core.** { *; }
+-keep  class com.mvvm_clean.user_details.core.** { *; }
 
 -dontwarn javax.annotation.**
 -dontwarn retrofit2.**

@@ -11,4 +11,11 @@
     <string name="empty_list">No list found. Please try with different name</string>
     <string name="ok">Ok</string>
     <string name="try_again_later">Please try again later.</string>
+    <string name="userName">User Name : </string>
+    <string name="user_name_hint">Enter your user name hear</string>
+    <string name="email">Email Id : </string>
+    <string name="email_id_hint">Enter your email id here</string>
+    <string name="login">Login</string>
+    <string name="dash">-</string>
+    <string name="empty" />
 </resources>

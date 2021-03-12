@@ -30,7 +30,7 @@ android {
             isMinifyEnabled = false
             applicationIdSuffix = ".${BuildTypes.DEBUG}"
             isDebuggable = true
-            buildConfigField("String", "BASE_URL", "\"https://swapi.dev/api/\"")
+            buildConfigField("String", "BASE_URL", "\"https://reqres.in/api/\"")
         }
         getByName(BuildTypes.RELEASE) {
             isMinifyEnabled = true
@@ -38,7 +38,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "BASE_URL", "\"https://swapi.dev/api/\"")
+            buildConfigField("String", "BASE_URL", "\"https://reqres.in/api/\"")
         }
     }
 

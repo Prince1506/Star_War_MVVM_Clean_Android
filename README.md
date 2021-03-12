@@ -1,10 +1,11 @@
 ARCITECTURE
 1. Core folder is an independent folder. When creating a new project u can simply copy paste it to new project so it's completely detached from business logic
-
 2. Api layer for each screen are completely separated. So even though Species and Planet API response structure is same as people API we had created files again.
 
-
-
+Credentials for creating signed APK
+Keystore placed inside app folder.
+Credential - trivago123
+Credential for alias - trivago123
 
 About App
 The app should contain 2 main areas:
