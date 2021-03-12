@@ -65,7 +65,7 @@ class LoginFragment : BaseFragment() {
 }
 
 fun renderLoginInfoData(doesUserExist: Boolean?) {
-    if (doesUserExist != null && doesUserExist == true) {
+    if (doesUserExist != null) {
         val authenticator = Authenticator()
         authenticator.setUserLoggedIn(doesUserExist)
         if (::mContext.isInitialized) {

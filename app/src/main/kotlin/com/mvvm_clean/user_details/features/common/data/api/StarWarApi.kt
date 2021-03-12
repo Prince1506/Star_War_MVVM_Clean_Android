@@ -12,7 +12,7 @@ internal interface StarWarApi {
 
     companion object {
 
-        private const val PATH_PEOPLE = "people/"
+        private const val PATH_PEOPLE = "users/"
         private const val PATH_LOGIN = "login/"
     }
 
